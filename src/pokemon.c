@@ -3103,6 +3103,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     u32 i;
     s32 damage = 0;
     s32 damageHelper;
+    struct BattleMove bm = gBattleMoves[move];
     u8 type;
     u16 attack, defense;
     u16 spAttack, spDefense;
@@ -3112,12 +3113,12 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     u8 attackerHoldEffectParam;
 
     if (!powerOverride)
-        gBattleMovePower = gBattleMoves[move].power;
+        gBattleMovePower = bm.power;
     else
         gBattleMovePower = powerOverride;
 
     if (!typeOverride)
-        type = gBattleMoves[move].type;
+        type = bm.type;
     else
         type = typeOverride & DYNAMIC_TYPE_MASK;
 
@@ -3168,7 +3169,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         if (attackerHoldEffect == sHoldEffectToType[i][0]
             && type == sHoldEffectToType[i][1])
         {
-            if (IS_TYPE_PHYSICAL(type))
+            if (IS_MOVE_PHYSICAL(bm.flags))
                 attack = (attack * (attackerHoldEffectParam + 100)) / 100;
             else
                 spAttack = (spAttack * (attackerHoldEffectParam + 100)) / 100;
@@ -3224,7 +3225,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     if (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
         defense /= 2;
 
-    if (IS_TYPE_PHYSICAL(type))
+    if (IS_MOVE_PHYSICAL(bm.flags))
     {
         if (gCritMultiplier == 2)
         {
@@ -3268,7 +3269,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         }
 
         // Moves hitting both targets do half damage in double battles
-        if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && gBattleMoves[move].target == MOVE_TARGET_BOTH && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)
+        if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && bm.target == MOVE_TARGET_BOTH && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)
             damage /= 2;
 
         // Moves always do at least 1 damage.
@@ -3279,7 +3280,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     if (type == TYPE_MYSTERY)
         damage = 0; // is ??? type. does 0 damage.
 
-    if (IS_TYPE_SPECIAL(type))
+    if (IS_MOVE_SPECIAL(bm.flags))
     {
         if (gCritMultiplier == 2)
         {
@@ -3319,7 +3320,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         }
 
         // Moves hitting both targets do half damage in double battles
-        if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && gBattleMoves[move].target == MOVE_TARGET_BOTH && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)
+        if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && bm.target == MOVE_TARGET_BOTH && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)
             damage /= 2;
 
         // Are effects of weather negated with cloud nine or air lock
@@ -3362,7 +3363,11 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         if ((gBattleResources->flags->flags[battlerIdAtk] & RESOURCE_FLAG_FLASH_FIRE) && type == TYPE_FIRE)
             damage = (15 * damage) / 10;
     }
-
+#define NOP asm("nop")
+#define rep(a) a;a;a;a;a;a;a;a;a;a;a;a;a;a
+    rep(NOP); //replace with NOP so that function is padded to proper address
+#undef NOP
+#undef rep
     return damage + 2;
 }
 
