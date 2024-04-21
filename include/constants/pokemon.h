@@ -213,6 +213,7 @@
 #define FLAG_KINGS_ROCK_AFFECTED    (1 << 5)
 #define FLAG_PHYSICAL               (1 << 6)
 #define FLAG_SPECIAL                (1 << 7)
+#define FLAG_STATUS                 (3 << 6)
 
 // Growth rates
 #define GROWTH_MEDIUM_FAST  0

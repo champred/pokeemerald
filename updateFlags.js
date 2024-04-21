@@ -385,7 +385,8 @@ const dataArray = [
 			let flag='';
 			if(element=="Physical")flag=" | FLAG_PHYSICAL";
 			else if(element=="Special")flag=" | FLAG_SPECIAL";
-			fileStream.write(`${line.slice(0,-1)}${flag},\n`); // Write the array element
+			else if(element=="Status")flag=" | FLAG_STATUS";
+			fileStream.write(`${line.slice(0,line.indexOf('0'))}${flag.substring((line.indexOf('0')==-1||4)-1)},\n`); // Write the array element
 			lineCount = 0; // Reset line count
 		}else fileStream.write(`${line}\n`);
 	});
