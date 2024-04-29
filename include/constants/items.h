@@ -448,6 +448,7 @@
 #define ITEMS_COUNT 375
 
 #define ITEM_TO_BERRY(itemId)(((itemId - FIRST_BERRY_INDEX) + 1))
+#define IS_BERRY(item)(item>=FIRST_BERRY_INDEX&&item<=LAST_BERRY_INDEX)
 #define MAIL_NONE 0xFF
 
 #define NUM_TECHNICAL_MACHINES 50

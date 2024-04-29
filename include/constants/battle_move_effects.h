@@ -22,8 +22,8 @@
 #define EFFECT_ATTACK_DOWN 18
 #define EFFECT_DEFENSE_DOWN 19
 #define EFFECT_SPEED_DOWN 20
-#define EFFECT_SPECIAL_ATTACK_DOWN 21  // unused
-#define EFFECT_SPECIAL_DEFENSE_DOWN 22  // unused
+#define EFFECT_SPECIAL_ATTACK_DOWN 21
+#define EFFECT_SPECIAL_DEFENSE_DOWN 22
 #define EFFECT_ACCURACY_DOWN 23
 #define EFFECT_EVASION_DOWN 24
 #define EFFECT_HAZE 25
@@ -97,7 +97,7 @@
 #define EFFECT_CONVERSION_2 93
 #define EFFECT_LOCK_ON 94
 #define EFFECT_SKETCH 95
-#define EFFECT_UNUSED_60 96  // thaw
+#define EFFECT_FLING 96
 #define EFFECT_SLEEP_TALK 97
 #define EFFECT_DESTINY_BOND 98
 #define EFFECT_FLAIL 99
@@ -111,7 +111,7 @@
 #define EFFECT_NIGHTMARE 107
 #define EFFECT_MINIMIZE 108
 #define EFFECT_CURSE 109
-#define EFFECT_UNUSED_6E 110
+#define EFFECT_NATURAL_GIFT 110
 #define EFFECT_PROTECT 111
 #define EFFECT_SPIKES 112
 #define EFFECT_FORESIGHT 113
@@ -132,7 +132,7 @@
 #define EFFECT_PURSUIT 128
 #define EFFECT_RAPID_SPIN 129
 #define EFFECT_SONICBOOM 130
-#define EFFECT_UNUSED_83 131
+#define EFFECT_HEALING_WISH 131
 #define EFFECT_MORNING_SUN 132
 #define EFFECT_SYNTHESIS 133
 #define EFFECT_MOONLIGHT 134
@@ -142,7 +142,7 @@
 #define EFFECT_DEFENSE_UP_HIT 138
 #define EFFECT_ATTACK_UP_HIT 139
 #define EFFECT_ALL_STATS_UP_HIT 140
-#define EFFECT_UNUSED_8D 141  // incomplete fake out in gen 2
+#define EFFECT_HEAL_BLOCK 141
 #define EFFECT_BELLY_DRUM 142
 #define EFFECT_PSYCH_UP 143
 #define EFFECT_MIRROR_COAT 144
@@ -164,7 +164,7 @@
 #define EFFECT_STOCKPILE 160
 #define EFFECT_SPIT_UP 161
 #define EFFECT_SWALLOW 162
-#define EFFECT_UNUSED_A3 163
+#define EFFECT_WORRY_SEED 163
 #define EFFECT_HAIL 164
 #define EFFECT_TORMENT 165
 #define EFFECT_FLATTER 166
@@ -215,5 +215,33 @@
 #define EFFECT_CALM_MIND 211
 #define EFFECT_DRAGON_DANCE 212
 #define EFFECT_CAMOUFLAGE 213
+#define EFFECT_POWER_SWAP                   214
+#define EFFECT_GUARD_SWAP                   215
+#define EFFECT_HEART_SWAP                   216
+#define EFFECT_METAL_BURST                  217
+#define EFFECT_LUCKY_CHANT                  218
+#define EFFECT_SUCKER_PUNCH                 219
+#define EFFECT_ME_FIRST                     220
+#define EFFECT_COPYCAT                      221
+#define EFFECT_DEFOG                        222
+#define EFFECT_PSYCHO_SHIFT                 223
+#define EFFECT_POWER_TRICK                  224
+#define EFFECT_ACUPRESSURE                  225
+#define EFFECT_ROOST                        226
+#define EFFECT_GRAVITY                      227
+#define EFFECT_MIRACLE_EYE                  228
+#define EFFECT_TAILWIND                     229
+#define EFFECT_EMBARGO                      230
+#define EFFECT_AQUA_RING                    231
+#define EFFECT_TRICK_ROOM                   232
+#define EFFECT_MAGNET_RISE                  233
+#define EFFECT_TOXIC_SPIKES                 234
+#define EFFECT_GASTRO_ACID                  235
+#define EFFECT_STEALTH_ROCK                 236
+#define EFFECT_WAKE_UP_SLAP                 237
+#define EFFECT_CLOSE_COMBAT                 238
+#define EFFECT_FEINT                        239
+#define EFFECT_BUG_BITE                     240
+#define EFFECT_HAMMER_ARM                   241
 
 #endif  // GUARD_CONSTANTS_BATTLE_MOVE_EFFECTS_H

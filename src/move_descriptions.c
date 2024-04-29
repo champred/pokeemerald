@@ -355,360 +355,896 @@ const u8 gMoveDescription_ShockWave[] = _("A rapid jolt of\nelectricity strikes\
 const u8 gMoveDescription_WaterPulse[] = _("An attack with a\npulsing blast of\nwater. It may also\nconfuse the foe.");
 const u8 gMoveDescription_DoomDesire[] = _("A move that attacks\nthe foe with a\nblast of light two\nturns after use.");
 const u8 gMoveDescription_PsychoBoost[] = _("An intense attack\nthat also sharply\nreduces the user's\nSP. ATK stat.");
+static const u8 sRoostDescription[] = _(
+		"Restores the user's HP by\n"
+		"half of its max HP.");
+
+static const u8 sGravityDescription[] = _(
+		"Gravity is intensified\n"
+		"negating levitation.");
+
+static const u8 sMiracleEyeDescription[] = _(
+		"Negate evasiveness and\n"
+		"Dark-type's immunities.");
+
+static const u8 sWakeUpSlapDescription[] = _(
+		"Powerful against sleeping\n"
+		"foes, but also heals them.");
+
+static const u8 sHammerArmDescription[] = _(
+		"A swinging fist attack\n"
+		"that also lowers Speed.");
+
+static const u8 sGyroBallDescription[] = _(
+		"A high-speed spin that does\n"
+		"more damage to faster foes.");
+
+static const u8 sHealingWishDescription[] = _(
+		"The user faints to heal up\n"
+		"the recipient.");
+
+static const u8 sBrineDescription[] = _(
+		"Does double damage to foes\n"
+		"with half HP.");
+
+static const u8 sNaturalGiftDescription[] = _(
+		"The effectiveness varies\n"
+		"with the held Berry.");
+
+static const u8 sFeintDescription[] = _(
+		"An attack that hits foes\n"
+		"using moves like Protect.");
+
+static const u8 sPluckDescription[] = _(
+		"Eats the foe's held Berry\n"
+		"gaining its effect.");
+
+static const u8 sTailwindDescription[] = _(
+		"Whips up a turbulent breeze\n"
+		"that raises Speed.");
+
+static const u8 sAcupressureDescription[] = _(
+		"The user sharply raises\n"
+		"one of its stats.");
+
+static const u8 sMetalBurstDescription[] = _(
+		"Retaliates any hit with\n"
+		"greater power.");
+
+static const u8 sUTurnDescription[] = _(
+		"Does damage then switches\n"
+		"out the user.");
+
+static const u8 sCloseCombatDescription[] = _(
+		"A strong attack but lowers\n"
+		"the defensive stats.");
+
+static const u8 sPaybackDescription[] = _(
+		"An attack that gains power\n"
+		"if the user moves last.");
+
+static const u8 sAssuranceDescription[] = _(
+		"An attack that gains power\n"
+		"if the foe has been hurt.");
+
+static const u8 sEmbargoDescription[] = _(
+		"Prevents the foe from\n"
+		"using any items.");
+
+static const u8 sFlingDescription[] = _(
+		"The effectiveness varies\n"
+		"with the held item.");
+
+static const u8 sPsychoShiftDescription[] = _(
+		"Transfers status problems\n"
+		"to the foe.");
+
+static const u8 sTrumpCardDescription[] = _(
+		"The less PP the move has\n"
+		"the more damage it does.");
+
+static const u8 sHealBlockDescription[] = _(
+		"Prevents the foe from\n"
+		"recovering any HP.");
+
+static const u8 sWringOutDescription[] = _(
+		"The higher the foe's HP\n"
+		"the more damage caused.");
+
+static const u8 sPowerTrickDescription[] = _(
+		"The user swaps its Attack\n"
+		"and Defense stats.");
+
+static const u8 sGastroAcidDescription[] = _(
+		"Stomach acid suppresses\n"
+		"the foe's ability.");
+
+static const u8 sLuckyChantDescription[] = _(
+		"Prevents the foe from\n"
+		"landing critical hits.");
+
+static const u8 sMeFirstDescription[] = _(
+		"Executes the foe's attack\n"
+		"with greater power.");
+
+static const u8 sCopycatDescription[] = _(
+		"The user mimics the last\n"
+		"move used by a foe.");
+
+static const u8 sPowerSwapDescription[] = _(
+		"Swaps changes to Attack\n"
+		"and Sp. Atk with the foe.");
+
+static const u8 sGuardSwapDescription[] = _(
+		"Swaps changes to Defense\n"
+		"and Sp. Def with the foe.");
+
+static const u8 sPunishmentDescription[] = _(
+		"Does more damage if the\n"
+		"foe has powered up.");
+
+static const u8 sLastResortDescription[] = _(
+		"Can only be used if every\n"
+		"other move has been used.");
+
+static const u8 sWorrySeedDescription[] = _(
+		"Plants a seed on the foe\n"
+		"giving it Insomnia.");
+
+static const u8 sSuckerPunchDescription[] = _(
+		"Strikes first if the foe\n"
+		"is preparing an attack.");
+
+static const u8 sToxicSpikesDescription[] = _(
+		"Sets spikes that poison a\n"
+		"foe switching in.");
+
+static const u8 sHeartSwapDescription[] = _(
+		"Swaps any stat changes\n"
+		"with the foe.");
+
+static const u8 sAquaRingDescription[] = _(
+		"Forms a veil of water\n"
+		"that restores HP.");
+
+static const u8 sMagnetRiseDescription[] = _(
+		"The user levitates with\n"
+		"electromagnetism.");
+
+static const u8 sFlareBlitzDescription[] = _(
+		"A charge that may burn the\n"
+		"foe. Also hurts the user.");
+
+static const u8 sForcePalmDescription[] = _(
+		"A shock wave attack that\n"
+		"may paralyze the foe.");
+
+static const u8 sAuraSphereDescription[] = _(
+		"Attacks with an aura blast\n"
+		"that cannot be evaded.");
+
+static const u8 sRockPolishDescription[] = _(
+		"Polishes the body to\n"
+		"sharply raise Speed.");
+
+static const u8 sPoisonJabDescription[] = _(
+		"A stabbing attack that\n"
+		"may poison the foe.");
+
+static const u8 sDarkPulseDescription[] = _(
+		"Attacks with a horrible\n"
+		"aura. May cause flinching.");
+
+static const u8 sNightSlashDescription[] = _(
+		"Hits as soon as possible.\n"
+		"High critical-hit ratio.");
+
+static const u8 sAquaTailDescription[] = _(
+		"The user swings its tail\n"
+		"like a wave to attack.");
+
+static const u8 sSeedBombDescription[] = _(
+		"A barrage of hard seeds\n"
+		"is fired at the foe.");
+
+static const u8 sAirSlashDescription[] = _(
+		"Attacks with a blade of\n"
+		"air. May cause flinching.");
+
+static const u8 sXScissorDescription[] = _(
+		"Slashes the foe with crossed\n"
+		"scythes, claws, etc.");
+
+static const u8 sBugBuzzDescription[] = _(
+		"A damaging sound wave that\n"
+		"may lower Sp. Def.");
+
+static const u8 sDragonPulseDescription[] = _(
+		"Generates a shock wave to\n"
+		"damage the foe.");
+
+static const u8 sDragonRushDescription[] = _(
+		"Tackles the foe with menace.\n"
+		"May cause flinching.");
+
+static const u8 sPowerGemDescription[] = _(
+		"Attacks with rays of light\n"
+		"that sparkle like diamonds.");
+
+static const u8 sVacuumWaveDescription[] = _(
+		"Whirls its fists to send\n"
+		"a wave that strikes first.");
+
+static const u8 sFocusBlastDescription[] = _(
+		"Attacks at full power.\n"
+		"May lower Sp. Def.");
+
+static const u8 sEnergyBallDescription[] = _(
+		"Draws power from nature to\n"
+		"attack. May lower Sp. Def.");
+
+static const u8 sBraveBirdDescription[] = _(
+		"A low altitude charge that\n"
+		"also hurts the user.");
+
+static const u8 sEarthPowerDescription[] = _(
+		"Makes the ground erupt with\n"
+		"power. May lower Sp. Def.");
+
+static const u8 sSwitcherooDescription[] = _(
+		"Swaps items with the foe\n"
+		"faster than the eye can see.");
+
+static const u8 sNastyPlotDescription[] = _(
+		"Thinks bad thoughts to\n"
+		"sharply boost Sp. Atk.");
+
+static const u8 sBulletPunchDescription[] = _(
+		"Punches as fast as a bul-\n"
+		"let. It always hits first.");
+
+static const u8 sIceShardDescription[] = _(
+		"Hurls a chunk of ice that\n"
+		"always strike first.");
+
+static const u8 sShadowClawDescription[] = _(
+		"Strikes with a shadow claw.\n"
+		"High critical-hit ratio.");
+
+static const u8 sThunderFangDescription[] = _(
+		"May cause flinching or\n"
+		"leave the foe paralyzed.");
+
+static const u8 sIceFangDescription[] = _(
+		"May cause flinching or\n"
+		"leave the foe frozen.");
+
+static const u8 sFireFangDescription[] = _(
+		"May cause flinching or\n"
+		"leave the foe with a burn.");
+
+static const u8 sShadowSneakDescription[] = _(
+		"Extends the user's shadow\n"
+		"to strike first.");
+
+static const u8 sMudBombDescription[] = _(
+		"Throws a blob of mud to\n"
+		"damage and cut accuracy.");
+
+static const u8 sPsychoCutDescription[] = _(
+		"Tears with psychic blades.\n"
+		"High critical-hit ratio.");
+
+static const u8 sZenHeadbuttDescription[] = _(
+		"Hits with a strong head-\n"
+		"butt. May cause flinching.");
+
+static const u8 sMirrorShotDescription[] = _(
+		"Emits a flash of energy to\n"
+		"damage and cut accuracy.");
+
+static const u8 sFlashCannonDescription[] = _(
+		"Releases a blast of light\n"
+		"that may lower Sp. Def.");
+
+static const u8 sRockClimbDescription[] = _(
+		"A charging attack that may\n"
+		"confuse the foe.");
+
+static const u8 sDefogDescription[] = _(
+		"Removes obstacles and\n"
+		"lowers evasion.");
+
+static const u8 sTrickRoomDescription[] = _(
+		"Slower Pokémon get to move\n"
+		"first for 5 turns.");
+
+static const u8 sDracoMeteorDescription[] = _(
+		"Casts comets onto the foe.\n"
+		"Harshly lowers the Sp. Atk.");
+
+static const u8 sDischargeDescription[] = _(
+		"Zaps the foes with electri-\n"
+		"city. May paralyze them.");
+
+static const u8 sLavaPlumeDescription[] = _(
+    "Scarlet flames torch\n"
+        "everything around the user.");
+
+static const u8 sLeafStormDescription[] = _(
+    "Whips up a storm of leaves.\n"
+        "Harshly lowers the Sp. Atk.");
+
+static const u8 sPowerWhipDescription[] = _(
+		"Violently lashes the foe\n"
+		"with vines or tentacles.");
+
+static const u8 sCrossPoisonDescription[] = _(
+		"A slash that may poison a\n"
+		"foe and do critical damage.");
+
+static const u8 sGunkShotDescription[] = _(
+		"Shoots filthy garbage at\n"
+		"the foe. May also poison.");
+
+static const u8 sIronHeadDescription[] = _(
+		"Slams the foe with a hard\n"
+		"head. May cause flinching.");
+
+static const u8 sMagnetBombDescription[] = _(
+		"Launches a magnet that\n"
+		"strikes without fail.");
+
+static const u8 sStoneEdgeDescription[] = _(
+		"Stabs the foe with stones.\n"
+		"High critical-hit ratio.");
+
+static const u8 sCaptivateDescription[] = _(
+		"Makes the opposite gender\n"
+		"sharply reduce its Sp. Atk.");
+
+static const u8 sStealthRockDescription[] = _(
+		"Sets floating stones that\n"
+		"hurt a foe switching in.");
+
+static const u8 sGrassKnotDescription[] = _(
+		"A snare attack that does\n"
+		"more damage to heavier foes.");
+
+static const u8 sChatterDescription[] = _(
+		"Attacks with a sound wave\n"
+		"that causes confusion.");
+
+static const u8 sJudgmentDescription[] = _(
+		"The type varies with the\n"
+		"kind of Plate held.");
+
+static const u8 sChargeBeamDescription[] = _(
+		"Fires a beam of electricity.\n"
+		"May raise Sp. Atk.");
+
+static const u8 sWoodHammerDescription[] = _(
+		"Slams the body into a foe.\n"
+		"The user gets hurt too.");
+
+static const u8 sAquaJetDescription[] = _(
+		"Strikes first by dashing\n"
+		"at the foe at a high speed.");
+
+static const u8 sAttackOrderDescription[] = _(
+		"Underlings pummel the foe.\n"
+		"High critical-hit ratio.");
+
+static const u8 sDefendOrderDescription[] = _(
+		"Raises Defense and Sp. Def\n"
+		"with a living shield.");
+
+static const u8 sHealOrderDescription[] = _(
+		"The user's underlings show\n"
+		"up to heal half its max HP.");
+
+static const u8 sHeadSmashDescription[] = _(
+		"A life-risking headbutt that\n"
+		"seriously hurts the user.");
+
+static const u8 sDoubleHitDescription[] = _(
+		"Slams the foe with a tail\n"
+		"etc. Strikes twice.");
+
+static const u8 sRoarOfTimeDescription[] = _(
+		"Powerful, but leaves the\n"
+		"user immobile the next turn.");
+
+static const u8 sSpacialRendDescription[] = _(
+		"Tears the foe, and space.\n"
+		"High critical-hit ratio.");
+
+static const u8 sMagmaStormDescription[] = _(
+		"Traps the foe in a vortex\n"
+		"of fire for 2 to 5 turns.");
+
+static const u8 sDarkVoidDescription[] = _(
+		"Drags the foe into total\n"
+		"darkness, inducing Sleep.");
+
+static const u8 sSeedFlareDescription[] = _(
+		"Generates a shock wave that\n"
+		"sharply reduces Sp. Def.");
+
+static const u8 sOminousWindDescription[] = _(
+		"A repulsive attack that may\n"
+		"raise all stats.");
+
+static const u8 sShadowForceDescription[] = _(
+		"Vanishes on the first turn\n"
+		"then strikes the next turn.");
 
 const u8 *const gMoveDescriptionPointers[MOVES_COUNT - 1] = {
-    [MOVE_POUND         - 1] = gMoveDescription_Pound,
-    [MOVE_KARATE_CHOP   - 1] = gMoveDescription_KarateChop,
-    [MOVE_DOUBLE_SLAP   - 1] = gMoveDescription_DoubleSlap,
-    [MOVE_COMET_PUNCH   - 1] = gMoveDescription_CometPunch,
-    [MOVE_MEGA_PUNCH    - 1] = gMoveDescription_MegaPunch,
-    [MOVE_PAY_DAY       - 1] = gMoveDescription_PayDay,
-    [MOVE_FIRE_PUNCH    - 1] = gMoveDescription_FirePunch,
-    [MOVE_ICE_PUNCH     - 1] = gMoveDescription_IcePunch,
-    [MOVE_THUNDER_PUNCH - 1] = gMoveDescription_ThunderPunch,
-    [MOVE_SCRATCH       - 1] = gMoveDescription_Scratch,
-    [MOVE_VICE_GRIP     - 1] = gMoveDescription_ViceGrip,
-    [MOVE_GUILLOTINE    - 1] = gMoveDescription_Guillotine,
-    [MOVE_RAZOR_WIND    - 1] = gMoveDescription_RazorWind,
-    [MOVE_SWORDS_DANCE  - 1] = gMoveDescription_SwordsDance,
-    [MOVE_CUT           - 1] = gMoveDescription_Cut,
-    [MOVE_GUST          - 1] = gMoveDescription_Gust,
-    [MOVE_WING_ATTACK   - 1] = gMoveDescription_WingAttack,
-    [MOVE_WHIRLWIND     - 1] = gMoveDescription_Whirlwind,
-    [MOVE_FLY           - 1] = gMoveDescription_Fly,
-    [MOVE_BIND          - 1] = gMoveDescription_Bind,
-    [MOVE_SLAM          - 1] = gMoveDescription_Slam,
-    [MOVE_VINE_WHIP     - 1] = gMoveDescription_VineWhip,
-    [MOVE_STOMP         - 1] = gMoveDescription_Stomp,
-    [MOVE_DOUBLE_KICK   - 1] = gMoveDescription_DoubleKick,
-    [MOVE_MEGA_KICK     - 1] = gMoveDescription_MegaKick,
-    [MOVE_JUMP_KICK     - 1] = gMoveDescription_JumpKick,
-    [MOVE_ROLLING_KICK  - 1] = gMoveDescription_RollingKick,
-    [MOVE_SAND_ATTACK   - 1] = gMoveDescription_SandAttack,
-    [MOVE_HEADBUTT      - 1] = gMoveDescription_Headbutt,
-    [MOVE_HORN_ATTACK   - 1] = gMoveDescription_HornAttack,
-    [MOVE_FURY_ATTACK   - 1] = gMoveDescription_FuryAttack,
-    [MOVE_HORN_DRILL    - 1] = gMoveDescription_HornDrill,
-    [MOVE_TACKLE        - 1] = gMoveDescription_Tackle,
-    [MOVE_BODY_SLAM     - 1] = gMoveDescription_BodySlam,
-    [MOVE_WRAP          - 1] = gMoveDescription_Wrap,
-    [MOVE_TAKE_DOWN     - 1] = gMoveDescription_TakeDown,
-    [MOVE_THRASH        - 1] = gMoveDescription_Thrash,
-    [MOVE_DOUBLE_EDGE   - 1] = gMoveDescription_DoubleEdge,
-    [MOVE_TAIL_WHIP     - 1] = gMoveDescription_TailWhip,
-    [MOVE_POISON_STING  - 1] = gMoveDescription_PoisonSting,
-    [MOVE_TWINEEDLE     - 1] = gMoveDescription_Twineedle,
-    [MOVE_PIN_MISSILE   - 1] = gMoveDescription_PinMissile,
-    [MOVE_LEER          - 1] = gMoveDescription_Leer,
-    [MOVE_BITE          - 1] = gMoveDescription_Bite,
-    [MOVE_GROWL         - 1] = gMoveDescription_Growl,
-    [MOVE_ROAR          - 1] = gMoveDescription_Roar,
-    [MOVE_SING          - 1] = gMoveDescription_Sing,
-    [MOVE_SUPERSONIC    - 1] = gMoveDescription_Supersonic,
-    [MOVE_SONIC_BOOM    - 1] = gMoveDescription_SonicBoom,
-    [MOVE_DISABLE       - 1] = gMoveDescription_Disable,
-    [MOVE_ACID          - 1] = gMoveDescription_Acid,
-    [MOVE_EMBER         - 1] = gMoveDescription_Ember,
-    [MOVE_FLAMETHROWER  - 1] = gMoveDescription_Flamethrower,
-    [MOVE_MIST          - 1] = gMoveDescription_Mist,
-    [MOVE_WATER_GUN     - 1] = gMoveDescription_WaterGun,
-    [MOVE_HYDRO_PUMP    - 1] = gMoveDescription_HydroPump,
-    [MOVE_SURF          - 1] = gMoveDescription_Surf,
-    [MOVE_ICE_BEAM      - 1] = gMoveDescription_IceBeam,
-    [MOVE_BLIZZARD      - 1] = gMoveDescription_Blizzard,
-    [MOVE_PSYBEAM       - 1] = gMoveDescription_Psybeam,
-    [MOVE_BUBBLE_BEAM   - 1] = gMoveDescription_BubbleBeam,
-    [MOVE_AURORA_BEAM   - 1] = gMoveDescription_AuroraBeam,
-    [MOVE_HYPER_BEAM    - 1] = gMoveDescription_HyperBeam,
-    [MOVE_PECK          - 1] = gMoveDescription_Peck,
-    [MOVE_DRILL_PECK    - 1] = gMoveDescription_DrillPeck,
-    [MOVE_SUBMISSION    - 1] = gMoveDescription_Submission,
-    [MOVE_LOW_KICK      - 1] = gMoveDescription_LowKick,
-    [MOVE_COUNTER       - 1] = gMoveDescription_Counter,
-    [MOVE_SEISMIC_TOSS  - 1] = gMoveDescription_SeismicToss,
-    [MOVE_STRENGTH      - 1] = gMoveDescription_Strength,
-    [MOVE_ABSORB        - 1] = gMoveDescription_Absorb,
-    [MOVE_MEGA_DRAIN    - 1] = gMoveDescription_MegaDrain,
-    [MOVE_LEECH_SEED    - 1] = gMoveDescription_LeechSeed,
-    [MOVE_GROWTH        - 1] = gMoveDescription_Growth,
-    [MOVE_RAZOR_LEAF    - 1] = gMoveDescription_RazorLeaf,
-    [MOVE_SOLAR_BEAM    - 1] = gMoveDescription_SolarBeam,
-    [MOVE_POISON_POWDER - 1] = gMoveDescription_PoisonPowder,
-    [MOVE_STUN_SPORE    - 1] = gMoveDescription_StunSpore,
-    [MOVE_SLEEP_POWDER  - 1] = gMoveDescription_SleepPowder,
-    [MOVE_PETAL_DANCE   - 1] = gMoveDescription_PetalDance,
-    [MOVE_STRING_SHOT   - 1] = gMoveDescription_StringShot,
-    [MOVE_DRAGON_RAGE   - 1] = gMoveDescription_DragonRage,
-    [MOVE_FIRE_SPIN     - 1] = gMoveDescription_FireSpin,
-    [MOVE_THUNDER_SHOCK - 1] = gMoveDescription_ThunderShock,
-    [MOVE_THUNDERBOLT   - 1] = gMoveDescription_Thunderbolt,
-    [MOVE_THUNDER_WAVE  - 1] = gMoveDescription_ThunderWave,
-    [MOVE_THUNDER       - 1] = gMoveDescription_Thunder,
-    [MOVE_ROCK_THROW    - 1] = gMoveDescription_RockThrow,
-    [MOVE_EARTHQUAKE    - 1] = gMoveDescription_Earthquake,
-    [MOVE_FISSURE       - 1] = gMoveDescription_Fissure,
-    [MOVE_DIG           - 1] = gMoveDescription_Dig,
-    [MOVE_TOXIC         - 1] = gMoveDescription_Toxic,
-    [MOVE_CONFUSION     - 1] = gMoveDescription_Confusion,
-    [MOVE_PSYCHIC       - 1] = gMoveDescription_Psychic,
-    [MOVE_HYPNOSIS      - 1] = gMoveDescription_Hypnosis,
-    [MOVE_MEDITATE      - 1] = gMoveDescription_Meditate,
-    [MOVE_AGILITY       - 1] = gMoveDescription_Agility,
-    [MOVE_QUICK_ATTACK  - 1] = gMoveDescription_QuickAttack,
-    [MOVE_RAGE          - 1] = gMoveDescription_Rage,
-    [MOVE_TELEPORT      - 1] = gMoveDescription_Teleport,
-    [MOVE_NIGHT_SHADE   - 1] = gMoveDescription_NightShade,
-    [MOVE_MIMIC         - 1] = gMoveDescription_Mimic,
-    [MOVE_SCREECH       - 1] = gMoveDescription_Screech,
-    [MOVE_DOUBLE_TEAM   - 1] = gMoveDescription_DoubleTeam,
-    [MOVE_RECOVER       - 1] = gMoveDescription_Recover,
-    [MOVE_HARDEN        - 1] = gMoveDescription_Harden,
-    [MOVE_MINIMIZE      - 1] = gMoveDescription_Minimize,
-    [MOVE_SMOKESCREEN   - 1] = gMoveDescription_Smokescreen,
-    [MOVE_CONFUSE_RAY   - 1] = gMoveDescription_ConfuseRay,
-    [MOVE_WITHDRAW      - 1] = gMoveDescription_Withdraw,
-    [MOVE_DEFENSE_CURL  - 1] = gMoveDescription_DefenseCurl,
-    [MOVE_BARRIER       - 1] = gMoveDescription_Barrier,
-    [MOVE_LIGHT_SCREEN  - 1] = gMoveDescription_LightScreen,
-    [MOVE_HAZE          - 1] = gMoveDescription_Haze,
-    [MOVE_REFLECT       - 1] = gMoveDescription_Reflect,
-    [MOVE_FOCUS_ENERGY  - 1] = gMoveDescription_FocusEnergy,
-    [MOVE_BIDE          - 1] = gMoveDescription_Bide,
-    [MOVE_METRONOME     - 1] = gMoveDescription_Metronome,
-    [MOVE_MIRROR_MOVE   - 1] = gMoveDescription_MirrorMove,
-    [MOVE_SELF_DESTRUCT - 1] = gMoveDescription_SelfDestruct,
-    [MOVE_EGG_BOMB      - 1] = gMoveDescription_EggBomb,
-    [MOVE_LICK          - 1] = gMoveDescription_Lick,
-    [MOVE_SMOG          - 1] = gMoveDescription_Smog,
-    [MOVE_SLUDGE        - 1] = gMoveDescription_Sludge,
-    [MOVE_BONE_CLUB     - 1] = gMoveDescription_BoneClub,
-    [MOVE_FIRE_BLAST    - 1] = gMoveDescription_FireBlast,
-    [MOVE_WATERFALL     - 1] = gMoveDescription_Waterfall,
-    [MOVE_CLAMP         - 1] = gMoveDescription_Clamp,
-    [MOVE_SWIFT         - 1] = gMoveDescription_Swift,
-    [MOVE_SKULL_BASH    - 1] = gMoveDescription_SkullBash,
-    [MOVE_SPIKE_CANNON  - 1] = gMoveDescription_SpikeCannon,
-    [MOVE_CONSTRICT     - 1] = gMoveDescription_Constrict,
-    [MOVE_AMNESIA       - 1] = gMoveDescription_Amnesia,
-    [MOVE_KINESIS       - 1] = gMoveDescription_Kinesis,
-    [MOVE_SOFT_BOILED   - 1] = gMoveDescription_SoftBoiled,
-    [MOVE_HI_JUMP_KICK  - 1] = gMoveDescription_HiJumpKick,
-    [MOVE_GLARE         - 1] = gMoveDescription_Glare,
-    [MOVE_DREAM_EATER   - 1] = gMoveDescription_DreamEater,
-    [MOVE_POISON_GAS    - 1] = gMoveDescription_PoisonGas,
-    [MOVE_BARRAGE       - 1] = gMoveDescription_Barrage,
-    [MOVE_LEECH_LIFE    - 1] = gMoveDescription_LeechLife,
-    [MOVE_LOVELY_KISS   - 1] = gMoveDescription_LovelyKiss,
-    [MOVE_SKY_ATTACK    - 1] = gMoveDescription_SkyAttack,
-    [MOVE_TRANSFORM     - 1] = gMoveDescription_Transform,
-    [MOVE_BUBBLE        - 1] = gMoveDescription_Bubble,
-    [MOVE_DIZZY_PUNCH   - 1] = gMoveDescription_DizzyPunch,
-    [MOVE_SPORE         - 1] = gMoveDescription_Spore,
-    [MOVE_FLASH         - 1] = gMoveDescription_Flash,
-    [MOVE_PSYWAVE       - 1] = gMoveDescription_Psywave,
-    [MOVE_SPLASH        - 1] = gMoveDescription_Splash,
-    [MOVE_ACID_ARMOR    - 1] = gMoveDescription_AcidArmor,
-    [MOVE_CRABHAMMER    - 1] = gMoveDescription_Crabhammer,
-    [MOVE_EXPLOSION     - 1] = gMoveDescription_Explosion,
-    [MOVE_FURY_SWIPES   - 1] = gMoveDescription_FurySwipes,
-    [MOVE_BONEMERANG    - 1] = gMoveDescription_Bonemerang,
-    [MOVE_REST          - 1] = gMoveDescription_Rest,
-    [MOVE_ROCK_SLIDE    - 1] = gMoveDescription_RockSlide,
-    [MOVE_HYPER_FANG    - 1] = gMoveDescription_HyperFang,
-    [MOVE_SHARPEN       - 1] = gMoveDescription_Sharpen,
-    [MOVE_CONVERSION    - 1] = gMoveDescription_Conversion,
-    [MOVE_TRI_ATTACK    - 1] = gMoveDescription_TriAttack,
-    [MOVE_SUPER_FANG    - 1] = gMoveDescription_SuperFang,
-    [MOVE_SLASH         - 1] = gMoveDescription_Slash,
-    [MOVE_SUBSTITUTE    - 1] = gMoveDescription_Substitute,
-    [MOVE_STRUGGLE      - 1] = gMoveDescription_Struggle,
-    [MOVE_SKETCH        - 1] = gMoveDescription_Sketch,
-    [MOVE_TRIPLE_KICK   - 1] = gMoveDescription_TripleKick,
-    [MOVE_THIEF         - 1] = gMoveDescription_Thief,
-    [MOVE_SPIDER_WEB    - 1] = gMoveDescription_SpiderWeb,
-    [MOVE_MIND_READER   - 1] = gMoveDescription_MindReader,
-    [MOVE_NIGHTMARE     - 1] = gMoveDescription_Nightmare,
-    [MOVE_FLAME_WHEEL   - 1] = gMoveDescription_FlameWheel,
-    [MOVE_SNORE         - 1] = gMoveDescription_Snore,
-    [MOVE_CURSE         - 1] = gMoveDescription_Curse,
-    [MOVE_FLAIL         - 1] = gMoveDescription_Flail,
-    [MOVE_CONVERSION_2  - 1] = gMoveDescription_Conversion2,
-    [MOVE_AEROBLAST     - 1] = gMoveDescription_Aeroblast,
-    [MOVE_COTTON_SPORE  - 1] = gMoveDescription_CottonSpore,
-    [MOVE_REVERSAL      - 1] = gMoveDescription_Reversal,
-    [MOVE_SPITE         - 1] = gMoveDescription_Spite,
-    [MOVE_POWDER_SNOW   - 1] = gMoveDescription_PowderSnow,
-    [MOVE_PROTECT       - 1] = gMoveDescription_Protect,
-    [MOVE_MACH_PUNCH    - 1] = gMoveDescription_MachPunch,
-    [MOVE_SCARY_FACE    - 1] = gMoveDescription_ScaryFace,
-    [MOVE_FAINT_ATTACK  - 1] = gMoveDescription_FaintAttack,
-    [MOVE_SWEET_KISS    - 1] = gMoveDescription_SweetKiss,
-    [MOVE_BELLY_DRUM    - 1] = gMoveDescription_BellyDrum,
-    [MOVE_SLUDGE_BOMB   - 1] = gMoveDescription_SludgeBomb,
-    [MOVE_MUD_SLAP      - 1] = gMoveDescription_MudSlap,
-    [MOVE_OCTAZOOKA     - 1] = gMoveDescription_Octazooka,
-    [MOVE_SPIKES        - 1] = gMoveDescription_Spikes,
-    [MOVE_ZAP_CANNON    - 1] = gMoveDescription_ZapCannon,
-    [MOVE_FORESIGHT     - 1] = gMoveDescription_Foresight,
-    [MOVE_DESTINY_BOND  - 1] = gMoveDescription_DestinyBond,
-    [MOVE_PERISH_SONG   - 1] = gMoveDescription_PerishSong,
-    [MOVE_ICY_WIND      - 1] = gMoveDescription_IcyWind,
-    [MOVE_DETECT        - 1] = gMoveDescription_Detect,
-    [MOVE_BONE_RUSH     - 1] = gMoveDescription_BoneRush,
-    [MOVE_LOCK_ON       - 1] = gMoveDescription_LockOn,
-    [MOVE_OUTRAGE       - 1] = gMoveDescription_Outrage,
-    [MOVE_SANDSTORM     - 1] = gMoveDescription_Sandstorm,
-    [MOVE_GIGA_DRAIN    - 1] = gMoveDescription_GigaDrain,
-    [MOVE_ENDURE        - 1] = gMoveDescription_Endure,
-    [MOVE_CHARM         - 1] = gMoveDescription_Charm,
-    [MOVE_ROLLOUT       - 1] = gMoveDescription_Rollout,
-    [MOVE_FALSE_SWIPE   - 1] = gMoveDescription_FalseSwipe,
-    [MOVE_SWAGGER       - 1] = gMoveDescription_Swagger,
-    [MOVE_MILK_DRINK    - 1] = gMoveDescription_MilkDrink,
-    [MOVE_SPARK         - 1] = gMoveDescription_Spark,
-    [MOVE_FURY_CUTTER   - 1] = gMoveDescription_FuryCutter,
-    [MOVE_STEEL_WING    - 1] = gMoveDescription_SteelWing,
-    [MOVE_MEAN_LOOK     - 1] = gMoveDescription_MeanLook,
-    [MOVE_ATTRACT       - 1] = gMoveDescription_Attract,
-    [MOVE_SLEEP_TALK    - 1] = gMoveDescription_SleepTalk,
-    [MOVE_HEAL_BELL     - 1] = gMoveDescription_HealBell,
-    [MOVE_RETURN        - 1] = gMoveDescription_Return,
-    [MOVE_PRESENT       - 1] = gMoveDescription_Present,
-    [MOVE_FRUSTRATION   - 1] = gMoveDescription_Frustration,
-    [MOVE_SAFEGUARD     - 1] = gMoveDescription_Safeguard,
-    [MOVE_PAIN_SPLIT    - 1] = gMoveDescription_PainSplit,
-    [MOVE_SACRED_FIRE   - 1] = gMoveDescription_SacredFire,
-    [MOVE_MAGNITUDE     - 1] = gMoveDescription_Magnitude,
-    [MOVE_DYNAMIC_PUNCH - 1] = gMoveDescription_DynamicPunch,
-    [MOVE_MEGAHORN      - 1] = gMoveDescription_Megahorn,
-    [MOVE_DRAGON_BREATH - 1] = gMoveDescription_DragonBreath,
-    [MOVE_BATON_PASS    - 1] = gMoveDescription_BatonPass,
-    [MOVE_ENCORE        - 1] = gMoveDescription_Encore,
-    [MOVE_PURSUIT       - 1] = gMoveDescription_Pursuit,
-    [MOVE_RAPID_SPIN    - 1] = gMoveDescription_RapidSpin,
-    [MOVE_SWEET_SCENT   - 1] = gMoveDescription_SweetScent,
-    [MOVE_IRON_TAIL     - 1] = gMoveDescription_IronTail,
-    [MOVE_METAL_CLAW    - 1] = gMoveDescription_MetalClaw,
-    [MOVE_VITAL_THROW   - 1] = gMoveDescription_VitalThrow,
-    [MOVE_MORNING_SUN   - 1] = gMoveDescription_MorningSun,
-    [MOVE_SYNTHESIS     - 1] = gMoveDescription_Synthesis,
-    [MOVE_MOONLIGHT     - 1] = gMoveDescription_Moonlight,
-    [MOVE_HIDDEN_POWER  - 1] = gMoveDescription_HiddenPower,
-    [MOVE_CROSS_CHOP    - 1] = gMoveDescription_CrossChop,
-    [MOVE_TWISTER       - 1] = gMoveDescription_Twister,
-    [MOVE_RAIN_DANCE    - 1] = gMoveDescription_RainDance,
-    [MOVE_SUNNY_DAY     - 1] = gMoveDescription_SunnyDay,
-    [MOVE_CRUNCH        - 1] = gMoveDescription_Crunch,
-    [MOVE_MIRROR_COAT   - 1] = gMoveDescription_MirrorCoat,
-    [MOVE_PSYCH_UP      - 1] = gMoveDescription_PsychUp,
-    [MOVE_EXTREME_SPEED - 1] = gMoveDescription_ExtremeSpeed,
-    [MOVE_ANCIENT_POWER - 1] = gMoveDescription_AncientPower,
-    [MOVE_SHADOW_BALL   - 1] = gMoveDescription_ShadowBall,
-    [MOVE_FUTURE_SIGHT  - 1] = gMoveDescription_FutureSight,
-    [MOVE_ROCK_SMASH    - 1] = gMoveDescription_RockSmash,
-    [MOVE_WHIRLPOOL     - 1] = gMoveDescription_Whirlpool,
-    [MOVE_BEAT_UP       - 1] = gMoveDescription_BeatUp,
-    [MOVE_FAKE_OUT      - 1] = gMoveDescription_FakeOut,
-    [MOVE_UPROAR        - 1] = gMoveDescription_Uproar,
-    [MOVE_STOCKPILE     - 1] = gMoveDescription_Stockpile,
-    [MOVE_SPIT_UP       - 1] = gMoveDescription_SpitUp,
-    [MOVE_SWALLOW       - 1] = gMoveDescription_Swallow,
-    [MOVE_HEAT_WAVE     - 1] = gMoveDescription_HeatWave,
-    [MOVE_HAIL          - 1] = gMoveDescription_Hail,
-    [MOVE_TORMENT       - 1] = gMoveDescription_Torment,
-    [MOVE_FLATTER       - 1] = gMoveDescription_Flatter,
-    [MOVE_WILL_O_WISP   - 1] = gMoveDescription_WillOWisp,
-    [MOVE_MEMENTO       - 1] = gMoveDescription_Memento,
-    [MOVE_FACADE        - 1] = gMoveDescription_Facade,
-    [MOVE_FOCUS_PUNCH   - 1] = gMoveDescription_FocusPunch,
-    [MOVE_SMELLING_SALT - 1] = gMoveDescription_SmellingSalt,
-    [MOVE_FOLLOW_ME     - 1] = gMoveDescription_FollowMe,
-    [MOVE_NATURE_POWER  - 1] = gMoveDescription_NaturePower,
-    [MOVE_CHARGE        - 1] = gMoveDescription_Charge,
-    [MOVE_TAUNT         - 1] = gMoveDescription_Taunt,
-    [MOVE_HELPING_HAND  - 1] = gMoveDescription_HelpingHand,
-    [MOVE_TRICK         - 1] = gMoveDescription_Trick,
-    [MOVE_ROLE_PLAY     - 1] = gMoveDescription_RolePlay,
-    [MOVE_WISH          - 1] = gMoveDescription_Wish,
-    [MOVE_ASSIST        - 1] = gMoveDescription_Assist,
-    [MOVE_INGRAIN       - 1] = gMoveDescription_Ingrain,
-    [MOVE_SUPERPOWER    - 1] = gMoveDescription_Superpower,
-    [MOVE_MAGIC_COAT    - 1] = gMoveDescription_MagicCoat,
-    [MOVE_RECYCLE       - 1] = gMoveDescription_Recycle,
-    [MOVE_REVENGE       - 1] = gMoveDescription_Revenge,
-    [MOVE_BRICK_BREAK   - 1] = gMoveDescription_BrickBreak,
-    [MOVE_YAWN          - 1] = gMoveDescription_Yawn,
-    [MOVE_KNOCK_OFF     - 1] = gMoveDescription_KnockOff,
-    [MOVE_ENDEAVOR      - 1] = gMoveDescription_Endeavor,
-    [MOVE_ERUPTION      - 1] = gMoveDescription_Eruption,
-    [MOVE_SKILL_SWAP    - 1] = gMoveDescription_SkillSwap,
-    [MOVE_IMPRISON      - 1] = gMoveDescription_Imprison,
-    [MOVE_REFRESH       - 1] = gMoveDescription_Refresh,
-    [MOVE_GRUDGE        - 1] = gMoveDescription_Grudge,
-    [MOVE_SNATCH        - 1] = gMoveDescription_Snatch,
-    [MOVE_SECRET_POWER  - 1] = gMoveDescription_SecretPower,
-    [MOVE_DIVE          - 1] = gMoveDescription_Dive,
-    [MOVE_ARM_THRUST    - 1] = gMoveDescription_ArmThrust,
-    [MOVE_CAMOUFLAGE    - 1] = gMoveDescription_Camouflage,
-    [MOVE_TAIL_GLOW     - 1] = gMoveDescription_TailGlow,
-    [MOVE_LUSTER_PURGE  - 1] = gMoveDescription_LusterPurge,
-    [MOVE_MIST_BALL     - 1] = gMoveDescription_MistBall,
-    [MOVE_FEATHER_DANCE - 1] = gMoveDescription_FeatherDance,
-    [MOVE_TEETER_DANCE  - 1] = gMoveDescription_TeeterDance,
-    [MOVE_BLAZE_KICK    - 1] = gMoveDescription_BlazeKick,
-    [MOVE_MUD_SPORT     - 1] = gMoveDescription_MudSport,
-    [MOVE_ICE_BALL      - 1] = gMoveDescription_IceBall,
-    [MOVE_NEEDLE_ARM    - 1] = gMoveDescription_NeedleArm,
-    [MOVE_SLACK_OFF     - 1] = gMoveDescription_SlackOff,
-    [MOVE_HYPER_VOICE   - 1] = gMoveDescription_HyperVoice,
-    [MOVE_POISON_FANG   - 1] = gMoveDescription_PoisonFang,
-    [MOVE_CRUSH_CLAW    - 1] = gMoveDescription_CrushClaw,
-    [MOVE_BLAST_BURN    - 1] = gMoveDescription_BlastBurn,
-    [MOVE_HYDRO_CANNON  - 1] = gMoveDescription_HydroCannon,
-    [MOVE_METEOR_MASH   - 1] = gMoveDescription_MeteorMash,
-    [MOVE_ASTONISH      - 1] = gMoveDescription_Astonish,
-    [MOVE_WEATHER_BALL  - 1] = gMoveDescription_WeatherBall,
-    [MOVE_AROMATHERAPY  - 1] = gMoveDescription_Aromatherapy,
-    [MOVE_FAKE_TEARS    - 1] = gMoveDescription_FakeTears,
-    [MOVE_AIR_CUTTER    - 1] = gMoveDescription_AirCutter,
-    [MOVE_OVERHEAT      - 1] = gMoveDescription_Overheat,
-    [MOVE_ODOR_SLEUTH   - 1] = gMoveDescription_OdorSleuth,
-    [MOVE_ROCK_TOMB     - 1] = gMoveDescription_RockTomb,
-    [MOVE_SILVER_WIND   - 1] = gMoveDescription_SilverWind,
-    [MOVE_METAL_SOUND   - 1] = gMoveDescription_MetalSound,
-    [MOVE_GRASS_WHISTLE - 1] = gMoveDescription_GrassWhistle,
-    [MOVE_TICKLE        - 1] = gMoveDescription_Tickle,
-    [MOVE_COSMIC_POWER  - 1] = gMoveDescription_CosmicPower,
-    [MOVE_WATER_SPOUT   - 1] = gMoveDescription_WaterSpout,
-    [MOVE_SIGNAL_BEAM   - 1] = gMoveDescription_SignalBeam,
-    [MOVE_SHADOW_PUNCH  - 1] = gMoveDescription_ShadowPunch,
-    [MOVE_EXTRASENSORY  - 1] = gMoveDescription_Extrasensory,
-    [MOVE_SKY_UPPERCUT  - 1] = gMoveDescription_SkyUppercut,
-    [MOVE_SAND_TOMB     - 1] = gMoveDescription_SandTomb,
-    [MOVE_SHEER_COLD    - 1] = gMoveDescription_SheerCold,
-    [MOVE_MUDDY_WATER   - 1] = gMoveDescription_MuddyWater,
-    [MOVE_BULLET_SEED   - 1] = gMoveDescription_BulletSeed,
-    [MOVE_AERIAL_ACE    - 1] = gMoveDescription_AerialAce,
-    [MOVE_ICICLE_SPEAR  - 1] = gMoveDescription_IcicleSpear,
-    [MOVE_IRON_DEFENSE  - 1] = gMoveDescription_IronDefense,
-    [MOVE_BLOCK         - 1] = gMoveDescription_Block,
-    [MOVE_HOWL          - 1] = gMoveDescription_Howl,
-    [MOVE_DRAGON_CLAW   - 1] = gMoveDescription_DragonClaw,
-    [MOVE_FRENZY_PLANT  - 1] = gMoveDescription_FrenzyPlant,
-    [MOVE_BULK_UP       - 1] = gMoveDescription_BulkUp,
-    [MOVE_BOUNCE        - 1] = gMoveDescription_Bounce,
-    [MOVE_MUD_SHOT      - 1] = gMoveDescription_MudShot,
-    [MOVE_POISON_TAIL   - 1] = gMoveDescription_PoisonTail,
-    [MOVE_COVET         - 1] = gMoveDescription_Covet,
-    [MOVE_VOLT_TACKLE   - 1] = gMoveDescription_VoltTackle,
-    [MOVE_MAGICAL_LEAF  - 1] = gMoveDescription_MagicalLeaf,
-    [MOVE_WATER_SPORT   - 1] = gMoveDescription_WaterSport,
-    [MOVE_CALM_MIND     - 1] = gMoveDescription_CalmMind,
-    [MOVE_LEAF_BLADE    - 1] = gMoveDescription_LeafBlade,
-    [MOVE_DRAGON_DANCE  - 1] = gMoveDescription_DragonDance,
-    [MOVE_ROCK_BLAST    - 1] = gMoveDescription_RockBlast,
-    [MOVE_SHOCK_WAVE    - 1] = gMoveDescription_ShockWave,
-    [MOVE_WATER_PULSE   - 1] = gMoveDescription_WaterPulse,
-    [MOVE_DOOM_DESIRE   - 1] = gMoveDescription_DoomDesire,
-    [MOVE_PSYCHO_BOOST  - 1] = gMoveDescription_PsychoBoost,
+	[MOVE_POUND         - 1] = gMoveDescription_Pound,
+	[MOVE_KARATE_CHOP   - 1] = gMoveDescription_KarateChop,
+	[MOVE_DOUBLE_SLAP   - 1] = gMoveDescription_DoubleSlap,
+	[MOVE_COMET_PUNCH   - 1] = gMoveDescription_CometPunch,
+	[MOVE_MEGA_PUNCH    - 1] = gMoveDescription_MegaPunch,
+	[MOVE_PAY_DAY       - 1] = gMoveDescription_PayDay,
+	[MOVE_FIRE_PUNCH    - 1] = gMoveDescription_FirePunch,
+	[MOVE_ICE_PUNCH     - 1] = gMoveDescription_IcePunch,
+	[MOVE_THUNDER_PUNCH - 1] = gMoveDescription_ThunderPunch,
+	[MOVE_SCRATCH       - 1] = gMoveDescription_Scratch,
+	[MOVE_VICE_GRIP     - 1] = gMoveDescription_ViceGrip,
+	[MOVE_GUILLOTINE    - 1] = gMoveDescription_Guillotine,
+	[MOVE_RAZOR_WIND    - 1] = gMoveDescription_RazorWind,
+	[MOVE_SWORDS_DANCE  - 1] = gMoveDescription_SwordsDance,
+	[MOVE_CUT           - 1] = gMoveDescription_Cut,
+	[MOVE_GUST          - 1] = gMoveDescription_Gust,
+	[MOVE_WING_ATTACK   - 1] = gMoveDescription_WingAttack,
+	[MOVE_WHIRLWIND     - 1] = gMoveDescription_Whirlwind,
+	[MOVE_FLY           - 1] = gMoveDescription_Fly,
+	[MOVE_BIND          - 1] = gMoveDescription_Bind,
+	[MOVE_SLAM          - 1] = gMoveDescription_Slam,
+	[MOVE_VINE_WHIP     - 1] = gMoveDescription_VineWhip,
+	[MOVE_STOMP         - 1] = gMoveDescription_Stomp,
+	[MOVE_DOUBLE_KICK   - 1] = gMoveDescription_DoubleKick,
+	[MOVE_MEGA_KICK     - 1] = gMoveDescription_MegaKick,
+	[MOVE_JUMP_KICK     - 1] = gMoveDescription_JumpKick,
+	[MOVE_ROLLING_KICK  - 1] = gMoveDescription_RollingKick,
+	[MOVE_SAND_ATTACK   - 1] = gMoveDescription_SandAttack,
+	[MOVE_HEADBUTT      - 1] = gMoveDescription_Headbutt,
+	[MOVE_HORN_ATTACK   - 1] = gMoveDescription_HornAttack,
+	[MOVE_FURY_ATTACK   - 1] = gMoveDescription_FuryAttack,
+	[MOVE_HORN_DRILL    - 1] = gMoveDescription_HornDrill,
+	[MOVE_TACKLE        - 1] = gMoveDescription_Tackle,
+	[MOVE_BODY_SLAM     - 1] = gMoveDescription_BodySlam,
+	[MOVE_WRAP          - 1] = gMoveDescription_Wrap,
+	[MOVE_TAKE_DOWN     - 1] = gMoveDescription_TakeDown,
+	[MOVE_THRASH        - 1] = gMoveDescription_Thrash,
+	[MOVE_DOUBLE_EDGE   - 1] = gMoveDescription_DoubleEdge,
+	[MOVE_TAIL_WHIP     - 1] = gMoveDescription_TailWhip,
+	[MOVE_POISON_STING  - 1] = gMoveDescription_PoisonSting,
+	[MOVE_TWINEEDLE     - 1] = gMoveDescription_Twineedle,
+	[MOVE_PIN_MISSILE   - 1] = gMoveDescription_PinMissile,
+	[MOVE_LEER          - 1] = gMoveDescription_Leer,
+	[MOVE_BITE          - 1] = gMoveDescription_Bite,
+	[MOVE_GROWL         - 1] = gMoveDescription_Growl,
+	[MOVE_ROAR          - 1] = gMoveDescription_Roar,
+	[MOVE_SING          - 1] = gMoveDescription_Sing,
+	[MOVE_SUPERSONIC    - 1] = gMoveDescription_Supersonic,
+	[MOVE_SONIC_BOOM    - 1] = gMoveDescription_SonicBoom,
+	[MOVE_DISABLE       - 1] = gMoveDescription_Disable,
+	[MOVE_ACID          - 1] = gMoveDescription_Acid,
+	[MOVE_EMBER         - 1] = gMoveDescription_Ember,
+	[MOVE_FLAMETHROWER  - 1] = gMoveDescription_Flamethrower,
+	[MOVE_MIST          - 1] = gMoveDescription_Mist,
+	[MOVE_WATER_GUN     - 1] = gMoveDescription_WaterGun,
+	[MOVE_HYDRO_PUMP    - 1] = gMoveDescription_HydroPump,
+	[MOVE_SURF          - 1] = gMoveDescription_Surf,
+	[MOVE_ICE_BEAM      - 1] = gMoveDescription_IceBeam,
+	[MOVE_BLIZZARD      - 1] = gMoveDescription_Blizzard,
+	[MOVE_PSYBEAM       - 1] = gMoveDescription_Psybeam,
+	[MOVE_BUBBLE_BEAM   - 1] = gMoveDescription_BubbleBeam,
+	[MOVE_AURORA_BEAM   - 1] = gMoveDescription_AuroraBeam,
+	[MOVE_HYPER_BEAM    - 1] = gMoveDescription_HyperBeam,
+	[MOVE_PECK          - 1] = gMoveDescription_Peck,
+	[MOVE_DRILL_PECK    - 1] = gMoveDescription_DrillPeck,
+	[MOVE_SUBMISSION    - 1] = gMoveDescription_Submission,
+	[MOVE_LOW_KICK      - 1] = gMoveDescription_LowKick,
+	[MOVE_COUNTER       - 1] = gMoveDescription_Counter,
+	[MOVE_SEISMIC_TOSS  - 1] = gMoveDescription_SeismicToss,
+	[MOVE_STRENGTH      - 1] = gMoveDescription_Strength,
+	[MOVE_ABSORB        - 1] = gMoveDescription_Absorb,
+	[MOVE_MEGA_DRAIN    - 1] = gMoveDescription_MegaDrain,
+	[MOVE_LEECH_SEED    - 1] = gMoveDescription_LeechSeed,
+	[MOVE_GROWTH        - 1] = gMoveDescription_Growth,
+	[MOVE_RAZOR_LEAF    - 1] = gMoveDescription_RazorLeaf,
+	[MOVE_SOLAR_BEAM    - 1] = gMoveDescription_SolarBeam,
+	[MOVE_POISON_POWDER - 1] = gMoveDescription_PoisonPowder,
+	[MOVE_STUN_SPORE    - 1] = gMoveDescription_StunSpore,
+	[MOVE_SLEEP_POWDER  - 1] = gMoveDescription_SleepPowder,
+	[MOVE_PETAL_DANCE   - 1] = gMoveDescription_PetalDance,
+	[MOVE_STRING_SHOT   - 1] = gMoveDescription_StringShot,
+	[MOVE_DRAGON_RAGE   - 1] = gMoveDescription_DragonRage,
+	[MOVE_FIRE_SPIN     - 1] = gMoveDescription_FireSpin,
+	[MOVE_THUNDER_SHOCK - 1] = gMoveDescription_ThunderShock,
+	[MOVE_THUNDERBOLT   - 1] = gMoveDescription_Thunderbolt,
+	[MOVE_THUNDER_WAVE  - 1] = gMoveDescription_ThunderWave,
+	[MOVE_THUNDER       - 1] = gMoveDescription_Thunder,
+	[MOVE_ROCK_THROW    - 1] = gMoveDescription_RockThrow,
+	[MOVE_EARTHQUAKE    - 1] = gMoveDescription_Earthquake,
+	[MOVE_FISSURE       - 1] = gMoveDescription_Fissure,
+	[MOVE_DIG           - 1] = gMoveDescription_Dig,
+	[MOVE_TOXIC         - 1] = gMoveDescription_Toxic,
+	[MOVE_CONFUSION     - 1] = gMoveDescription_Confusion,
+	[MOVE_PSYCHIC       - 1] = gMoveDescription_Psychic,
+	[MOVE_HYPNOSIS      - 1] = gMoveDescription_Hypnosis,
+	[MOVE_MEDITATE      - 1] = gMoveDescription_Meditate,
+	[MOVE_AGILITY       - 1] = gMoveDescription_Agility,
+	[MOVE_QUICK_ATTACK  - 1] = gMoveDescription_QuickAttack,
+	[MOVE_RAGE          - 1] = gMoveDescription_Rage,
+	[MOVE_TELEPORT      - 1] = gMoveDescription_Teleport,
+	[MOVE_NIGHT_SHADE   - 1] = gMoveDescription_NightShade,
+	[MOVE_MIMIC         - 1] = gMoveDescription_Mimic,
+	[MOVE_SCREECH       - 1] = gMoveDescription_Screech,
+	[MOVE_DOUBLE_TEAM   - 1] = gMoveDescription_DoubleTeam,
+	[MOVE_RECOVER       - 1] = gMoveDescription_Recover,
+	[MOVE_HARDEN        - 1] = gMoveDescription_Harden,
+	[MOVE_MINIMIZE      - 1] = gMoveDescription_Minimize,
+	[MOVE_SMOKESCREEN   - 1] = gMoveDescription_Smokescreen,
+	[MOVE_CONFUSE_RAY   - 1] = gMoveDescription_ConfuseRay,
+	[MOVE_WITHDRAW      - 1] = gMoveDescription_Withdraw,
+	[MOVE_DEFENSE_CURL  - 1] = gMoveDescription_DefenseCurl,
+	[MOVE_BARRIER       - 1] = gMoveDescription_Barrier,
+	[MOVE_LIGHT_SCREEN  - 1] = gMoveDescription_LightScreen,
+	[MOVE_HAZE          - 1] = gMoveDescription_Haze,
+	[MOVE_REFLECT       - 1] = gMoveDescription_Reflect,
+	[MOVE_FOCUS_ENERGY  - 1] = gMoveDescription_FocusEnergy,
+	[MOVE_BIDE          - 1] = gMoveDescription_Bide,
+	[MOVE_METRONOME     - 1] = gMoveDescription_Metronome,
+	[MOVE_MIRROR_MOVE   - 1] = gMoveDescription_MirrorMove,
+	[MOVE_SELF_DESTRUCT - 1] = gMoveDescription_SelfDestruct,
+	[MOVE_EGG_BOMB      - 1] = gMoveDescription_EggBomb,
+	[MOVE_LICK          - 1] = gMoveDescription_Lick,
+	[MOVE_SMOG          - 1] = gMoveDescription_Smog,
+	[MOVE_SLUDGE        - 1] = gMoveDescription_Sludge,
+	[MOVE_BONE_CLUB     - 1] = gMoveDescription_BoneClub,
+	[MOVE_FIRE_BLAST    - 1] = gMoveDescription_FireBlast,
+	[MOVE_WATERFALL     - 1] = gMoveDescription_Waterfall,
+	[MOVE_CLAMP         - 1] = gMoveDescription_Clamp,
+	[MOVE_SWIFT         - 1] = gMoveDescription_Swift,
+	[MOVE_SKULL_BASH    - 1] = gMoveDescription_SkullBash,
+	[MOVE_SPIKE_CANNON  - 1] = gMoveDescription_SpikeCannon,
+	[MOVE_CONSTRICT     - 1] = gMoveDescription_Constrict,
+	[MOVE_AMNESIA       - 1] = gMoveDescription_Amnesia,
+	[MOVE_KINESIS       - 1] = gMoveDescription_Kinesis,
+	[MOVE_SOFT_BOILED   - 1] = gMoveDescription_SoftBoiled,
+	[MOVE_HI_JUMP_KICK  - 1] = gMoveDescription_HiJumpKick,
+	[MOVE_GLARE         - 1] = gMoveDescription_Glare,
+	[MOVE_DREAM_EATER   - 1] = gMoveDescription_DreamEater,
+	[MOVE_POISON_GAS    - 1] = gMoveDescription_PoisonGas,
+	[MOVE_BARRAGE       - 1] = gMoveDescription_Barrage,
+	[MOVE_LEECH_LIFE    - 1] = gMoveDescription_LeechLife,
+	[MOVE_LOVELY_KISS   - 1] = gMoveDescription_LovelyKiss,
+	[MOVE_SKY_ATTACK    - 1] = gMoveDescription_SkyAttack,
+	[MOVE_TRANSFORM     - 1] = gMoveDescription_Transform,
+	[MOVE_BUBBLE        - 1] = gMoveDescription_Bubble,
+	[MOVE_DIZZY_PUNCH   - 1] = gMoveDescription_DizzyPunch,
+	[MOVE_SPORE         - 1] = gMoveDescription_Spore,
+	[MOVE_FLASH         - 1] = gMoveDescription_Flash,
+	[MOVE_PSYWAVE       - 1] = gMoveDescription_Psywave,
+	[MOVE_SPLASH        - 1] = gMoveDescription_Splash,
+	[MOVE_ACID_ARMOR    - 1] = gMoveDescription_AcidArmor,
+	[MOVE_CRABHAMMER    - 1] = gMoveDescription_Crabhammer,
+	[MOVE_EXPLOSION     - 1] = gMoveDescription_Explosion,
+	[MOVE_FURY_SWIPES   - 1] = gMoveDescription_FurySwipes,
+	[MOVE_BONEMERANG    - 1] = gMoveDescription_Bonemerang,
+	[MOVE_REST          - 1] = gMoveDescription_Rest,
+	[MOVE_ROCK_SLIDE    - 1] = gMoveDescription_RockSlide,
+	[MOVE_HYPER_FANG    - 1] = gMoveDescription_HyperFang,
+	[MOVE_SHARPEN       - 1] = gMoveDescription_Sharpen,
+	[MOVE_CONVERSION    - 1] = gMoveDescription_Conversion,
+	[MOVE_TRI_ATTACK    - 1] = gMoveDescription_TriAttack,
+	[MOVE_SUPER_FANG    - 1] = gMoveDescription_SuperFang,
+	[MOVE_SLASH         - 1] = gMoveDescription_Slash,
+	[MOVE_SUBSTITUTE    - 1] = gMoveDescription_Substitute,
+	[MOVE_STRUGGLE      - 1] = gMoveDescription_Struggle,
+	[MOVE_SKETCH        - 1] = gMoveDescription_Sketch,
+	[MOVE_TRIPLE_KICK   - 1] = gMoveDescription_TripleKick,
+	[MOVE_THIEF         - 1] = gMoveDescription_Thief,
+	[MOVE_SPIDER_WEB    - 1] = gMoveDescription_SpiderWeb,
+	[MOVE_MIND_READER   - 1] = gMoveDescription_MindReader,
+	[MOVE_NIGHTMARE     - 1] = gMoveDescription_Nightmare,
+	[MOVE_FLAME_WHEEL   - 1] = gMoveDescription_FlameWheel,
+	[MOVE_SNORE         - 1] = gMoveDescription_Snore,
+	[MOVE_CURSE         - 1] = gMoveDescription_Curse,
+	[MOVE_FLAIL         - 1] = gMoveDescription_Flail,
+	[MOVE_CONVERSION_2  - 1] = gMoveDescription_Conversion2,
+	[MOVE_AEROBLAST     - 1] = gMoveDescription_Aeroblast,
+	[MOVE_COTTON_SPORE  - 1] = gMoveDescription_CottonSpore,
+	[MOVE_REVERSAL      - 1] = gMoveDescription_Reversal,
+	[MOVE_SPITE         - 1] = gMoveDescription_Spite,
+	[MOVE_POWDER_SNOW   - 1] = gMoveDescription_PowderSnow,
+	[MOVE_PROTECT       - 1] = gMoveDescription_Protect,
+	[MOVE_MACH_PUNCH    - 1] = gMoveDescription_MachPunch,
+	[MOVE_SCARY_FACE    - 1] = gMoveDescription_ScaryFace,
+	[MOVE_FAINT_ATTACK  - 1] = gMoveDescription_FaintAttack,
+	[MOVE_SWEET_KISS    - 1] = gMoveDescription_SweetKiss,
+	[MOVE_BELLY_DRUM    - 1] = gMoveDescription_BellyDrum,
+	[MOVE_SLUDGE_BOMB   - 1] = gMoveDescription_SludgeBomb,
+	[MOVE_MUD_SLAP      - 1] = gMoveDescription_MudSlap,
+	[MOVE_OCTAZOOKA     - 1] = gMoveDescription_Octazooka,
+	[MOVE_SPIKES        - 1] = gMoveDescription_Spikes,
+	[MOVE_ZAP_CANNON    - 1] = gMoveDescription_ZapCannon,
+	[MOVE_FORESIGHT     - 1] = gMoveDescription_Foresight,
+	[MOVE_DESTINY_BOND  - 1] = gMoveDescription_DestinyBond,
+	[MOVE_PERISH_SONG   - 1] = gMoveDescription_PerishSong,
+	[MOVE_ICY_WIND      - 1] = gMoveDescription_IcyWind,
+	[MOVE_DETECT        - 1] = gMoveDescription_Detect,
+	[MOVE_BONE_RUSH     - 1] = gMoveDescription_BoneRush,
+	[MOVE_LOCK_ON       - 1] = gMoveDescription_LockOn,
+	[MOVE_OUTRAGE       - 1] = gMoveDescription_Outrage,
+	[MOVE_SANDSTORM     - 1] = gMoveDescription_Sandstorm,
+	[MOVE_GIGA_DRAIN    - 1] = gMoveDescription_GigaDrain,
+	[MOVE_ENDURE        - 1] = gMoveDescription_Endure,
+	[MOVE_CHARM         - 1] = gMoveDescription_Charm,
+	[MOVE_ROLLOUT       - 1] = gMoveDescription_Rollout,
+	[MOVE_FALSE_SWIPE   - 1] = gMoveDescription_FalseSwipe,
+	[MOVE_SWAGGER       - 1] = gMoveDescription_Swagger,
+	[MOVE_MILK_DRINK    - 1] = gMoveDescription_MilkDrink,
+	[MOVE_SPARK         - 1] = gMoveDescription_Spark,
+	[MOVE_FURY_CUTTER   - 1] = gMoveDescription_FuryCutter,
+	[MOVE_STEEL_WING    - 1] = gMoveDescription_SteelWing,
+	[MOVE_MEAN_LOOK     - 1] = gMoveDescription_MeanLook,
+	[MOVE_ATTRACT       - 1] = gMoveDescription_Attract,
+	[MOVE_SLEEP_TALK    - 1] = gMoveDescription_SleepTalk,
+	[MOVE_HEAL_BELL     - 1] = gMoveDescription_HealBell,
+	[MOVE_RETURN        - 1] = gMoveDescription_Return,
+	[MOVE_PRESENT       - 1] = gMoveDescription_Present,
+	[MOVE_FRUSTRATION   - 1] = gMoveDescription_Frustration,
+	[MOVE_SAFEGUARD     - 1] = gMoveDescription_Safeguard,
+	[MOVE_PAIN_SPLIT    - 1] = gMoveDescription_PainSplit,
+	[MOVE_SACRED_FIRE   - 1] = gMoveDescription_SacredFire,
+	[MOVE_MAGNITUDE     - 1] = gMoveDescription_Magnitude,
+	[MOVE_DYNAMIC_PUNCH - 1] = gMoveDescription_DynamicPunch,
+	[MOVE_MEGAHORN      - 1] = gMoveDescription_Megahorn,
+	[MOVE_DRAGON_BREATH - 1] = gMoveDescription_DragonBreath,
+	[MOVE_BATON_PASS    - 1] = gMoveDescription_BatonPass,
+	[MOVE_ENCORE        - 1] = gMoveDescription_Encore,
+	[MOVE_PURSUIT       - 1] = gMoveDescription_Pursuit,
+	[MOVE_RAPID_SPIN    - 1] = gMoveDescription_RapidSpin,
+	[MOVE_SWEET_SCENT   - 1] = gMoveDescription_SweetScent,
+	[MOVE_IRON_TAIL     - 1] = gMoveDescription_IronTail,
+	[MOVE_METAL_CLAW    - 1] = gMoveDescription_MetalClaw,
+	[MOVE_VITAL_THROW   - 1] = gMoveDescription_VitalThrow,
+	[MOVE_MORNING_SUN   - 1] = gMoveDescription_MorningSun,
+	[MOVE_SYNTHESIS     - 1] = gMoveDescription_Synthesis,
+	[MOVE_MOONLIGHT     - 1] = gMoveDescription_Moonlight,
+	[MOVE_HIDDEN_POWER  - 1] = gMoveDescription_HiddenPower,
+	[MOVE_CROSS_CHOP    - 1] = gMoveDescription_CrossChop,
+	[MOVE_TWISTER       - 1] = gMoveDescription_Twister,
+	[MOVE_RAIN_DANCE    - 1] = gMoveDescription_RainDance,
+	[MOVE_SUNNY_DAY     - 1] = gMoveDescription_SunnyDay,
+	[MOVE_CRUNCH        - 1] = gMoveDescription_Crunch,
+	[MOVE_MIRROR_COAT   - 1] = gMoveDescription_MirrorCoat,
+	[MOVE_PSYCH_UP      - 1] = gMoveDescription_PsychUp,
+	[MOVE_EXTREME_SPEED - 1] = gMoveDescription_ExtremeSpeed,
+	[MOVE_ANCIENT_POWER - 1] = gMoveDescription_AncientPower,
+	[MOVE_SHADOW_BALL   - 1] = gMoveDescription_ShadowBall,
+	[MOVE_FUTURE_SIGHT  - 1] = gMoveDescription_FutureSight,
+	[MOVE_ROCK_SMASH    - 1] = gMoveDescription_RockSmash,
+	[MOVE_WHIRLPOOL     - 1] = gMoveDescription_Whirlpool,
+	[MOVE_BEAT_UP       - 1] = gMoveDescription_BeatUp,
+	[MOVE_FAKE_OUT      - 1] = gMoveDescription_FakeOut,
+	[MOVE_UPROAR        - 1] = gMoveDescription_Uproar,
+	[MOVE_STOCKPILE     - 1] = gMoveDescription_Stockpile,
+	[MOVE_SPIT_UP       - 1] = gMoveDescription_SpitUp,
+	[MOVE_SWALLOW       - 1] = gMoveDescription_Swallow,
+	[MOVE_HEAT_WAVE     - 1] = gMoveDescription_HeatWave,
+	[MOVE_HAIL          - 1] = gMoveDescription_Hail,
+	[MOVE_TORMENT       - 1] = gMoveDescription_Torment,
+	[MOVE_FLATTER       - 1] = gMoveDescription_Flatter,
+	[MOVE_WILL_O_WISP   - 1] = gMoveDescription_WillOWisp,
+	[MOVE_MEMENTO       - 1] = gMoveDescription_Memento,
+	[MOVE_FACADE        - 1] = gMoveDescription_Facade,
+	[MOVE_FOCUS_PUNCH   - 1] = gMoveDescription_FocusPunch,
+	[MOVE_SMELLING_SALT - 1] = gMoveDescription_SmellingSalt,
+	[MOVE_FOLLOW_ME     - 1] = gMoveDescription_FollowMe,
+	[MOVE_NATURE_POWER  - 1] = gMoveDescription_NaturePower,
+	[MOVE_CHARGE        - 1] = gMoveDescription_Charge,
+	[MOVE_TAUNT         - 1] = gMoveDescription_Taunt,
+	[MOVE_HELPING_HAND  - 1] = gMoveDescription_HelpingHand,
+	[MOVE_TRICK         - 1] = gMoveDescription_Trick,
+	[MOVE_ROLE_PLAY     - 1] = gMoveDescription_RolePlay,
+	[MOVE_WISH          - 1] = gMoveDescription_Wish,
+	[MOVE_ASSIST        - 1] = gMoveDescription_Assist,
+	[MOVE_INGRAIN       - 1] = gMoveDescription_Ingrain,
+	[MOVE_SUPERPOWER    - 1] = gMoveDescription_Superpower,
+	[MOVE_MAGIC_COAT    - 1] = gMoveDescription_MagicCoat,
+	[MOVE_RECYCLE       - 1] = gMoveDescription_Recycle,
+	[MOVE_REVENGE       - 1] = gMoveDescription_Revenge,
+	[MOVE_BRICK_BREAK   - 1] = gMoveDescription_BrickBreak,
+	[MOVE_YAWN          - 1] = gMoveDescription_Yawn,
+	[MOVE_KNOCK_OFF     - 1] = gMoveDescription_KnockOff,
+	[MOVE_ENDEAVOR      - 1] = gMoveDescription_Endeavor,
+	[MOVE_ERUPTION      - 1] = gMoveDescription_Eruption,
+	[MOVE_SKILL_SWAP    - 1] = gMoveDescription_SkillSwap,
+	[MOVE_IMPRISON      - 1] = gMoveDescription_Imprison,
+	[MOVE_REFRESH       - 1] = gMoveDescription_Refresh,
+	[MOVE_GRUDGE        - 1] = gMoveDescription_Grudge,
+	[MOVE_SNATCH        - 1] = gMoveDescription_Snatch,
+	[MOVE_SECRET_POWER  - 1] = gMoveDescription_SecretPower,
+	[MOVE_DIVE          - 1] = gMoveDescription_Dive,
+	[MOVE_ARM_THRUST    - 1] = gMoveDescription_ArmThrust,
+	[MOVE_CAMOUFLAGE    - 1] = gMoveDescription_Camouflage,
+	[MOVE_TAIL_GLOW     - 1] = gMoveDescription_TailGlow,
+	[MOVE_LUSTER_PURGE  - 1] = gMoveDescription_LusterPurge,
+	[MOVE_MIST_BALL     - 1] = gMoveDescription_MistBall,
+	[MOVE_FEATHER_DANCE - 1] = gMoveDescription_FeatherDance,
+	[MOVE_TEETER_DANCE  - 1] = gMoveDescription_TeeterDance,
+	[MOVE_BLAZE_KICK    - 1] = gMoveDescription_BlazeKick,
+	[MOVE_MUD_SPORT     - 1] = gMoveDescription_MudSport,
+	[MOVE_ICE_BALL      - 1] = gMoveDescription_IceBall,
+	[MOVE_NEEDLE_ARM    - 1] = gMoveDescription_NeedleArm,
+	[MOVE_SLACK_OFF     - 1] = gMoveDescription_SlackOff,
+	[MOVE_HYPER_VOICE   - 1] = gMoveDescription_HyperVoice,
+	[MOVE_POISON_FANG   - 1] = gMoveDescription_PoisonFang,
+	[MOVE_CRUSH_CLAW    - 1] = gMoveDescription_CrushClaw,
+	[MOVE_BLAST_BURN    - 1] = gMoveDescription_BlastBurn,
+	[MOVE_HYDRO_CANNON  - 1] = gMoveDescription_HydroCannon,
+	[MOVE_METEOR_MASH   - 1] = gMoveDescription_MeteorMash,
+	[MOVE_ASTONISH      - 1] = gMoveDescription_Astonish,
+	[MOVE_WEATHER_BALL  - 1] = gMoveDescription_WeatherBall,
+	[MOVE_AROMATHERAPY  - 1] = gMoveDescription_Aromatherapy,
+	[MOVE_FAKE_TEARS    - 1] = gMoveDescription_FakeTears,
+	[MOVE_AIR_CUTTER    - 1] = gMoveDescription_AirCutter,
+	[MOVE_OVERHEAT      - 1] = gMoveDescription_Overheat,
+	[MOVE_ODOR_SLEUTH   - 1] = gMoveDescription_OdorSleuth,
+	[MOVE_ROCK_TOMB     - 1] = gMoveDescription_RockTomb,
+	[MOVE_SILVER_WIND   - 1] = gMoveDescription_SilverWind,
+	[MOVE_METAL_SOUND   - 1] = gMoveDescription_MetalSound,
+	[MOVE_GRASS_WHISTLE - 1] = gMoveDescription_GrassWhistle,
+	[MOVE_TICKLE        - 1] = gMoveDescription_Tickle,
+	[MOVE_COSMIC_POWER  - 1] = gMoveDescription_CosmicPower,
+	[MOVE_WATER_SPOUT   - 1] = gMoveDescription_WaterSpout,
+	[MOVE_SIGNAL_BEAM   - 1] = gMoveDescription_SignalBeam,
+	[MOVE_SHADOW_PUNCH  - 1] = gMoveDescription_ShadowPunch,
+	[MOVE_EXTRASENSORY  - 1] = gMoveDescription_Extrasensory,
+	[MOVE_SKY_UPPERCUT  - 1] = gMoveDescription_SkyUppercut,
+	[MOVE_SAND_TOMB     - 1] = gMoveDescription_SandTomb,
+	[MOVE_SHEER_COLD    - 1] = gMoveDescription_SheerCold,
+	[MOVE_MUDDY_WATER   - 1] = gMoveDescription_MuddyWater,
+	[MOVE_BULLET_SEED   - 1] = gMoveDescription_BulletSeed,
+	[MOVE_AERIAL_ACE    - 1] = gMoveDescription_AerialAce,
+	[MOVE_ICICLE_SPEAR  - 1] = gMoveDescription_IcicleSpear,
+	[MOVE_IRON_DEFENSE  - 1] = gMoveDescription_IronDefense,
+	[MOVE_BLOCK         - 1] = gMoveDescription_Block,
+	[MOVE_HOWL          - 1] = gMoveDescription_Howl,
+	[MOVE_DRAGON_CLAW   - 1] = gMoveDescription_DragonClaw,
+	[MOVE_FRENZY_PLANT  - 1] = gMoveDescription_FrenzyPlant,
+	[MOVE_BULK_UP       - 1] = gMoveDescription_BulkUp,
+	[MOVE_BOUNCE        - 1] = gMoveDescription_Bounce,
+	[MOVE_MUD_SHOT      - 1] = gMoveDescription_MudShot,
+	[MOVE_POISON_TAIL   - 1] = gMoveDescription_PoisonTail,
+	[MOVE_COVET         - 1] = gMoveDescription_Covet,
+	[MOVE_VOLT_TACKLE   - 1] = gMoveDescription_VoltTackle,
+	[MOVE_MAGICAL_LEAF  - 1] = gMoveDescription_MagicalLeaf,
+	[MOVE_WATER_SPORT   - 1] = gMoveDescription_WaterSport,
+	[MOVE_CALM_MIND     - 1] = gMoveDescription_CalmMind,
+	[MOVE_LEAF_BLADE    - 1] = gMoveDescription_LeafBlade,
+	[MOVE_DRAGON_DANCE  - 1] = gMoveDescription_DragonDance,
+	[MOVE_ROCK_BLAST    - 1] = gMoveDescription_RockBlast,
+	[MOVE_SHOCK_WAVE    - 1] = gMoveDescription_ShockWave,
+	[MOVE_WATER_PULSE   - 1] = gMoveDescription_WaterPulse,
+	[MOVE_DOOM_DESIRE   - 1] = gMoveDescription_DoomDesire,
+	[MOVE_PSYCHO_BOOST  - 1] = gMoveDescription_PsychoBoost,
+	[MOVE_ROOST - 1] = sRoostDescription,
+	[MOVE_GRAVITY - 1] = sGravityDescription,
+	[MOVE_MIRACLE_EYE - 1] = sMiracleEyeDescription,
+	[MOVE_WAKE_UP_SLAP - 1] = sWakeUpSlapDescription,
+	[MOVE_HAMMER_ARM - 1] = sHammerArmDescription,
+	[MOVE_GYRO_BALL - 1] = sGyroBallDescription,
+	[MOVE_HEALING_WISH - 1] = sHealingWishDescription,
+	[MOVE_BRINE - 1] = sBrineDescription,
+	[MOVE_NATURAL_GIFT - 1] = sNaturalGiftDescription,
+	[MOVE_FEINT - 1] = sFeintDescription,
+	[MOVE_PLUCK - 1] = sPluckDescription,
+	[MOVE_TAILWIND - 1] = sTailwindDescription,
+	[MOVE_ACUPRESSURE - 1] = sAcupressureDescription,
+	[MOVE_METAL_BURST - 1] = sMetalBurstDescription,
+	[MOVE_U_TURN - 1] = sUTurnDescription,
+	[MOVE_CLOSE_COMBAT - 1] = sCloseCombatDescription,
+	[MOVE_PAYBACK - 1] = sPaybackDescription,
+	[MOVE_ASSURANCE - 1] = sAssuranceDescription,
+	[MOVE_EMBARGO - 1] = sEmbargoDescription,
+	[MOVE_FLING - 1] = sFlingDescription,
+	[MOVE_PSYCHO_SHIFT - 1] = sPsychoShiftDescription,
+	[MOVE_TRUMP_CARD - 1] = sTrumpCardDescription,
+	[MOVE_HEAL_BLOCK - 1] = sHealBlockDescription,
+	[MOVE_WRING_OUT - 1] = sWringOutDescription,
+	[MOVE_POWER_TRICK - 1] = sPowerTrickDescription,
+	[MOVE_GASTRO_ACID - 1] = sGastroAcidDescription,
+	[MOVE_LUCKY_CHANT - 1] = sLuckyChantDescription,
+	[MOVE_ME_FIRST - 1] = sMeFirstDescription,
+	[MOVE_COPYCAT - 1] = sCopycatDescription,
+	[MOVE_POWER_SWAP - 1] = sPowerSwapDescription,
+	[MOVE_GUARD_SWAP - 1] = sGuardSwapDescription,
+	[MOVE_PUNISHMENT - 1] = sPunishmentDescription,
+	[MOVE_LAST_RESORT - 1] = sLastResortDescription,
+	[MOVE_WORRY_SEED - 1] = sWorrySeedDescription,
+	[MOVE_SUCKER_PUNCH - 1] = sSuckerPunchDescription,
+	[MOVE_TOXIC_SPIKES - 1] = sToxicSpikesDescription,
+	[MOVE_HEART_SWAP - 1] = sHeartSwapDescription,
+	[MOVE_AQUA_RING - 1] = sAquaRingDescription,
+	[MOVE_MAGNET_RISE - 1] = sMagnetRiseDescription,
+	[MOVE_FLARE_BLITZ - 1] = sFlareBlitzDescription,
+	[MOVE_FORCE_PALM - 1] = sForcePalmDescription,
+	[MOVE_AURA_SPHERE - 1] = sAuraSphereDescription,
+	[MOVE_ROCK_POLISH - 1] = sRockPolishDescription,
+	[MOVE_POISON_JAB - 1] = sPoisonJabDescription,
+	[MOVE_DARK_PULSE - 1] = sDarkPulseDescription,
+	[MOVE_NIGHT_SLASH - 1] = sNightSlashDescription,
+	[MOVE_AQUA_TAIL - 1] = sAquaTailDescription,
+	[MOVE_SEED_BOMB - 1] = sSeedBombDescription,
+	[MOVE_AIR_SLASH - 1] = sAirSlashDescription,
+	[MOVE_X_SCISSOR - 1] = sXScissorDescription,
+	[MOVE_BUG_BUZZ - 1] = sBugBuzzDescription,
+	[MOVE_DRAGON_PULSE - 1] = sDragonPulseDescription,
+	[MOVE_DRAGON_RUSH - 1] = sDragonRushDescription,
+	[MOVE_POWER_GEM - 1] = sPowerGemDescription,
+	[MOVE_DRAIN_PUNCH - 1] = gMoveDescription_MegaDrain,
+	[MOVE_VACUUM_WAVE - 1] = sVacuumWaveDescription,
+	[MOVE_FOCUS_BLAST - 1] = sFocusBlastDescription,
+	[MOVE_ENERGY_BALL - 1] = sEnergyBallDescription,
+	[MOVE_BRAVE_BIRD - 1] = sBraveBirdDescription,
+	[MOVE_EARTH_POWER - 1] = sEarthPowerDescription,
+	[MOVE_SWITCHEROO - 1] = sSwitcherooDescription,
+	[MOVE_GIGA_IMPACT - 1] = gMoveDescription_HyperBeam,
+	[MOVE_NASTY_PLOT - 1] = sNastyPlotDescription,
+	[MOVE_BULLET_PUNCH - 1] = sBulletPunchDescription,
+	[MOVE_AVALANCHE - 1] = gMoveDescription_Revenge,
+	[MOVE_ICE_SHARD - 1] = sIceShardDescription,
+	[MOVE_SHADOW_CLAW - 1] = sShadowClawDescription,
+	[MOVE_THUNDER_FANG - 1] = sThunderFangDescription,
+	[MOVE_ICE_FANG - 1] = sIceFangDescription,
+	[MOVE_FIRE_FANG - 1] = sFireFangDescription,
+	[MOVE_SHADOW_SNEAK - 1] = sShadowSneakDescription,
+	[MOVE_MUD_BOMB - 1] = sMudBombDescription,
+	[MOVE_PSYCHO_CUT - 1] = sPsychoCutDescription,
+	[MOVE_ZEN_HEADBUTT - 1] = sZenHeadbuttDescription,
+	[MOVE_MIRROR_SHOT - 1] = sMirrorShotDescription,
+	[MOVE_FLASH_CANNON - 1] = sFlashCannonDescription,
+	[MOVE_ROCK_CLIMB - 1] = sRockClimbDescription,
+	[MOVE_DEFOG - 1] = sDefogDescription,
+	[MOVE_TRICK_ROOM - 1] = sTrickRoomDescription,
+	[MOVE_DRACO_METEOR - 1] = sDracoMeteorDescription,
+	[MOVE_DISCHARGE - 1] = sDischargeDescription,
+	[MOVE_LAVA_PLUME - 1] = sLavaPlumeDescription,
+	[MOVE_LEAF_STORM - 1] = sLeafStormDescription,
+	[MOVE_POWER_WHIP - 1] = sPowerWhipDescription,
+	[MOVE_ROCK_WRECKER - 1] = gMoveDescription_HyperBeam,
+	[MOVE_CROSS_POISON - 1] = sCrossPoisonDescription,
+	[MOVE_GUNK_SHOT - 1] = sGunkShotDescription,
+	[MOVE_IRON_HEAD - 1] = sIronHeadDescription,
+	[MOVE_MAGNET_BOMB - 1] = sMagnetBombDescription,
+	[MOVE_STONE_EDGE - 1] = sStoneEdgeDescription,
+	[MOVE_CAPTIVATE - 1] = sCaptivateDescription,
+	[MOVE_STEALTH_ROCK - 1] = sStealthRockDescription,
+	[MOVE_GRASS_KNOT - 1] = sGrassKnotDescription,
+	[MOVE_CHATTER - 1] = sChatterDescription,
+	[MOVE_JUDGMENT - 1] = sJudgmentDescription,
+	[MOVE_BUG_BITE - 1] = sPluckDescription,
+	[MOVE_CHARGE_BEAM - 1] = sChargeBeamDescription,
+	[MOVE_WOOD_HAMMER - 1] = sWoodHammerDescription,
+	[MOVE_AQUA_JET - 1] = sAquaJetDescription,
+	[MOVE_ATTACK_ORDER - 1] = sAttackOrderDescription,
+	[MOVE_DEFEND_ORDER - 1] = sDefendOrderDescription,
+	[MOVE_HEAL_ORDER - 1] = sHealOrderDescription,
+	[MOVE_HEAD_SMASH - 1] = sHeadSmashDescription,
+	[MOVE_DOUBLE_HIT - 1] = sDoubleHitDescription,
+	[MOVE_ROAR_OF_TIME - 1] = sRoarOfTimeDescription,
+	[MOVE_SPACIAL_REND - 1] = sSpacialRendDescription,
+	[MOVE_LUNAR_DANCE - 1] = sHealingWishDescription,
+	[MOVE_CRUSH_GRIP - 1] = sWringOutDescription,
+	[MOVE_MAGMA_STORM - 1] = sMagmaStormDescription,
+	[MOVE_DARK_VOID - 1] = sDarkVoidDescription,
+	[MOVE_SEED_FLARE - 1] = sSeedFlareDescription,
+	[MOVE_OMINOUS_WIND - 1] = sOminousWindDescription,
+	[MOVE_SHADOW_FORCE - 1] = sShadowForceDescription,
 };

@@ -89,11 +89,25 @@
 #define VARIOUS_RETURN_OPPONENT_MON2            10
 #define VARIOUS_CHECK_POKEFLUTE                 11
 #define VARIOUS_WAIT_FANFARE                    12
+#define VARIOUS_INSTANT_HP_DROP                      31
+#define VARIOUS_CLEAR_STATUS                         32
+#define VARIOUS_RESTORE_PP                           33
+#define VARIOUS_SET_LUCKY_CHANT                      37
+#define VARIOUS_SUCKER_PUNCH_CHECK                   38
+#define VARIOUS_TRY_ME_FIRST                         44
+#define VARIOUS_TRY_LAST_RESORT                      49
+#define VARIOUS_TRY_COPYCAT                          56
+#define VARIOUS_PSYCHO_SHIFT                         57
+#define VARIOUS_DEFOG                                58
+#define VARIOUS_POWER_TRICK                          59
+#define VARIOUS_CURE_STATUS                          62
+#define VARIOUS_ACUPRESSURE                          68
 
 // Cmd_manipulatedmg
 #define DMG_CHANGE_SIGN            0
 #define DMG_RECOIL_FROM_MISS       1
 #define DMG_DOUBLED                2
+#define DMG_FULL_ATTACKER_HP       3
 
 // Cmd_jumpifcantswitch
 #define SWITCH_IGNORE_ESCAPE_PREVENTION   (1 << 7)
