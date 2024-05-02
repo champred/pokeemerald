@@ -672,7 +672,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_ACID] =
 	{
-		.effect = EFFECT_DEFENSE_DOWN_HIT,
+		.effect = EFFECT_SPECIAL_DEFENSE_DOWN_HIT,
 		.power = 40,
 		.type = TYPE_POISON,
 		.accuracy = 100,
@@ -3155,7 +3155,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_CRUNCH] =
 	{
-		.effect = EFFECT_SPECIAL_DEFENSE_DOWN_HIT,
+		.effect = EFFECT_DEFENSE_DOWN_HIT,
 		.power = 80,
 		.type = TYPE_DARK,
 		.accuracy = 100,
@@ -4806,7 +4806,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_U_TURN] =
 	{
-		.effect = EFFECT_BATON_PASS,
+		.effect = EFFECT_HIT,
 		.power = 70,
 		.type = TYPE_BUG,
 		.accuracy = 100,
@@ -4897,7 +4897,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_TRUMP_CARD] =
 	{
-		.effect = EFFECT_HIT,
+		.effect = EFFECT_ALWAYS_HIT,
 		.power = 40,
 		.type = TYPE_NORMAL,
 		.accuracy = 0,
@@ -5041,7 +5041,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 	[MOVE_LAST_RESORT] =
 	{
 		.power = 130,
-		.effect = EFFECT_HIT,
+		.effect = EFFECT_LAST_RESORT,
 		.type = TYPE_NORMAL,
 		.accuracy = 100,
 		.pp = 5,
@@ -5158,7 +5158,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 	[MOVE_AURA_SPHERE] =
 	{
 		.power = 90,
-		.effect = EFFECT_HIT,
+		.effect = EFFECT_ALWAYS_HIT,
 		.type = TYPE_FIGHTING,
 		.accuracy = 0,
 		.pp = 20,
@@ -5768,7 +5768,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_MAGNET_BOMB] =
 	{
-		.effect = EFFECT_HIT,
+		.effect = EFFECT_ALWAYS_HIT,
 		.power = 60,
 		.type = TYPE_STEEL,
 		.accuracy = 0,

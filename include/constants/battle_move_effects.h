@@ -243,5 +243,6 @@
 #define EFFECT_FEINT                        239
 #define EFFECT_BUG_BITE                     240
 #define EFFECT_HAMMER_ARM                   241
+#define EFFECT_LAST_RESORT                  242
 
 #endif  // GUARD_CONSTANTS_BATTLE_MOVE_EFFECTS_H

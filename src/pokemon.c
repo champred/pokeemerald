@@ -2420,17 +2420,6 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
 	    	if (gProtectStructs[battlerIdDef].physicalDmg != 0 || gProtectStructs[battlerIdDef].specialDmg != 0 || gProtectStructs[battlerIdDef].confusionSelfDmg)
 			gBattleMovePower *= 2;
 		break;
-	    case MOVE_FEINT:
-	    	if(!gProtectStructs[battlerIdDef].protected)
-			gBattleMovePower=0;
-		break;
-	    case MOVE_LAST_RESORT:
-	    	for(i=0;i<MAX_MON_MOVES;i++){
-			attackerHoldEffect=attacker->moves[i];
-			if(attackerHoldEffect!=move&&gBattleMoves[attackerHoldEffect].pp<=attacker->pp[i])//TODO PP bonus
-				gBattleMovePower=0;
-		}
-		break;
 	    case MOVE_TRUMP_CARD:
 	    	for(i=0;i<MAX_MON_MOVES;i++){
 			if(attacker->moves[i]==move)break;

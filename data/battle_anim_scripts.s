@@ -10306,6 +10306,7 @@ createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 2, F_PAL_BG, 1, 7
 	createvisualtask AnimTask_BlendColorCycle, 2, F_PAL_BG, 1, 2, 0, 10, RGB_BLACK
 	call MindReaderEyeSpikeEffect
 	waitforvisualfinish
+	call UnsetPsychicBg
 	clearmonbg ANIM_DEF_PARTNER
 	end
 
@@ -10890,6 +10891,7 @@ createvisualtask AnimTask_BlendColorCycle, 2, F_PAL_TARGET, 2, 2, 0, 12, RGB(30,
 	delay 3
 	createsprite gSlideMonToOriginalPosSpriteTemplate, 2, 3, 1, 0, 7
 	waitforvisualfinish
+	call UnsetHighSpeedBg
 	end
 
 	Move_WORRY_SEED:
@@ -11647,6 +11649,7 @@ createvisualtask AnimTask_BlendColorCycle, 2, F_PAL_TARGET, 2, 2, 0, 12, RGB(30,
 	delay 54
 	loopsewithpan SE_M_METRONOME, SOUND_PAN_ATTACKER, 16, 3
 	waitforvisualfinish
+	call UnsetPsychicBg
 	end
 
 	Move_BULLET_PUNCH:
@@ -11935,29 +11938,6 @@ createvisualtask AnimTask_BlendBattleAnimPal, 10, 4, 2, 9, 0, RGB(12, 26, 31)
 	end
 
 	Move_PSYCHO_CUT:
-	loadspritegfx ANIM_TAG_SPIRAL
-	loadspritegfx ANIM_TAG_CROSS_IMPACT
-	monbg ANIM_ATK_PARTNER
-	createvisualtask AnimTask_SwayMon, 5, 0, 6, 2048, 2, ANIM_ATTACKER
-	createvisualtask AnimTask_BlendBattleAnimPal, 1, 1, 2, 0,  4, RGB_BLACK
-createvisualtask AnimTask_BlendBattleAnimPal, 1, 2, 2, 0, 10, RGB(20, 12, 23)
-	delay 30
-	clearmonbg ANIM_ATK_PARTNER
-	waitforvisualfinish
-	monbg ANIM_TARGET
-	splitbgprio ANIM_TARGET
-	setalpha 12, 8
-	playsewithpan SE_M_RAZOR_WIND2, SOUND_PAN_ATTACKER
-	waitforvisualfinish
-	createvisualtask AnimTask_ShakeMon, 5, ANIM_TARGET, 7, 0, 9, 1
-	createsprite gCrossImpactSpriteTemplate, ANIM_ATTACKER, 3, 0, 0, 1, 20
-	createvisualtask AnimTask_BlendBattleAnimPal, 1, 1, 2, 4,  0, RGB_BLACK
-createvisualtask AnimTask_BlendBattleAnimPal, 1, 2, 2, 10, 0, RGB(20, 12, 23)
-	clearmonbg ANIM_TARGET
-	blendoff
-	waitforvisualfinish
-	end
-
 	Move_ZEN_HEADBUTT:
 	loadspritegfx ANIM_TAG_CIRCLE_OF_LIGHT
 	loadspritegfx ANIM_TAG_WATER_IMPACT
@@ -12330,11 +12310,9 @@ createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 2, 1, 1, 12, 0, R
 
 	Move_ROCK_WRECKER:
 	jumpargeq 7, 1, RockWrecker_1
-	waitbgfadeout
 	createvisualtask AnimTask_StartSlidingBg, 5, -1024, 0, 1, -1
 	goto RockWrecker_2
 	RockWrecker_1:
-	waitbgfadeout
 	createvisualtask AnimTask_StartSlidingBg, 5, -1024, 0, 0, -1
 	loadspritegfx ANIM_TAG_ROCKS
 	loadspritegfx ANIM_TAG_IMPACT
@@ -12351,6 +12329,7 @@ createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 2, 1, 1, 12, 0, R
 	createsprite gRockFragmentSpriteTemplate, 130, 6, 0, 5, 20, -18, 14, 2
 	createsprite gRockFragmentSpriteTemplate, 130, 6, -5, 0, -20, -18, 14, 2
 	waitforvisualfinish
+	call UnsetPsychicBg
 	end
 	RockWrecker_2:
 	loadspritegfx ANIM_TAG_ROCKS
@@ -12368,6 +12347,7 @@ createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 2, 1, 1, 12, 0, R
 	createsprite gRockFragmentSpriteTemplate 130, 6, 0, 5, 20, -18, 14, 2
 	createsprite gRockFragmentSpriteTemplate 130, 6, -5, 0, -20, -18, 14, 2
 	waitforvisualfinish
+	call UnsetPsychicBg
 	end
 
 	Move_CROSS_POISON:
@@ -12922,19 +12902,10 @@ createvisualtask AnimTask_BlendBattleAnimPal, 10, F_PAL_TARGET, 2, 11, 0, RGB(31
 
 	Move_MAGMA_STORM:
 	loadspritegfx ANIM_TAG_SMALL_EMBER
-	waitbgfadeout
-	createvisualtask AnimTask_MoveSeismicTossBg, 3
 	playsewithpan SE_M_SACRED_FIRE2, SOUND_PAN_TARGET
 	loopsewithpan SE_M_SACRED_FIRE2, SOUND_PAN_TARGET, 5, 8
-	createvisualtask AnimTask_SeismicTossBgAccelerateDownAtEnd, 3
 	createvisualtask AnimTask_ShakeMon, 5, ANIM_TARGET, 0, 2, 47, 1
-createvisualtask AnimTask_BlendColorCycle, 2, (F_PAL_ATTACKER | F_PAL_TARGET), 4, 2, 2, 0, 12, RGB(22, 9, 7)
-	call FireSpinEffect
-	call FireSpinEffect
-createvisualtask AnimTask_BlendColorCycle, 2, (F_PAL_ATTACKER | F_PAL_TARGET), 4, 2, 2, 0, 12, RGB(22, 9, 7)
-	call FireSpinEffect
-	call FireSpinEffect
-createvisualtask AnimTask_BlendColorCycle, 2, (F_PAL_ATTACKER | F_PAL_TARGET), 4, 2, 2, 0, 12, RGB(22, 9, 7)
+	createvisualtask AnimTask_BlendColorCycle, 2, (F_PAL_ATTACKER | F_PAL_TARGET), 4, 2, 2, 0, 12, RGB(22, 9, 7)
 	call FireSpinEffect
 	restorebg
 	waitbgfadeout
@@ -12948,7 +12919,6 @@ createvisualtask AnimTask_BlendColorCycle, 2, (F_PAL_ATTACKER | F_PAL_TARGET), 4
 	loadspritegfx ANIM_TAG_WHITE_SHADOW @Destiny Bond
 	loadspritegfx ANIM_TAG_SPARKLE_2 @Healing Stars
 	loadspritegfx ANIM_TAG_POISON_BUBBLE @Poison
-	waitbgfadeout
 	createvisualtask AnimTask_StartSlidingBg, 5, 0, 0xFFA0, 1, 0xffff
 	waitbgfadein
 	createvisualtask AnimTask_DestinyBondWhiteShadow, 5, 0, 0x30
@@ -12963,6 +12933,7 @@ createvisualtask AnimTask_BlendColorCycle, 2, (F_PAL_ATTACKER | F_PAL_TARGET), 4
 	createsprite gSlideMonToOriginalPosSpriteTemplate, ANIM_ATTACKER, 2, ANIM_TARGET, 0, 16
 	createsprite gSlideMonToOriginalPosSpriteTemplate, ANIM_ATTACKER, 2, ANIM_DEF_PARTNER, 0, 16
 	delay 0x20
+	call UnsetPsychicBg
 	visible ANIM_TARGET
 	visible ANIM_DEF_PARTNER
 	end
@@ -13104,12 +13075,27 @@ createvisualtask AnimTask_BlendColorCycle, 2, (F_PAL_ATTACKER | F_PAL_TARGET), 4
 	waitforvisualfinish
 	clearmonbg ANIM_ATTACKER
 	delay 1
+	call UnsetPsychicBg
 	waitbgfadein
 	goto ShadowForceWaitEnd
 	ShadowForceBg:
 	fadetobg BG_DARK
 	waitbgfadeout
 	createvisualtask AnimTask_FadeScreenToWhite, 5
+	waitbgfadein
+	return
+
+UnsetPsychicBg:
+	restorebg
+	waitbgfadeout
+	setarg 7, 0xFFFF
+	waitbgfadein
+	return
+
+UnsetHighSpeedBg:
+	restorebg
+	waitbgfadeout
+	setarg 7, -1
 	waitbgfadein
 	return
 
@@ -14076,4 +14062,3 @@ createsprite gSimplePaletteBlendSpriteTemplate, ANIM_ATTACKER, 0, F_PAL_TARGET, 
 	Special_MonToSubstitute:
 	createvisualtask AnimTask_SwapMonSpriteToFromSubstitute, 2, FALSE
 	end
-

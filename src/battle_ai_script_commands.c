@@ -469,6 +469,25 @@ static void RecordLastUsedMoveByTarget(void)
     }
 }
 
+bool32 CanUseLastResort(u8 battlerId)
+{
+	s32 i;
+	u32 knownMovesCount = 0, usedMovesCount = 0;
+
+	for (i = 0; i < MAX_MON_MOVES; i++)
+	{
+		if (gBattleMons[battlerId].moves[i] != MOVE_NONE)
+			knownMovesCount++;
+	}
+	RecordLastUsedMoveByTarget();
+	for(i=0;i<8;i++){
+		if(BATTLE_HISTORY->usedMoves[battlerId][i])
+			usedMovesCount++;
+	}
+
+	return (knownMovesCount >= 2 && usedMovesCount >= knownMovesCount - 1);
+}
+
 // not used
 static void ClearBattlerMoveHistory(u8 battlerId)
 {

@@ -6421,6 +6421,12 @@ static void Cmd_various(void)
 		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
 	}
 	return;
+    case VARIOUS_TRY_LAST_RESORT:
+	if (CanUseLastResort(gActiveBattler))
+		gBattlescriptCurrInstr += 7;
+	else
+		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
+	return;
     }
 
     gBattlescriptCurrInstr += 3;
@@ -6682,6 +6688,12 @@ static void Cmd_manipulatedamage(void)
     case DMG_DOUBLED:
         gBattleMoveDamage *= 2;
         break;
+    case DMG_FULL_ATTACKER_HP:
+        gBattleMoveDamage = gBattleMons[gBattlerAttacker].maxHP;
+	break;
+    default:
+    	gBattleMoveDamage = 0;
+	break;
     }
 
     gBattlescriptCurrInstr += 2;

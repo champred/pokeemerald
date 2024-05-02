@@ -263,6 +263,7 @@ gBattleScriptsForMoveEffects::
 	.4byte BattleScript_EffectFeint                  @ EFFECT_FEINT
 	.4byte BattleScript_EffectBugBite                @ EFFECT_BUG_BITE
 	.4byte BattleScript_EffectHammerArm              @ EFFECT_HAMMER_ARM
+	.4byte BattleScript_EffectLastResort             @ EFFECT_LAST_RESORT
 
 BattleScript_EffectHit::
 	jumpifnotmove MOVE_SURF, BattleScript_HitFromAtkCanceler
@@ -4438,7 +4439,7 @@ BattleScript_EffectFling:
 	ppreduce
 	critcalc
 	damagecalc
-	adjustdamage
+	adjustnormaldamage
 	removeitem BS_ATTACKER
 	attackanimation
 	waitanimation
@@ -4479,7 +4480,7 @@ BattleScript_EffectNaturalGift:
 	accuracycheck BattleScript_MoveMissedPause, ACC_CURR_MOVE
 	critcalc
 	damagecalc
-	adjustdamage
+	adjustnormaldamage
 	attackanimation
 	waitanimation
 	effectivenesssound
@@ -4523,7 +4524,7 @@ BattleScript_EffectMetalBurst:
 	ppreduce
 	typecalc
 	bichalfword gMoveResultFlags, MOVE_RESULT_NOT_VERY_EFFECTIVE | MOVE_RESULT_SUPER_EFFECTIVE
-	adjustdamage
+	adjustsetdamage
 	goto BattleScript_HitFromAtkAnimation
 
 BattleScript_EffectHealingWish:
@@ -4558,7 +4559,7 @@ BattleScript_EffectHealingWishNewMon:
 	waitmessage B_WAIT_TIME_LONG
 	playanimation BS_ATTACKER, B_ANIM_WISH_HEAL
 	waitanimation
-	dmgtomaxattackerhp
+	manipulatedamage DMG_FULL_ATTACKER_HP
 	manipulatedamage DMG_CHANGE_SIGN
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
@@ -4661,7 +4662,7 @@ BattleScript_EffectHealBlock:
 	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
 	attackstring
 	ppreduce
-	sethealblock BattleScript_ButItFailed
+	@sethealblock BattleScript_ButItFailed
 	attackanimation
 	waitanimation
 	printstring STRINGID_PKMNPREVENTEDFROMHEALING
@@ -4672,7 +4673,7 @@ BattleScript_EffectAquaRing:
 	attackcanceler
 	attackstring
 	ppreduce
-	setuserstatus3 STATUS3_AQUA_RING, BattleScript_ButItFailed
+	@setuserstatus3 STATUS3_AQUA_RING, BattleScript_ButItFailed
 	attackanimation
 	waitanimation
 	printstring STRINGID_PKMNSURROUNDEDWITHVEILOFWATER
@@ -4695,7 +4696,7 @@ BattleScript_EffectTailwind:
 	attackcanceler
 	attackstring
 	ppreduce
-	settailwind BattleScript_ButItFailed
+	@settailwind BattleScript_ButItFailed
 	attackanimation
 	waitanimation
 	printstring STRINGID_TAILWINDBLEW
@@ -4721,7 +4722,7 @@ BattleScript_EffectGravity:
 	attackcanceler
 	attackstring
 	ppreduce
-	setgravity BattleScript_ButItFailed
+	@setgravity BattleScript_ButItFailed
 	attackanimation
 	waitanimation
 	BattleScript_EffectGravitySuccess::
@@ -4735,7 +4736,7 @@ BattleScript_EffectRoost:
 	attackstring
 	ppreduce
 	tryhealhalfhealth BattleScript_AlreadyAtFullHp, BS_TARGET
-	setroost
+	@setroost
 	goto BattleScript_PresentHealTarget
 
 BattleScript_EffectMeFirst:
@@ -4781,7 +4782,7 @@ BattleScript_EffectPsychoShift:
 	goto BattleScript_ButItFailed
 BattleScript_EffectPsychoShiftCanWork:
 	jumpifstatus BS_TARGET, STATUS1_ANY, BattleScript_ButItFailed
-	jumpifsafeguard BattleScript_SafeguardProtected
+	jumpifsideaffecting BS_TARGET, SIDE_STATUS_SAFEGUARD, BattleScript_SafeguardProtected
 	trypsychoshift BattleScript_ButItFailed
 	attackanimation
 	waitanimation
@@ -4830,7 +4831,7 @@ BattleScript_EffectToxicSpikes:
 	attackcanceler
 	attackstring
 	ppreduce
-	settoxicspikes BattleScript_ButItFailed
+	@settoxicspikes BattleScript_ButItFailed
 	attackanimation
 	waitanimation
 	printstring STRINGID_POISONSPIKESSCATTERED
@@ -4852,7 +4853,7 @@ BattleScript_EffectTrickRoom:
 	attackcanceler
 	attackstring
 	ppreduce
-	setroom
+	@setroom
 	attackanimation
 	waitanimation
 	printfromtable gRoomsStringIds
@@ -4864,7 +4865,7 @@ BattleScript_EffectStealthRock:
 	attackcanceler
 	attackstring
 	ppreduce
-	setstealthrock BattleScript_ButItFailed
+	@setstealthrock BattleScript_ButItFailed
 	attackanimation
 	waitanimation
 	printstring STRINGID_POINTEDSTONESFLOAT
@@ -4966,3 +4967,11 @@ BattleScript_DefSpDefDownTrySpDef::
 	waitmessage B_WAIT_TIME_LONG
 BattleScript_DefSpDefDownRet::
 	return
+
+BattleScript_EffectLastResort::
+	attackcanceler
+	attackstring
+	ppreduce
+	jumpifcantuselastresort BS_ATTACKER, BattleScript_ButItFailed
+	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
+	goto BattleScript_HitFromCritCalc
