@@ -5626,10 +5626,10 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 	[MOVE_DEFOG] =
 	{
 		.flags = FLAG_PROTECT_AFFECTED | FLAG_STATUS | FLAG_MIRROR_MOVE_AFFECTED,
-		.effect = EFFECT_EVASION_DOWN,
+		.effect = EFFECT_DEFOG,
 		.power = 0,
 		.type = TYPE_FLYING,
-		.accuracy = 0,
+		.accuracy = 100,
 		.pp = 15,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,

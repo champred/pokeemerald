@@ -6108,6 +6108,45 @@ static void Cmd_useitemonopponent(void)
     gBattlescriptCurrInstr++;
 }
 
+#define DEFOG_CLEAR(status, structField, battlescript, move)\
+{                                                           \
+	if (*sideStatuses & status)                             \
+	{                                                       \
+		if (clear)                                          \
+		{                                                   \
+			if (move)                                       \
+			PREPARE_MOVE_BUFFER(gBattleTextBuff1, move);\
+			*sideStatuses &= ~status;                       \
+			sideTimer->structField = 0;                     \
+			BattleScriptPushCursor();                       \
+			gBattlescriptCurrInstr = battlescript;          \
+		}                                                   \
+		return TRUE;                                        \
+	}                                                       \
+}
+
+static bool32 ClearDefogHazards(u8 battlerAtk, bool32 clear)
+{
+	s32 i;
+	for (i = 0; i < 2; i++)
+	{
+		struct SideTimer *sideTimer = &gSideTimers[i];
+		u16 *sideStatuses = &gSideStatuses[i];
+
+		gBattlerAttacker = i;
+		if (GetBattlerSide(battlerAtk) != i)
+		{
+			DEFOG_CLEAR(SIDE_STATUS_REFLECT, reflectTimer, BattleScript_SideStatusWoreOff, MOVE_REFLECT);
+			DEFOG_CLEAR(SIDE_STATUS_LIGHTSCREEN, lightscreenTimer, BattleScript_SideStatusWoreOff, MOVE_LIGHT_SCREEN);
+			DEFOG_CLEAR(SIDE_STATUS_MIST, mistTimer, BattleScript_SideStatusWoreOff, MOVE_MIST);
+			DEFOG_CLEAR(SIDE_STATUS_SAFEGUARD, safeguardTimer, BattleScript_SideStatusWoreOff, MOVE_SAFEGUARD);
+		}
+		DEFOG_CLEAR(SIDE_STATUS_SPIKES, spikesAmount, BattleScript_SpikesFree, 0);
+	}
+
+	return FALSE;
+}
+
 static bool32 CanBeStatused(u16 status,u8 battlerId){
 	struct BattlePokemon bp=gBattleMons[battlerId];
 	if(bp.status1)return FALSE;
@@ -6371,7 +6410,7 @@ static void Cmd_various(void)
 	}
 	return;
     case VARIOUS_DEFOG:
-	/*if (T1_READ_8(gBattlescriptCurrInstr + 3)) // Clear
+	if (T1_READ_8(gBattlescriptCurrInstr + 3)) // Clear
 	{
 		if (ClearDefogHazards(gEffectBattler, TRUE))
 			return;
@@ -6382,9 +6421,9 @@ static void Cmd_various(void)
 	{
 		if (ClearDefogHazards(gActiveBattler, FALSE))
 			gBattlescriptCurrInstr += 8;
-		else*/
+		else
 			gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 4);
-	//}
+	}
 	return;
     case VARIOUS_PSYCHO_SHIFT:
 	if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_POISON) && CanBeStatused(STATUS1_POISON, gBattlerTarget))
@@ -6421,7 +6460,7 @@ static void Cmd_various(void)
 	bits = 0;
 	for (i = STAT_ATK; i < NUM_BATTLE_STATS; i++)
 	{
-		//if (CompareStat(gActiveBattler, i, MAX_STAT_STAGE, CMP_LESS_THAN))
+		if (gBattleMons[gActiveBattler].statStages[i] < MAX_STAT_STAGE)
 			bits |= gBitTable[i];
 	}
 	if (bits)
