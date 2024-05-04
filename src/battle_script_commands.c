@@ -2799,12 +2799,12 @@ void SetMoveEffect(bool8 primary, u8 certain)
 		gBattlescriptCurrInstr = BattleScript_DefSpDefDown;
 		break;
 	    case MOVE_EFFECT_FEINT:
+		BattleScriptPush(gBattlescriptCurrInstr + 1);
 		if (gProtectStructs[gBattlerTarget].protected)
 		{
 			gProtectStructs[gBattlerTarget].protected = FALSE;
-			BattleScriptPush(gBattlescriptCurrInstr + 1);
 			gBattlescriptCurrInstr = BattleScript_MoveEffectFeint;
-		}
+		}else gBattlescriptCurrInstr=BattleScript_ButItFailed;
 		break;
 	    case MOVE_EFFECT_BUG_BITE:
 		if (IS_BERRY(gBattleMons[gEffectBattler].item) && gBattleMons[gEffectBattler].ability != ABILITY_STICKY_HOLD)
@@ -6338,13 +6338,13 @@ static void Cmd_various(void)
 	}
 	return;
     case VARIOUS_TRY_COPYCAT:
-	/*if (gLastUsedMove == 0xFFFF || (sForbiddenMoves[gLastUsedMove] & FORBIDDEN_COPYCAT))
+	if (LastUsedMove() == 0xFFFF)
 	{
 		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
 	}
-	else*/
+	else
 	{
-		gCalledMove = gBattleMons[gBattlerTarget].moves[gBattleStruct->chosenMovePositions[gBattlerTarget]];
+		gCalledMove = LastUsedMove();
 		gHitMarker &= ~HITMARKER_ATTACKSTRING_PRINTED;
 		gBattlerTarget = GetMoveTarget(gCalledMove, NO_TARGET_OVERRIDE);
 		gBattlescriptCurrInstr += 7;

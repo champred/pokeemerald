@@ -4934,11 +4934,16 @@ BattleScript_EffectCloseCombat:
 BattleScript_MoveEffectFeint::
 	printstring STRINGID_FELLFORFEINT
 	waitmessage B_WAIT_TIME_LONG
-	return
+	goto BattleScript_HitFromCritCalc
 
 BattleScript_EffectFeint:
 	setmoveeffect MOVE_EFFECT_FEINT
-	goto BattleScript_EffectHit
+	attackcanceler
+	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
+	attackstring
+	ppreduce
+	seteffectwithchance
+	return
 
 BattleScript_MoveEffectBugBite::
 	printstring STRINGID_BUGBITE

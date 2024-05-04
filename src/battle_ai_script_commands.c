@@ -473,28 +473,55 @@ bool32 CanUseLastResort(u8 battlerId)
 {
 	s32 i;
 	u32 knownMovesCount = 0, usedMovesCount = 0;
+	u16 moves[5]={};
 
 	for (i = 0; i < MAX_MON_MOVES; i++)
 	{
-		if (gBattleMons[battlerId].moves[i] != MOVE_NONE)
+		moves[i]=gBattleMons[battlerId].moves[i];
+		if (moves[i] != MOVE_NONE)
 			knownMovesCount++;
 	}
 	RecordLastUsedMoveByTarget();
 	for(i=0;i<8;i++){
-		if(BATTLE_HISTORY->usedMoves[battlerId][i])
+		moves[4]=BATTLE_HISTORY->usedMoves[battlerId>>1][i];
+		if(moves[4]&&moves[4]!=MOVE_LAST_RESORT){
+			if(moves[4]==moves[0])moves[0]=MOVE_NONE;
+			else if(moves[4]==moves[1])moves[1]=MOVE_NONE;
+			else if(moves[4]==moves[2])moves[2]=MOVE_NONE;
+			else if(moves[4]==moves[3])moves[3]=MOVE_NONE;
+			else continue;
 			usedMovesCount++;
+		}
 	}
 
 	return (knownMovesCount >= 2 && usedMovesCount >= knownMovesCount - 1);
 }
 
-// not used
 static void ClearBattlerMoveHistory(u8 battlerId)
 {
     s32 i;
 
     for (i = 0; i < 8; i++)
-        BATTLE_HISTORY->usedMoves[battlerId / 2][i] = MOVE_NONE;
+        BATTLE_HISTORY->usedMoves[battlerId][i] = MOVE_NONE;
+}
+
+#define IS_LEGAL(move)(move&&move!=MOVE_COPYCAT)
+u16 LastUsedMove(void){
+	s32 i;
+	u16 move=0xffff;
+	RecordLastUsedMoveByTarget();
+	for(i=7;i>=0;i--){
+		if(IS_LEGAL(BATTLE_HISTORY->usedMoves[0][i])){
+			move = BATTLE_HISTORY->usedMoves[0][i];
+			ClearBattlerMoveHistory(0);
+			break;
+		}if(IS_LEGAL(BATTLE_HISTORY->usedMoves[1][i])){
+			move = BATTLE_HISTORY->usedMoves[1][i];
+			ClearBattlerMoveHistory(1);
+			break;
+		}
+	}
+	return move;
 }
 
 void RecordAbilityBattle(u8 battlerId, u8 abilityId)

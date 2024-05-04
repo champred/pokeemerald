@@ -19,6 +19,7 @@ void BufferMoveToLearnIntoBattleTextBuff2(void);
 void HandleBattleWindow(u8 xStart, u8 yStart, u8 xEnd, u8 yEnd, u8 flags);
 bool8 UproarWakeUpCheck(u8 battlerId);
 bool32 CanUseLastResort(u8 battlerId);
+u16 LastUsedMove(void);
 
 extern void (* const gBattleScriptingCommandsTable[])(void);
 
