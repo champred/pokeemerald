@@ -6108,6 +6108,26 @@ static void Cmd_useitemonopponent(void)
     gBattlescriptCurrInstr++;
 }
 
+static bool32 CanBeStatused(u16 status,u8 battlerId){
+	struct BattlePokemon bp=gBattleMons[battlerId];
+	if(bp.status1)return FALSE;
+	switch(status){
+		case STATUS1_SLEEP:
+		return bp.ability!=ABILITY_INSOMNIA&&bp.ability!=ABILITY_VITAL_SPIRIT;
+		case STATUS1_POISON:
+		case STATUS1_TOXIC_POISON:
+		return bp.ability!=ABILITY_IMMUNITY&&!IS_BATTLER_OF_TYPE(battlerId,TYPE_POISON)&&!IS_BATTLER_OF_TYPE(battlerId,TYPE_STEEL);
+		case STATUS1_BURN:
+		return bp.ability!=ABILITY_WATER_VEIL&&!IS_BATTLER_OF_TYPE(battlerId,TYPE_FIRE);
+		case STATUS1_FREEZE:
+		return bp.ability!=ABILITY_MAGMA_ARMOR&&!IS_BATTLER_OF_TYPE(battlerId,TYPE_ICE);
+		case STATUS1_PARALYSIS:
+		return bp.ability!=ABILITY_LIMBER;
+		default:
+		return FALSE;
+	}
+}
+
 static void Cmd_various(void)
 {
     u8 side, data[10];
@@ -6367,22 +6387,21 @@ static void Cmd_various(void)
 	//}
 	return;
     case VARIOUS_PSYCHO_SHIFT:
-	// Psycho shift works
-	/*if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_POISON) && CanBePoisoned(gBattlerAttacker, gBattlerTarget))
+	if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_POISON) && CanBeStatused(STATUS1_POISON, gBattlerTarget))
 		gBattleCommunication[MULTISTRING_CHOOSER] = 0;
-	else if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_TOXIC_POISON) && CanBePoisoned(gBattlerAttacker, gBattlerTarget))
+	else if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_TOXIC_POISON) && CanBeStatused(STATUS1_TOXIC_POISON, gBattlerTarget))
 		gBattleCommunication[MULTISTRING_CHOOSER] = 1;
-	else if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_BURN) && CanBeBurned(gBattlerTarget))
+	else if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_BURN) && CanBeStatused(STATUS1_BURN,gBattlerTarget))
 		gBattleCommunication[MULTISTRING_CHOOSER] = 2;
-	else if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_PARALYSIS) && CanBeParalyzed(gBattlerTarget))
+	else if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_PARALYSIS) && CanBeStatused(STATUS1_PARALYSIS,gBattlerTarget))
 		gBattleCommunication[MULTISTRING_CHOOSER] = 3;
-	else if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_SLEEP) && CanSleep(gBattlerTarget))
+	else if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_SLEEP) && CanBeStatused(STATUS1_SLEEP,gBattlerTarget))
 		gBattleCommunication[MULTISTRING_CHOOSER] = 4;
 	else 
 	{
 		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
 		return;
-	}*/
+	}
 	gBattleMons[gBattlerTarget].status1 = gBattleMons[gBattlerAttacker].status1 & STATUS1_ANY;
 	gActiveBattler = gBattlerTarget;
 	BtlController_EmitSetMonData(BUFFER_A, REQUEST_STATUS_BATTLE, 0, sizeof(gBattleMons[gActiveBattler].status1), &gBattleMons[gActiveBattler].status1);
