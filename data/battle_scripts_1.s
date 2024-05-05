@@ -258,7 +258,7 @@ gBattleScriptsForMoveEffects::
 	.4byte BattleScript_EffectToxicSpikes            @ EFFECT_TOXIC_SPIKES
 	.4byte BattleScript_EffectGastroAcid             @ EFFECT_GASTRO_ACID
 	.4byte BattleScript_EffectStealthRock            @ EFFECT_STEALTH_ROCK
-	.4byte BattleScript_EffectHit                    @ EFFECT_WAKE_UP_SLAP
+	.4byte BattleScript_EffectWakeUpSlap             @ EFFECT_WAKE_UP_SLAP
 	.4byte BattleScript_EffectCloseCombat            @ EFFECT_CLOSE_COMBAT
 	.4byte BattleScript_EffectFeint                  @ EFFECT_FEINT
 	.4byte BattleScript_EffectBugBite                @ EFFECT_BUG_BITE
@@ -2317,6 +2317,12 @@ BattleScript_SmellingsaltDoubleDmg::
 	setbyte sDMG_MULTIPLIER, 2
 	goto BattleScript_EffectHit
 
+BattleScript_EffectWakeUpSlap::
+	jumpifstatus2 BS_TARGET, STATUS2_SUBSTITUTE, BattleScript_EffectHit
+	setmoveeffect MOVE_EFFECT_REMOVE_SLEEP | MOVE_EFFECT_CERTAIN
+	jumpifstatus BS_TARGET, STATUS1_SLEEP, BattleScript_SmellingsaltDoubleDmg
+	goto BattleScript_EffectHit
+
 BattleScript_EffectFollowMe::
 	attackcanceler
 	attackstring
@@ -3721,6 +3727,12 @@ BattleScript_MonWokeUpInUproar::
 	updatestatusicon BS_ATTACKER
 	end2
 
+BattleScript_TargetWokeUp::
+	printstring STRINGID_TARGETWOKEUP
+	waitmessage B_WAIT_TIME_LONG
+	updatestatusicon BS_TARGET
+	return
+
 BattleScript_PoisonTurnDmg::
 	printstring STRINGID_PKMNHURTBYPOISON
 	waitmessage B_WAIT_TIME_LONG
@@ -4948,6 +4960,7 @@ BattleScript_EffectFeint:
 BattleScript_MoveEffectBugBite::
 	printstring STRINGID_BUGBITE
 	waitmessage B_WAIT_TIME_LONG
+	consumeberry BS_ATTACKER, FALSE
 	return
 
 BattleScript_EffectBugBite:

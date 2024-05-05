@@ -284,7 +284,7 @@
 #define MOVE_EFFECT_DEF_SPDEF_DOWN      55
 #define MOVE_EFFECT_FEINT               56
 #define MOVE_EFFECT_BUG_BITE            57
-#define MOVE_EFFECT_STEALTH_ROCK        58
+#define MOVE_EFFECT_REMOVE_SLEEP        58
 #define MOVE_EFFECT_SP_ATK_TWO_DOWN     59
 #define NUM_MOVE_EFFECTS                60
 

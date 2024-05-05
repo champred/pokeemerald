@@ -102,6 +102,7 @@
 #define VARIOUS_POWER_TRICK                          59
 #define VARIOUS_CURE_STATUS                          62
 #define VARIOUS_ACUPRESSURE                          68
+#define VARIOUS_CONSUME_BERRY                        112
 
 // Cmd_manipulatedmg
 #define DMG_CHANGE_SIGN            0

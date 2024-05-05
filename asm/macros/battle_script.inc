@@ -1398,6 +1398,11 @@
 	.4byte \jumpInstr
 	.endm
 
+	.macro consumeberry battler:req, frombattler:req
+	various \battler, VARIOUS_CONSUME_BERRY
+	.byte \frombattler
+	.endm
+
 @ helpful macros
 	.macro setstatchanger stat:req, stages:req, down:req
 	setbyte sSTATCHANGER \stat | \stages << 4 | \down << 7

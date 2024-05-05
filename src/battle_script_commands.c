@@ -2732,6 +2732,23 @@ void SetMoveEffect(bool8 primary, u8 certain)
                     gBattlescriptCurrInstr = BattleScript_TargetPRLZHeal;
                 }
                 break;
+            case MOVE_EFFECT_REMOVE_SLEEP: // Wake-up slap
+                if (!(gBattleMons[gBattlerTarget].status1 & STATUS1_SLEEP))
+                {
+                    gBattlescriptCurrInstr++;
+                }
+                else
+                {
+                    gBattleMons[gBattlerTarget].status1 &= ~STATUS1_SLEEP;
+
+                    gActiveBattler = gBattlerTarget;
+                    BtlController_EmitSetMonData(BUFFER_A, REQUEST_STATUS_BATTLE, 0, sizeof(gBattleMons[gActiveBattler].status1), &gBattleMons[gActiveBattler].status1);
+                    MarkBattlerForControllerExec(gActiveBattler);
+
+                    BattleScriptPush(gBattlescriptCurrInstr + 1);
+                    gBattlescriptCurrInstr = BattleScript_TargetWokeUp;
+                }
+                break;
             case MOVE_EFFECT_ATK_DEF_DOWN: // SuperPower
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
                 gBattlescriptCurrInstr = BattleScript_AtkDefDown;
@@ -2812,7 +2829,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
 			// target loses their berry
 			gLastUsedItem = gBattleMons[gEffectBattler].item;
 			gBattleMons[gEffectBattler].item = 0;
-
+			gActiveBattler = gEffectBattler;
 			BtlController_EmitSetMonData(BUFFER_A, REQUEST_HELDITEM_BATTLE, 0, sizeof(gBattleMons[gEffectBattler].item), &gBattleMons[gEffectBattler].item);
 			MarkBattlerForControllerExec(gEffectBattler);
 			BattleScriptPush(gBattlescriptCurrInstr + 1);
@@ -6484,6 +6501,21 @@ static void Cmd_various(void)
 		gBattlescriptCurrInstr += 7;
 	else
 		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
+	return;
+    case VARIOUS_CONSUME_BERRY:
+	/*if (gBattleScripting.overrideBerryRequirements == 2)
+	{
+		gBattlescriptCurrInstr += 4;
+		return;
+	}*/
+
+	if (gBattlescriptCurrInstr[3])
+		gLastUsedItem = gBattleMons[gActiveBattler].item;
+
+	gBattleScripting.battler = gEffectBattler = gBattlerTarget = gActiveBattler;    // Cover all berry effect battlerId cases. e.g. ChangeStatBuffs uses target ID
+	if (ItemBattleEffects(ITEMEFFECT_USE_LAST_ITEM, gActiveBattler, FALSE))
+		return;
+	gBattlescriptCurrInstr += 4;
 	return;
     }
 
