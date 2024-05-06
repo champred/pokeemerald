@@ -2458,6 +2458,10 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
 	    case MOVE_BRINE:
 	    	if(defender->hp<=(defender->maxHP/2))gBattleMovePower*=2;
 		break;
+	    case MOVE_PAYBACK:
+	    	if(GetBattlerTurnOrderNum(battlerIdAtk)>GetBattlerTurnOrderNum(battlerIdDef))
+			gBattleMovePower*=2;
+		break;
 	    default:break;
     }
 
