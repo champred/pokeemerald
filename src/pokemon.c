@@ -2446,9 +2446,8 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
 		break;
 	    case MOVE_PUNISHMENT:
 	    	for(i=0;i<NUM_BATTLE_STATS;i++){
-			defenderHoldEffect=defender->statStages[i];
-			if(defenderHoldEffect>DEFAULT_STAT_STAGE)
-				gBattleMovePower+=20*(defenderHoldEffect-DEFAULT_STAT_STAGE);
+			if(defender->statStages[i]>DEFAULT_STAT_STAGE)
+				gBattleMovePower+=20*(defender->statStages[i]-DEFAULT_STAT_STAGE);
 		}
 		if(gBattleMovePower>200)gBattleMovePower=200;
 		break;
@@ -2459,10 +2458,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
 	    case MOVE_BRINE:
 	    	if(defender->hp<=(defender->maxHP/2))gBattleMovePower*=2;
 		break;
-	    case MOVE_FLING:
-	    case MOVE_NATURAL_GIFT:
-	    	if(IS_BERRY(attacker->item))gBattleMovePower=60;
-		break;
+	    default:break;
     }
 
     // Get attacker hold item info
