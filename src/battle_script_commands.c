@@ -1063,7 +1063,7 @@ static void Cmd_accuracycheck(void)
         if (AccuracyCalcHelper(move))
             return;
 
-        if (gBattleMons[gBattlerTarget].status2 & STATUS2_FORESIGHT)
+        if (gBattleMons[gBattlerTarget].status2 & STATUS2_FORESIGHT || gStatuses3[gBattlerTarget] & STATUS3_MIRACLE_EYED)
         {
             u8 acc = gBattleMons[gBattlerAttacker].statStages[STAT_ACC];
             buff = acc;
@@ -3371,6 +3371,7 @@ static void Cmd_getexp(void)
             gActiveBattler = gBattleStruct->expGetterBattlerId;
             if (gBattleBufferB[gActiveBattler][0] == CONTROLLER_TWORETURNVALUES && gBattleBufferB[gActiveBattler][1] == RET_VALUE_LEVELED_UP)
             {
+		    u16 temp,battler=0xff;
                 if (gBattleTypeFlags & BATTLE_TYPE_TRAINER && gBattlerPartyIndexes[gActiveBattler] == gBattleStruct->expGetterMonId)
                     HandleLowHpMusicChange(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], gActiveBattler);
 
@@ -3396,6 +3397,7 @@ static void Cmd_getexp(void)
                     gBattleMons[0].speed = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_SPEED);
                     gBattleMons[0].spAttack = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_SPATK);
                     gBattleMons[0].spDefense = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_SPDEF);
+		    battler=0;
                 }
                 // What is else if?
                 if (gBattlerPartyIndexes[2] == gBattleStruct->expGetterMonId && gBattleMons[2].hp && (gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
@@ -3413,7 +3415,14 @@ static void Cmd_getexp(void)
                     gBattleMons[2].speed = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_SPEED);
 #endif
                     gBattleMons[2].spAttack = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_SPATK);
+		    battler=2;
                 }
+		if (battler != 0xFF)
+		{
+			//CopyMonLevelAndBaseStatsToBattleMon(battler, &gPlayerParty[*expMonId]);
+			if (gStatuses3[battler] & STATUS3_POWER_TRICK)
+				SWAP(gBattleMons[battler].attack, gBattleMons[battler].defense, temp);
+		}
                 gBattleScripting.getexpState = 5;
             }
             else
@@ -4409,6 +4418,7 @@ static void Cmd_moveend(void)
 
     } while (gBattleScripting.moveendState != MOVEEND_COUNT && effect == FALSE);
 
+    gStatuses3[gBattlerAttacker] &= ~STATUS3_ME_FIRST;
     if (gBattleScripting.moveendState == MOVEEND_COUNT && effect == FALSE)
         gBattlescriptCurrInstr += 3;
 }

@@ -2346,7 +2346,7 @@ void SwitchInClearSetData(void)
     if (gBattleMoves[gCurrentMove].effect == EFFECT_BATON_PASS)
     {
         gBattleMons[gActiveBattler].status2 &= (STATUS2_CONFUSION | STATUS2_FOCUS_ENERGY | STATUS2_SUBSTITUTE | STATUS2_ESCAPE_PREVENTION | STATUS2_CURSED);
-        gStatuses3[gActiveBattler] &= (STATUS3_LEECHSEED_BATTLER | STATUS3_LEECHSEED | STATUS3_ALWAYS_HITS | STATUS3_PERISH_SONG | STATUS3_ROOTED | STATUS3_MUDSPORT | STATUS3_WATERSPORT);
+        gStatuses3[gActiveBattler] &= (STATUS3_LEECHSEED_BATTLER | STATUS3_LEECHSEED | STATUS3_ALWAYS_HITS | STATUS3_PERISH_SONG | STATUS3_ROOTED | STATUS3_MUDSPORT | STATUS3_WATERSPORT | STATUS3_GASTRO_ACID | STATUS3_POWER_TRICK);
         for (i = 0; i < gBattlersCount; i++)
         {
             if (GetBattlerSide(gActiveBattler) != GetBattlerSide(i)
@@ -2357,6 +2357,8 @@ void SwitchInClearSetData(void)
                 gStatuses3[i] |= STATUS3_ALWAYS_HITS_TURN(2);
             }
         }
+	if (gStatuses3[gActiveBattler] & STATUS3_POWER_TRICK)
+		            SWAP(gBattleMons[gActiveBattler].attack, gBattleMons[gActiveBattler].defense, i);
     }
     else
     {
@@ -2435,7 +2437,7 @@ void FaintClearSetData(void)
         gBattleMons[gActiveBattler].statStages[i] = DEFAULT_STAT_STAGE;
 
     gBattleMons[gActiveBattler].status2 = 0;
-    gStatuses3[gActiveBattler] = 0;
+    gStatuses3[gActiveBattler] &= STATUS3_GASTRO_ACID;
 
     for (i = 0; i < gBattlersCount; i++)
     {

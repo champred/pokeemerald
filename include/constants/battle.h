@@ -155,11 +155,7 @@
 #define STATUS3_MIRACLE_EYED            (1 << 21)
 #define STATUS3_ME_FIRST                (1 << 22)
 #define STATUS3_GASTRO_ACID             (1 << 23)
-#define STATUS3_EMBARGO                 (1 << 24)
-#define STATUS3_POWER_TRICK             (1 << 25)
-#define STATUS3_MAGNET_RISE             (1 << 26)
-#define STATUS3_HEAL_BLOCK              (1 << 27)
-#define STATUS3_AQUA_RING               (1 << 28)
+#define STATUS3_POWER_TRICK             (1 << 24)
 
 // Not really sure what a "hitmarker" is.
 #define HITMARKER_WAKE_UP_CLEAR         (1 << 4) // Cleared when waking up. Never set or checked.
