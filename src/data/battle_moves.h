@@ -4728,7 +4728,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_NATURAL_GIFT] =
 	{
-		.effect = EFFECT_NATURAL_GIFT,
+		.effect = EFFECT_HIT,
 		.power = 1,
 		.type = TYPE_NORMAL,
 		.accuracy = 100,
@@ -4806,7 +4806,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_U_TURN] =
 	{
-		.effect = EFFECT_HIT,
+		.effect = EFFECT_HIT_ESCAPE,
 		.power = 70,
 		.type = TYPE_BUG,
 		.accuracy = 100,
@@ -4871,7 +4871,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_FLING] =
 	{
-		.effect = EFFECT_FLING,
+		.effect = EFFECT_HIT,
 		.power = 1,
 		.type = TYPE_DARK,
 		.accuracy = 100,
@@ -5496,7 +5496,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 	[MOVE_THUNDER_FANG] =
 	{
 		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_PHYSICAL,
-		.effect = EFFECT_FLINCH_HIT,
+		.effect = EFFECT_FLINCH_STATUS,
 		.power = 65,
 		.type = TYPE_ELECTRIC,
 		.accuracy = 95,
@@ -5509,7 +5509,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 	[MOVE_ICE_FANG] =
 	{
 		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_PHYSICAL,
-		.effect = EFFECT_FLINCH_HIT,
+		.effect = EFFECT_FLINCH_STATUS,
 		.power = 65,
 		.type = TYPE_ICE,
 		.accuracy = 95,
@@ -5522,7 +5522,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 	[MOVE_FIRE_FANG] =
 	{
 		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_PHYSICAL,
-		.effect = EFFECT_FLINCH_HIT,
+		.effect = EFFECT_FLINCH_STATUS,
 		.power = 65,
 		.type = TYPE_FIRE,
 		.accuracy = 95,

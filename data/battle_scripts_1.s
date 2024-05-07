@@ -131,7 +131,7 @@ gBattleScriptsForMoveEffects::
 	.4byte BattleScript_EffectNightmare              @ EFFECT_NIGHTMARE
 	.4byte BattleScript_EffectMinimize               @ EFFECT_MINIMIZE
 	.4byte BattleScript_EffectCurse                  @ EFFECT_CURSE
-	.4byte BattleScript_EffectNaturalGift            @ EFFECT_NATURAL_GIFT
+	.4byte BattleScript_EffectHitEscape              @ EFFECT_HIT_ESCAPE
 	.4byte BattleScript_EffectProtect                @ EFFECT_PROTECT
 	.4byte BattleScript_EffectSpikes                 @ EFFECT_SPIKES
 	.4byte BattleScript_EffectForesight              @ EFFECT_FORESIGHT
@@ -5030,3 +5030,15 @@ BattleScript_EffectLastResort::
 	jumpifcantuselastresort BS_ATTACKER, BattleScript_ButItFailed
 	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
 	goto BattleScript_HitFromCritCalc
+
+BattleScript_EffectHitEscape::
+	@call BattleScript_EffectHit_Ret
+	jumpifcantswitch BS_ATTACKER, BattleScript_EffectHit
+	jumpifnodamage BattleScript_FailedFromAtkCanceler
+	tryfaintmon BS_TARGET
+	moveendto MOVEEND_ATTACKER_VISIBLE
+	moveendfrom MOVEEND_TARGET_VISIBLE
+	jumpifbyte CMP_NOT_EQUAL gBattleOutcome 0, BattleScript_HitEscapeEnd
+	@goto BattleScript_MoveSwitch
+BattleScript_HitEscapeEnd:
+	end
