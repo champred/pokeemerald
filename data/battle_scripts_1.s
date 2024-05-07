@@ -117,7 +117,7 @@ gBattleScriptsForMoveEffects::
 	.4byte BattleScript_EffectConversion2            @ EFFECT_CONVERSION_2
 	.4byte BattleScript_EffectLockOn                 @ EFFECT_LOCK_ON
 	.4byte BattleScript_EffectSketch                 @ EFFECT_SKETCH
-	.4byte BattleScript_EffectFling                  @ EFFECT_FLING
+	.4byte BattleScript_EffectFlinchStatus           @ EFFECT_FLINCH_STATUS
 	.4byte BattleScript_EffectSleepTalk              @ EFFECT_SLEEP_TALK
 	.4byte BattleScript_EffectDestinyBond            @ EFFECT_DESTINY_BOND
 	.4byte BattleScript_EffectFlail                  @ EFFECT_FLAIL
@@ -706,9 +706,46 @@ BattleScript_EffectConversion::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
 
+BattleScript_EffectFlinchStatus::
 BattleScript_EffectFlinchHit::
 	setmoveeffect MOVE_EFFECT_FLINCH
-	goto BattleScript_EffectHit
+	attackcanceler
+	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
+	attackstring
+	ppreduce
+	critcalc
+	damagecalc
+	adjustnormaldamage
+	attackanimation
+	waitanimation
+	effectivenesssound
+	hitanimation BS_TARGET
+	waitstate
+	healthbarupdate BS_TARGET
+	datahpupdate BS_TARGET
+	critmessage
+	waitmessage B_WAIT_TIME_LONG
+	resultmessage
+	waitmessage B_WAIT_TIME_LONG
+	seteffectwithchance
+	jumpifmove MOVE_THUNDER_FANG, BattleScript_EffectFlinchPara
+	jumpifmove MOVE_ICE_FANG, BattleScript_EffectFlinchFreeze
+	jumpifmove MOVE_FIRE_FANG, BattleScript_EffectFlinchBurn
+	goto BattleScript_EffectFlinchDone
+BattleScript_EffectFlinchPara:
+	setmoveeffect MOVE_EFFECT_PARALYSIS
+	seteffectwithchance
+	goto BattleScript_EffectFlinchDone
+BattleScript_EffectFlinchFreeze:
+	setmoveeffect MOVE_EFFECT_FREEZE
+	seteffectwithchance
+	goto BattleScript_EffectFlinchDone
+BattleScript_EffectFlinchBurn:
+	setmoveeffect MOVE_EFFECT_BURN
+	seteffectwithchance
+BattleScript_EffectFlinchDone:
+	tryfaintmon BS_TARGET
+	goto BattleScript_MoveEnd
 
 BattleScript_EffectRestoreHp::
 	attackcanceler
