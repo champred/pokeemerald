@@ -282,7 +282,8 @@
 #define MOVE_EFFECT_BUG_BITE            57
 #define MOVE_EFFECT_REMOVE_SLEEP        58
 #define MOVE_EFFECT_SP_ATK_TWO_DOWN     59
-#define NUM_MOVE_EFFECTS                60
+#define MOVE_EFFECT_CLEAR_SMOG          60
+#define NUM_MOVE_EFFECTS                61
 
 #define MOVE_EFFECT_AFFECTS_USER        (1 << 6) // 64
 #define MOVE_EFFECT_CERTAIN             (1 << 7) // 128

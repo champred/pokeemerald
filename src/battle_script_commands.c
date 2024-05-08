@@ -2140,6 +2140,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
     bool32 statusChanged = FALSE;
     u8 affectsUser = 0; // 0x40 otherwise
     bool32 noSunCanFreeze = TRUE;
+    s32 i;
 
     if (gBattleCommunication[MOVE_EFFECT_BYTE] & MOVE_EFFECT_AFFECTS_USER)
     {
@@ -2834,6 +2835,20 @@ void SetMoveEffect(bool8 primary, u8 certain)
 			MarkBattlerForControllerExec(gEffectBattler);
 			BattleScriptPush(gBattlescriptCurrInstr + 1);
 			gBattlescriptCurrInstr = BattleScript_MoveEffectBugBite;
+		}
+		break;
+	    case MOVE_EFFECT_CLEAR_SMOG:
+		for (i = 0; i < NUM_BATTLE_STATS; i++)
+		{
+			if (gBattleMons[gEffectBattler].statStages[i] != DEFAULT_STAT_STAGE)
+				break;
+		}
+		if ((gSpecialStatuses[gEffectBattler].physicalDmg || gSpecialStatuses[gEffectBattler].specialDmg) && i != NUM_BATTLE_STATS)
+		{
+			for (i = 0; i < NUM_BATTLE_STATS; i++)
+				gBattleMons[gEffectBattler].statStages[i] = DEFAULT_STAT_STAGE;
+			BattleScriptPush(gBattlescriptCurrInstr + 1);
+			gBattlescriptCurrInstr = BattleScript_MoveEffectClearSmog;
 		}
 		break;
             }
@@ -6793,6 +6808,9 @@ static void Cmd_manipulatedamage(void)
         break;
     case DMG_FULL_ATTACKER_HP:
         gBattleMoveDamage = gBattleMons[gBattlerAttacker].maxHP;
+	break;
+    case DMG_CURR_ATTACKER_HP:
+        gBattleMoveDamage = gBattleMons[gBattlerAttacker].hp;
 	break;
     default:
     	gBattleMoveDamage = 0;

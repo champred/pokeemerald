@@ -233,6 +233,7 @@ extern const u8 BattleScript_MoveEffectBugBite[];
 extern const u8 BattleScript_MoveEffectFeint[];
 extern const u8 BattleScript_DefSpDefDown[];
 extern const u8 BattleScript_TargetWokeUp[];
+extern const u8 BattleScript_MoveEffectClearSmog[];
 
 extern const u8 *const gBattleScriptsForMoveEffects[];
 extern const u8 *const gBattlescriptsForBallThrow[];
