@@ -305,6 +305,108 @@ const struct SpriteTemplate gWeatherBallRockDownSpriteTemplate =
     .callback = AnimWeatherBallDown,
 };
 
+const struct SpriteTemplate gStoneEdgeSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_STONE_EDGE,
+    .paletteTag = ANIM_TAG_STONE_EDGE,
+    .oam = &gOamData_AffineOff_ObjNormal_32x32,
+    .anims = gAnims_BasicFire,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimParticleInVortex,
+};
+
+static const union AffineAnimCmd sSpriteAffineAnim_CrushGripHandEnemyAttack[] =
+{
+	AFFINEANIMCMD_FRAME(0, 0, 96, 1), //180 degree turn
+	AFFINEANIMCMD_END
+};
+static const union AffineAnimCmd sSpriteAffineAnim_DoNothing[] =
+{
+	AFFINEANIMCMD_FRAME(0, 0, 0, 1), //Do nothing
+	AFFINEANIMCMD_END
+};
+static const union AffineAnimCmd* const sSpriteAffineAnimTable_CrushGripHand[] =
+{
+	sSpriteAffineAnim_DoNothing,
+	sSpriteAffineAnim_CrushGripHandEnemyAttack,
+};
+const struct SpriteTemplate gCrushGripHandTemplate =
+{
+    .tileTag = ANIM_TAG_PURPLE_HAND_OUTLINE,
+    .paletteTag = ANIM_TAG_ACUPRESSURE,
+    .oam = &gOamData_AffineNormal_ObjNormal_32x32,
+    .anims = sAnims_BasicRock,
+    .images = NULL,
+    .affineAnims = sSpriteAffineAnimTable_CrushGripHand,
+    .callback = AnimRockBlastRock
+};
+
+const struct SpriteTemplate gSeedFlareGreenWavesTemplate =
+{
+    .tileTag = ANIM_TAG_FLYING_DIRT,
+    .paletteTag = ANIM_TAG_LEAF,
+    .oam = &gOamData_AffineOff_ObjNormal_32x16,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimFlyingSandCrescent
+};
+
+//icicle crash
+static const union AffineAnimCmd sSpriteAffineAnim_IcicleCrash[] =
+{
+    AFFINEANIMCMD_FRAME(0, 0, 128, 1), //180 degree turn
+    AFFINEANIMCMD_END
+};
+static const union AffineAnimCmd* const sSpriteAffineAnimTable_IcicleCrash[] =
+{
+    sSpriteAffineAnim_IcicleCrash,
+};
+const struct SpriteTemplate gIcicleCrashSpearTemplate =
+{
+    .tileTag = ANIM_TAG_ICICLE_SPEAR,
+    .paletteTag = ANIM_TAG_ICICLE_SPEAR,
+    .oam = &gOamData_AffineNormal_ObjNormal_32x32,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = sSpriteAffineAnimTable_IcicleCrash,
+    .callback = AnimFallingRock
+};
+
+static const union AnimCmd sPowerAbsorptionOrbAnimCmds[] =
+{
+    ANIMCMD_FRAME(8, 1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd *const sPowerAbsorptionOrbAnimTable[] =
+{
+    sPowerAbsorptionOrbAnimCmds,
+};
+
+const struct SpriteTemplate gFloralHealingOrbsTemplate =
+{
+    .tileTag = ANIM_TAG_ORBS,
+    .paletteTag = ANIM_TAG_ORBS,
+    .oam = &gOamData_AffineNormal_ObjBlend_16x16,
+    .anims = sPowerAbsorptionOrbAnimTable,
+    .images = NULL,
+    .affineAnims = sAffineAnims_Whirlpool,
+    .callback = AnimParticleInVortex
+};
+
+const struct SpriteTemplate gThousandWavesGreenWaveTemplate =
+{
+    .tileTag = ANIM_TAG_FLYING_DIRT,
+    .paletteTag = ANIM_TAG_LEAF,
+    .oam = &gOamData_AffineOff_ObjNormal_32x16,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimFlyingSandCrescent
+};
+
 static void AnimFallingRock(struct Sprite *sprite)
 {
     if (gBattleAnimArgs[3] != 0)
@@ -402,8 +504,8 @@ void AnimTask_LoadSandstormBackground(u8 taskId)
     SetGpuReg(REG_OFFSET_BG1HOFS, gBattle_BG1_X);
     SetGpuReg(REG_OFFSET_BG1VOFS, gBattle_BG1_Y);
     GetBattleAnimBg1Data(&animBg);
-    AnimLoadCompressedBgTilemap(animBg.bgId, gFile_graphics_battle_anims_backgrounds_sandstorm_brew_tilemap);
-    AnimLoadCompressedBgGfx(animBg.bgId, gFile_graphics_battle_anims_backgrounds_sandstorm_brew_sheet, animBg.tilesOffset);
+    AnimLoadCompressedBgTilemap(animBg.bgId, gBattleAnimBgTilemap_Sandstorm);
+    AnimLoadCompressedBgGfx(animBg.bgId, gBattleAnimBgImage_Sandstorm, animBg.tilesOffset);
     LoadCompressedPalette(gBattleAnimSpritePal_FlyingDirt, BG_PLTT_ID(animBg.paletteId), PLTT_SIZE_4BPP);
     if (IsContest())
         RelocateBattleBgPal(animBg.paletteId, animBg.bgTilemap, 0, 0);

@@ -21,6 +21,11 @@ static void AnimTask_MoveAttackerMementoShadow_Step(u8 taskId);
 static void DoMementoShadowEffect(struct Task *task);
 static void AnimTask_MoveTargetMementoShadow_Step(u8 taskId);
 static void AnimTask_MetallicShine_Step(u8 taskId);
+static void AnimPunishment(struct Sprite *sprite);
+static void SpriteCB_LockingJaw(struct Sprite *sprite);
+static void SpriteCB_LockingJawStep(struct Sprite *sprite);
+static void SpriteCB_LockingJawFinish(struct Sprite *sprite);
+static void AnimRockFragment(struct Sprite *sprite);
 
 // Unused
 const struct SpriteTemplate sUnusedBagStealSpriteTemplate =
@@ -183,6 +188,149 @@ const struct SpriteTemplate gClawSlashSpriteTemplate =
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = AnimClawSlash,
 };
+
+const union AffineAnimCmd gPunishmentImpactAffineAnimCmd_1[] =
+{
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd gPunishmentImpactAffineAnimCmd_2[] =
+{
+    AFFINEANIMCMD_FRAME(0xD8, 0xD8, 0, 0),
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd gPunishmentImpactAffineAnimCmd_3[] =
+{
+    AFFINEANIMCMD_FRAME(0xB0, 0xB0, 0, 0),
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd gPunishmentImpactAffineAnimCmd_4[] =
+{
+    AFFINEANIMCMD_FRAME(0x80, 0x80, 0, 0),
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd *const gPunishmentImpactAffineAnim[] =
+{
+    gPunishmentImpactAffineAnimCmd_1,
+    gPunishmentImpactAffineAnimCmd_2,
+    gPunishmentImpactAffineAnimCmd_3,
+    gPunishmentImpactAffineAnimCmd_4,
+};
+
+const union AnimCmd gPunishmentAnimCmd[] =
+{
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_FRAME(16, 4),
+    ANIMCMD_FRAME(32, 4),
+    ANIMCMD_FRAME(48, 4),
+    ANIMCMD_FRAME(64, 4),
+    ANIMCMD_END,
+};
+
+const union AnimCmd *const gPunishmentAnim[] =
+{
+    gPunishmentAnimCmd,
+};
+
+const struct SpriteTemplate gPunishmentSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_SCRATCH,
+    .paletteTag = ANIM_TAG_POISON_BUBBLE,
+    .oam = &gOamData_AffineNormal_ObjNormal_32x32,
+    .anims = gPunishmentAnim,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimSpriteOnMonPos,
+};
+
+const struct SpriteTemplate gPunishmentImpactSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_IMPACT,
+    .paletteTag = ANIM_TAG_POISON_BUBBLE,
+    .oam = &gOamData_AffineNormal_ObjNormal_32x32,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gPunishmentImpactAffineAnim,
+    .callback = AnimPunishment,
+};
+
+//shell smash
+const struct SpriteTemplate gShellSmashLeftShellSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_SHELL_RIGHT,
+    .paletteTag = ANIM_TAG_SHELL_RIGHT,
+    .oam = &gOamData_AffineNormal_ObjBlend_64x64,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gAffineAnims_Bite,
+    .callback = SpriteCB_LockingJaw
+};
+
+const struct SpriteTemplate gShellSmashRightShellSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_SHELL_LEFT,
+    .paletteTag = ANIM_TAG_SHELL_LEFT,
+    .oam = &gOamData_AffineNormal_ObjBlend_64x64,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gAffineAnims_Bite,
+    .callback = SpriteCB_LockingJaw
+};
+
+static const union AnimCmd sAnim_FlyingRock_0[] =
+{
+    ANIMCMD_FRAME(32, 1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd sAnim_FlyingRock_1[] =
+{
+    ANIMCMD_FRAME(48, 1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd sAnim_FlyingRock_2[] =
+{
+    ANIMCMD_FRAME(64, 1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd *const sAnims_FlyingRock[] =
+{
+    sAnim_FlyingRock_0,
+    sAnim_FlyingRock_1,
+    sAnim_FlyingRock_2,
+};
+
+const struct SpriteTemplate gShellSmashPurpleRocksSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_ROCKS,
+    .paletteTag = ANIM_TAG_SHELL_RIGHT,
+    .oam = &gOamData_AffineOff_ObjNormal_32x32,
+    .anims = sAnims_FlyingRock,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimRockFragment
+};
+
+static void AnimPunishment(struct Sprite *sprite)
+{
+    StartSpriteAffineAnim(sprite, gBattleAnimArgs[3]);
+    if (gBattleAnimArgs[2] == 0)
+        InitSpritePosToAnimAttacker(sprite, 1);
+    else
+        InitSpritePosToAnimTarget(sprite, TRUE);
+
+    sprite->callback = RunStoredCallbackWhenAffineAnimEnds;
+    StoreSpriteCallbackInData6(sprite, DestroyAnimSprite);
+}
 
 void AnimTask_AttackerFadeToInvisible(u8 taskId)
 {
@@ -920,4 +1068,55 @@ void GetIsDoomDesireHitTurn(u8 taskId)
     if (gAnimMoveTurn == 2)
         gBattleAnimArgs[ARG_RET_ID] = TRUE;
     DestroyAnimVisualTask(taskId);
+}
+
+//Creates a jaw that bites down and locks on the target.
+//args: Idk same as bite and crunch
+//arg 6: Time to hold bite for.
+static void SpriteCB_LockingJaw(struct Sprite *sprite)
+{
+    sprite->x += gBattleAnimArgs[0];
+    sprite->y += gBattleAnimArgs[1];
+    StartSpriteAffineAnim(sprite, gBattleAnimArgs[2]);
+    sprite->data[0] = gBattleAnimArgs[3];
+    sprite->data[1] = gBattleAnimArgs[4];
+    sprite->data[2] = gBattleAnimArgs[5];
+    sprite->data[6] = -gBattleAnimArgs[6];
+    sprite->callback = SpriteCB_LockingJawStep;
+}
+static void SpriteCB_LockingJawStep(struct Sprite *sprite)
+{
+    sprite->data[4] += sprite->data[0];
+    sprite->data[5] += sprite->data[1];
+    sprite->x2 = sprite->data[4] >> 8;
+    sprite->y2 = sprite->data[5] >> 8;
+    if (++sprite->data[3] == sprite->data[2])
+        sprite->callback = SpriteCB_LockingJawFinish;
+}
+static void SpriteCB_LockingJawFinish(struct Sprite *sprite)
+{
+    if (--sprite->data[3] <= sprite->data[6])
+        DestroySpriteAndMatrix(sprite);
+}
+
+// Animates the rock particles that are shown on the impact for Rock Blast / Rock Smash
+static void AnimRockFragment(struct Sprite *sprite)
+{
+    StartSpriteAnim(sprite, gBattleAnimArgs[5]);
+    AnimateSprite(sprite);
+    if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
+        sprite->x -= gBattleAnimArgs[0];
+    else
+        sprite->x += gBattleAnimArgs[0];
+    sprite->y += gBattleAnimArgs[1];
+    sprite->data[0] = gBattleAnimArgs[4];
+    sprite->data[1] = sprite->x;
+    sprite->data[2] = sprite->x + gBattleAnimArgs[2];
+    sprite->data[3] = sprite->y;
+    sprite->data[4] = sprite->y + gBattleAnimArgs[3];
+    InitSpriteDataForLinearTranslation(sprite);
+    sprite->data[3] = 0;
+    sprite->data[4] = 0;
+    sprite->callback = TranslateSpriteLinearFixedPoint;
+    StoreSpriteCallbackInData6(sprite, DestroySpriteAndMatrix);
 }

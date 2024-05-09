@@ -34,6 +34,8 @@ static void AnimBrickBreakWallShard_Step(struct Sprite *sprite);
 static void AnimSuperpowerOrb_Step(struct Sprite *sprite);
 static void AnimSuperpowerRock_Step1(struct Sprite *sprite);
 static void AnimSuperpowerRock_Step2(struct Sprite *sprite);
+static void AnimForcePalm(struct Sprite *sprite);
+static void SpriteCB_SearingShotRock(struct Sprite *sprite);
 
 static const struct SpriteTemplate sUnusedHumanoidFootSpriteTemplate =
 {
@@ -402,6 +404,120 @@ const struct SpriteTemplate gFocusPunchFistSpriteTemplate =
     .images = NULL,
     .affineAnims = sAffineAnims_FocusPunchFist,
     .callback = AnimFocusPunchFist,
+};
+
+const struct SpriteTemplate gPalmSpriteTemplate =
+{
+	.tileTag = ANIM_TAG_PURPLE_HAND_OUTLINE,
+	.paletteTag = ANIM_TAG_PURPLE_HAND_OUTLINE,
+	.oam = &gOamData_AffineOff_ObjNormal_32x32,
+	.anims = sAnims_HandsAndFeet,
+	.images = NULL,
+	.affineAnims = gDummySpriteAffineAnimTable,
+	.callback = AnimBasicFistOrFoot,
+};
+
+const union AffineAnimCmd gForcePalmAffineAnimCmd_1[] =
+{
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd gForcePalmAffineAnimCmd_2[] =
+{
+    AFFINEANIMCMD_FRAME(0xD8, 0xD8, 0, 0),
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd gForcePalmAffineAnimCmd_3[] =
+{
+    AFFINEANIMCMD_FRAME(0xB0, 0xB0, 0, 0),
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd gForcePalmAffineAnimCmd_4[] =
+{
+    AFFINEANIMCMD_FRAME(0x80, 0x80, 0, 0),
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd *const gForcePalmAffineAnims[] =
+{
+    gForcePalmAffineAnimCmd_1,
+    gForcePalmAffineAnimCmd_2,
+    gForcePalmAffineAnimCmd_3,
+    gForcePalmAffineAnimCmd_4,
+};
+
+const struct SpriteTemplate gForcePalmSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_IMPACT,
+    .paletteTag = ANIM_TAG_SHADOW_BALL,
+    .oam = &gOamData_AffineNormal_ObjBlend_32x32,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gForcePalmAffineAnims,
+    .callback = AnimForcePalm,
+};
+
+const struct SpriteTemplate gQuickGuardArmImpactTemplate =
+{
+    .tileTag = ANIM_TAG_QUICK_GUARD_HAND,
+    .paletteTag = ANIM_TAG_QUICK_GUARD_HAND,
+    .oam = &gOamData_AffineOff_ObjNormal_32x32,
+    .anims = sAnims_HandsAndFeet,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimBasicFistOrFoot
+};
+
+//heart stamp
+const struct SpriteTemplate gHeartStampSpinningHeartTemplate =
+{
+    .tileTag = ANIM_TAG_HEART_STAMP,
+    .paletteTag = ANIM_TAG_HEART_STAMP,
+    .oam = &gOamData_AffineDouble_ObjNormal_32x32,
+    .anims = sAnims_HandsAndFeet,
+    .images = NULL,
+    .affineAnims = sAffineAnims_SpinningHandOrFoot,
+    .callback = AnimSpinningKickOrPunch
+};
+
+static const union AffineAnimCmd sSpriteAffineAnim_SearingShotRock[] =
+{
+    AFFINEANIMCMD_FRAME(8, 8, 9, 15),
+    AFFINEANIMCMD_FRAME(-8, -8, 9, 15),
+    AFFINEANIMCMD_END,
+};
+static const union AffineAnimCmd* const sSpriteAffineAnimTable_SearingShotRock[] =
+{
+    sSpriteAffineAnim_SearingShotRock,
+};
+
+const struct SpriteTemplate gSearingShotEruptionImpactTemplate =
+{
+    .tileTag = ANIM_TAG_WARM_ROCK,
+    .paletteTag = ANIM_TAG_WARM_ROCK,
+    .oam = &gOamData_AffineDouble_ObjNormal_32x32,
+    .anims = sAnims_HandsAndFeet,
+    .images = NULL,
+    .affineAnims = sSpriteAffineAnimTable_SearingShotRock,
+    .callback = SpriteCB_SearingShotRock
+};
+
+//hold back
+const struct SpriteTemplate gHoldBackSwipeTemplate =
+{
+    .tileTag = ANIM_TAG_PURPLE_SWIPE,
+    .paletteTag = ANIM_TAG_PAW_PRINT,
+    .oam = &gOamData_AffineOff_ObjNormal_64x64,
+    .anims = sAnims_RevengeBigScratch,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimRevengeScratch
 };
 
 static void AnimUnusedHumanoidFoot(struct Sprite *sprite)
@@ -965,5 +1081,77 @@ void AnimTask_MoveSkyUppercutBg(u8 taskId)
         gBattle_BG3_Y = 0;
         ToggleBg3Mode(1);
         DestroyAnimVisualTask(taskId);
+    }
+}
+
+static void AnimForcePalm(struct Sprite *sprite)
+{
+    StartSpriteAffineAnim(sprite, gBattleAnimArgs[3]);
+    if (gBattleAnimArgs[2] == 0)
+        InitSpritePosToAnimAttacker(sprite, 1);
+    else
+        InitSpritePosToAnimTarget(sprite, TRUE);
+
+    sprite->callback = RunStoredCallbackWhenAffineAnimEnds;
+    StoreSpriteCallbackInData6(sprite, DestroyAnimSprite);
+}
+
+static u8 LoadBattleAnimTarget(u8 arg)
+{
+    u8 battler;
+
+    if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
+    {
+        switch (gBattleAnimArgs[arg])
+        {
+        case 0:
+            battler = gBattleAnimAttacker;
+            break;
+        default:
+            battler = gBattleAnimTarget;
+            break;
+        case 2:
+            battler = BATTLE_PARTNER(gBattleAnimAttacker);
+            break;
+        case 3:
+            battler = BATTLE_PARTNER(gBattleAnimTarget);
+            break;
+        }
+    }
+    else
+    {
+        if (gBattleAnimArgs[arg] == 0)
+            battler = gBattleAnimAttacker;
+        else
+            battler = gBattleAnimTarget;
+    }
+
+    return battler;
+}
+
+static void InitSpritePosToGivenTarget(struct Sprite *sprite, u8 target)
+{
+    sprite->x = GetBattlerSpriteCoord2(target, BATTLER_COORD_X);
+    sprite->y = GetBattlerSpriteCoord2(target, BATTLER_COORD_Y);
+
+    SetAnimSpriteInitialXOffset(sprite, gBattleAnimArgs[0]);
+    sprite->y2 = gBattleAnimArgs[1];
+}
+
+static void SpriteCB_SearingShotRock(struct Sprite *sprite)
+{
+    u8 target = LoadBattleAnimTarget(4);
+
+    if (!IsBattlerSpriteVisible(target))
+    {
+        DestroyAnimSprite(sprite);
+    }
+    else
+    {
+        InitSpritePosToGivenTarget(sprite, target);
+        StartSpriteAnim(sprite, gBattleAnimArgs[2]);
+        sprite->data[0] = gBattleAnimArgs[3];
+        sprite->callback = WaitAnimForDuration;
+        StoreSpriteCallbackInData6(sprite, AnimSpinningKickOrPunchFinish);
     }
 }
