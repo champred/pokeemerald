@@ -43,7 +43,7 @@ gBattleScriptsForMoveEffects::
 	.4byte BattleScript_EffectDefenseDown            @ EFFECT_DEFENSE_DOWN
 	.4byte BattleScript_EffectSpeedDown              @ EFFECT_SPEED_DOWN
 	.4byte BattleScript_EffectHit                    @ EFFECT_SPECIAL_ATTACK_DOWN
-	.4byte BattleScript_EffectHit                    @ EFFECT_SPECIAL_DEFENSE_DOWN
+	.4byte BattleScript_EffectSpDefDownHit2          @ EFFECT_SPECIAL_DEFENSE_DOWN
 	.4byte BattleScript_EffectAccuracyDown           @ EFFECT_ACCURACY_DOWN
 	.4byte BattleScript_EffectEvasionDown            @ EFFECT_EVASION_DOWN
 	.4byte BattleScript_EffectHaze                   @ EFFECT_HAZE
@@ -846,9 +846,9 @@ BattleScript_TwoTurnMovesSecondTurn::
 	setbyte sB_ANIM_TURN, 1
 	clearstatusfromeffect BS_ATTACKER
 	orword gHitMarker, HITMARKER_NO_PPDEDUCT
-	jumpifnotmove MOVE_SKY_ATTACK, BattleScript_EffectParalyzeHit @freeze shock
+	jumpifmove MOVE_SKY_ATTACK, BattleScript_EffectFlinchHit
+	jumpifmove MOVE_FREEZE_SHOCK, BattleScript_EffectParalyzeHit
 	attackcanceler
-	setmoveeffect MOVE_EFFECT_FLINCH
 	goto BattleScript_HitFromAccCheck
 
 BattleScriptFirstChargingTurn::
@@ -1120,6 +1120,10 @@ BattleScript_EffectAccuracyDownHit::
 
 BattleScript_EffectSpeedUpHit::
 	setmoveeffect MOVE_EFFECT_SPD_PLUS_1 | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN
+	goto BattleScript_EffectHit
+
+BattleScript_EffectSpDefDownHit2::
+	setmoveeffect MOVE_EFFECT_SP_DEF_MINUS_2
 	goto BattleScript_EffectHit
 
 BattleScript_EffectSkyAttack::
@@ -1982,11 +1986,9 @@ BattleScript_SolarBeamOnFirstTurn::
 	goto BattleScript_TwoTurnMovesSecondTurn
 
 BattleScript_EffectThunder::
-	setmoveeffect MOVE_EFFECT_PARALYSIS
 	orword gHitMarker, HITMARKER_IGNORE_ON_AIR
-	jumpifnotmove MOVE_HURRICANE, BattleScript_EffectHit
-	setmoveeffect MOVE_EFFECT_CONFUSION @hurricane
-	goto BattleScript_EffectHit
+	jumpifmove MOVE_HURRICANE, BattleScript_EffectConfuseHit
+	goto BattleScript_EffectParalyzeHit
 
 BattleScript_EffectTeleport::
 	attackcanceler

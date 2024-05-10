@@ -12594,7 +12594,7 @@ Move_DEFOG:
 	blendoff
 	end
 
-Move_TRICK_ROOM::
+Move_TRICK_ROOM:
 	call InitRoomAnimation
 General_TrickRoom:
 	playsewithpan SE_M_SUPERSONIC, SOUND_PAN_TARGET
@@ -14173,7 +14173,7 @@ Move_WIDE_GUARD:
 	blendoff
 	end
 
-Move_GUARD_SPLIT::
+Move_GUARD_SPLIT:
 	loadspritegfx ANIM_TAG_BLUEGREEN_ORB
 	createvisualtask AnimTask_BlendBattleAnimPal, 10, F_PAL_BG, 0x1, 0x0, 0xC, 0x0
 	loopsewithpan SE_M_LOCK_ON, SOUND_PAN_ATTACKER, 0x18, 0x3
@@ -14197,7 +14197,7 @@ GuardSplitLaunch:
 	delay 0x5
 	return
 
-Move_POWER_SPLIT::
+Move_POWER_SPLIT:
 	loadspritegfx ANIM_TAG_RED_HEART
 	loadspritegfx ANIM_TAG_BLUEGREEN_ORB
 	createvisualtask AnimTask_BlendBattleAnimPal, 10, F_PAL_BG, 0x1, 0x0, 0xC, 0x0
@@ -14352,7 +14352,7 @@ Move_AUTOTOMIZE:
 	blendoff
 	end
 
-Move_RAGE_POWDER::
+Move_RAGE_POWDER:
 	loadspritegfx ANIM_TAG_SPORE @Powder
 	loadspritegfx ANIM_TAG_HEART_STAMP @Red Colour
 	monbg ANIM_DEF_PARTNER
@@ -14374,7 +14374,7 @@ RagePowderSprinkle:
 	delay 0xc
 	return
 
-Move_TELEKINESIS::
+Move_TELEKINESIS:
 	loadspritegfx ANIM_TAG_SPARKLE_4 @detect
 	createvisualtask AnimTask_BlendBattleAnimPal, 10, F_PAL_BG, 0x1, 0x0, 0x9, 0x0
 	waitforvisualfinish
@@ -14392,7 +14392,7 @@ Move_TELEKINESIS::
 	waitforvisualfinish
 	end
 
-Move_SMACK_DOWN::
+Move_SMACK_DOWN:
 	loadspritegfx ANIM_TAG_BLACK_BALL
 	loadspritegfx ANIM_TAG_IMPACT
 	loadspritegfx ANIM_TAG_ROCKS
@@ -16542,7 +16542,7 @@ Move_GLACIATE:
 	call UnsetPsychicBackground
 	end
 
-Move_BOLT_STRIKE::
+Move_BOLT_STRIKE:
 	loadspritegfx ANIM_TAG_SPARK_2 @Electricity
 	loadspritegfx ANIM_TAG_IMPACT @Hit
 	loadspritegfx ANIM_TAG_ELECTRIC_ORBS @Electric Balls
@@ -16585,7 +16585,7 @@ Move_BOLT_STRIKE::
 	waitforvisualfinish
 	end
 
-Move_BLUE_FLARE::
+Move_BLUE_FLARE:
 	loadspritegfx ANIM_TAG_SMALL_EMBER @Fire
 	loadspritegfx ANIM_TAG_METAL_BITS @Blue Flare Colour
 	createvisualtask AnimTask_BlendBattleAnimPal, 0xa, F_PAL_BG, 0x0, 0x0, 0x10, 0x0
@@ -16655,7 +16655,7 @@ BlueFlareFlameSpreadEffect:
 	createsprite gBlueFlareBurnTemplate, ANIM_TARGET, 1, 0x0, 0xa, 0x70, 0xff80, 0x28
 	return
 
-Move_FIERY_DANCE::
+Move_FIERY_DANCE:
 	loadspritegfx ANIM_TAG_SMALL_EMBER
 	createvisualtask AnimTask_BlendBattleAnimPal, 0xa, F_PAL_BG, 0x1, 0x0, 0xc, 0x14be
 	waitforvisualfinish
@@ -16675,7 +16675,7 @@ Move_FIERY_DANCE::
 	waitforvisualfinish
 	end
 
-Move_FREEZE_SHOCK::
+Move_FREEZE_SHOCK:
 	loadspritegfx ANIM_TAG_SPARK
 	loadspritegfx ANIM_TAG_SPARK_2
 	loadspritegfx ANIM_TAG_ICE_CHUNK @Ice Ball
@@ -16716,7 +16716,7 @@ FreezeShockAttack:
 	waitforvisualfinish
 	end
 
-Move_ICE_BURN::
+Move_ICE_BURN:
 	loadspritegfx ANIM_TAG_BLACK_SMOKE @smoke
 	loadspritegfx ANIM_TAG_ICE_CHUNK @white color
 	loadspritegfx ANIM_TAG_ICE_CRYSTALS @ice
@@ -16782,7 +16782,7 @@ IceBurnUnleash:
 	clearmonbg ANIM_TARGET
 	end
 
-Move_SNARL::
+Move_SNARL:
 	loadspritegfx ANIM_TAG_JAGGED_MUSIC_NOTE
 	loadspritegfx ANIM_TAG_THIN_RING
 	loadspritegfx ANIM_TAG_IMPACT
@@ -16826,7 +16826,7 @@ Move_SNARL::
 	blendoff
 	end
 
-Move_ICICLE_CRASH::
+Move_ICICLE_CRASH:
 	loadspritegfx ANIM_TAG_ICICLE_SPEAR @Icicle
 	fadetobg BG_ICE
 	waitbgfadein
@@ -16878,7 +16878,7 @@ LaunchIcicleCrashSpear:
 	delay 0x2
 	return
 
-Move_V_CREATE::
+Move_V_CREATE:
 	loadspritegfx ANIM_TAG_SMALL_EMBER @fire blast flame
 	loadspritegfx ANIM_TAG_THIN_RING @calm mind animation
 	loadspritegfx ANIM_TAG_JAGGED_MUSIC_NOTE @red color
@@ -16956,7 +16956,7 @@ VCreateFlames:
 	delay 0x3
 	return
 
-Move_FUSION_FLARE::
+Move_FUSION_FLARE:
 	loadspritegfx ANIM_TAG_FOCUS_ENERGY @focus energy
 	loadspritegfx ANIM_TAG_CIRCLE_OF_LIGHT @ball
 	loadspritegfx ANIM_TAG_FIRE @ball palette
@@ -17014,7 +17014,7 @@ FusionFlareBuff:
 	createsprite gEndureEnergySpriteTemplate, ANIM_ATTACKER, 2, 0x0, 0xfff4, 0x0, 0x1
 	return
 
-Move_FUSION_BOLT::
+Move_FUSION_BOLT:
 	loadspritegfx ANIM_TAG_SPARK
 	loadspritegfx ANIM_TAG_CIRCLE_OF_LIGHT
 	loadspritegfx ANIM_TAG_ELECTRICITY
@@ -17955,7 +17955,7 @@ SafariReaction_Eating:
 	createvisualtask AnimTask_RotateMonToSideAndRestore, 2, 8, 136, 0, 2
 	end
 
-General_StrongWinds::
+General_StrongWinds:
 	loadspritegfx ANIM_TAG_FLYING_DIRT
 	playsewithpan SE_M_GUST, 0
 	createvisualtask AnimTask_BlendParticle, 5, ANIM_TAG_FLYING_DIRT, 0, 6, 6, RGB_SKY_BLUE

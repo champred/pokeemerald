@@ -6054,7 +6054,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_SEED_FLARE] =
 	{
-		.effect = EFFECT_SPECIAL_DEFENSE_DOWN_HIT,
+		.effect = EFFECT_SPECIAL_DEFENSE_DOWN,
 		.power = 120,
 		.type = TYPE_GRASS,
 		.accuracy = 85,
@@ -6414,7 +6414,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_ACID_SPRAY] =
 	{
-		.effect = EFFECT_SPECIAL_DEFENSE_DOWN_HIT,
+		.effect = EFFECT_SPECIAL_DEFENSE_DOWN,
 		.power = 40,
 		.type = TYPE_POISON,
 		.accuracy = 100,
@@ -7053,7 +7053,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_STEAMROLLER] =
 	{
-		.effect = EFFECT_FLINCH_HIT,
+		.effect = EFFECT_FLINCH_MINIMIZE_HIT,
 		.power = 65,
 		.type = TYPE_BUG,
 		.accuracy = 100,
