@@ -1,3 +1,24 @@
+gBattleTerrain$
+gBattleStruct$
+gMoveToLearn$
+gPlayerPartyCount$
+gEnemyParty$
+gPlayerParty$
+gMapHeader$
+gSpecialVar_Result$
+sSpecialFlags$
+gTrainerBattleOpponent_A$
+sEvoStructPtr$
+sBattlerAbilities$
+sStartMenuWindowId$
+gSpecialVar_ItemId$
+sMonSummaryScreen$
+gBattleMainFunc$
+gBattleResults$
+gMultiUsePlayerCursor = \.$
+gSaveBlock1Ptr$
+gSaveBlock2Ptr$
+gTasks$
 BattleIntroDrawPartySummaryScreens$
 BattleIntroRecordMonsToDex$
 HandleTurnActionSelectionState$
