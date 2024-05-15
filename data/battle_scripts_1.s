@@ -1129,7 +1129,10 @@ BattleScript_EffectSpDefDownHit2::
 BattleScript_EffectSkyAttack::
 	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_TwoTurnMovesSecondTurn
 	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING, BattleScript_TwoTurnMovesSecondTurn
+	jumpifmove MOVE_FREEZE_SHOCK, BattleScript_FirstTurnFreezeShock
 	setbyte sTWOTURN_STRINGID, B_MSG_TURN1_SKY_ATTACK
+BattleScript_FirstTurnFreezeShock:
+	setbyte sTWOTURN_STRINGID, B_MSG_TURN1_FREEZE_SHOCK
 	call BattleScriptFirstChargingTurn
 	goto BattleScript_MoveEnd
 
@@ -2044,7 +2047,11 @@ BattleScript_EffectSemiInvulnerable::
 	jumpifmove MOVE_FLY, BattleScript_FirstTurnFly
 	jumpifmove MOVE_DIVE, BattleScript_FirstTurnDive
 	jumpifmove MOVE_BOUNCE, BattleScript_FirstTurnBounce
+	jumpifmove MOVE_SHADOW_FORCE, BattleScript_FirstTurnShadowForce
 	setbyte sTWOTURN_STRINGID, B_MSG_TURN1_DIG
+	goto BattleScript_FirstTurnSemiInvulnerable
+BattleScript_FirstTurnShadowForce:
+	setbyte sTWOTURN_STRINGID, B_MSG_TURN1_SHADOW_FORCE
 	goto BattleScript_FirstTurnSemiInvulnerable
 
 BattleScript_FirstTurnBounce::
@@ -2068,16 +2075,10 @@ BattleScript_SecondTurnSemiInvulnerable::
 	setbyte sB_ANIM_TURN, 1
 	clearstatusfromeffect BS_ATTACKER
 	orword gHitMarker, HITMARKER_NO_PPDEDUCT
-	jumpifnotmove MOVE_BOUNCE, BattleScript_SemiInvulnerableTryHit
+	clearsemiinvulnerablebit
+	jumpifnotmove MOVE_BOUNCE, BattleScript_HitFromAccCheck
 	setmoveeffect MOVE_EFFECT_PARALYSIS
-BattleScript_SemiInvulnerableTryHit::
-	accuracycheck BattleScript_SemiInvulnerableMiss, ACC_CURR_MOVE
-	clearsemiinvulnerablebit
-	goto BattleScript_HitFromAtkString
-
-BattleScript_SemiInvulnerableMiss::
-	clearsemiinvulnerablebit
-	goto BattleScript_PrintMoveMissed
+	goto BattleScript_HitFromAccCheck
 
 BattleScript_EffectDefenseCurl::
 	attackcanceler
@@ -5058,6 +5059,7 @@ BattleScript_EffectHit_Ret::
 	ppreduce
 	critcalc
 	damagecalc
+	typecalc
 	adjustnormaldamage
 	attackanimation
 	waitanimation

@@ -8972,6 +8972,9 @@ static void Cmd_setsemiinvulnerablebit(void)
     case MOVE_DIVE:
         gStatuses3[gBattlerAttacker] |= STATUS3_UNDERWATER;
         break;
+    default:
+        gStatuses3[gBattlerAttacker] |= STATUS3_SEMI_INVULNERABLE;
+	break;
     }
 
     gBattlescriptCurrInstr++;
@@ -8979,20 +8982,7 @@ static void Cmd_setsemiinvulnerablebit(void)
 
 static void Cmd_clearsemiinvulnerablebit(void)
 {
-    switch (gCurrentMove)
-    {
-    case MOVE_FLY:
-    case MOVE_BOUNCE:
-        gStatuses3[gBattlerAttacker] &= ~STATUS3_ON_AIR;
-        break;
-    case MOVE_DIG:
-        gStatuses3[gBattlerAttacker] &= ~STATUS3_UNDERGROUND;
-        break;
-    case MOVE_DIVE:
-        gStatuses3[gBattlerAttacker] &= ~STATUS3_UNDERWATER;
-        break;
-    }
-
+    gStatuses3[gBattlerAttacker] &= ~STATUS3_SEMI_INVULNERABLE;
     gBattlescriptCurrInstr++;
 }
 

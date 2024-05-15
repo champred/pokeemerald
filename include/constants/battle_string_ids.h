@@ -752,6 +752,8 @@
 #define B_MSG_TURN1_DIG         5
 #define B_MSG_TURN1_DIVE        6
 #define B_MSG_TURN1_BOUNCE      7
+#define B_MSG_TURN1_SHADOW_FORCE 8
+#define B_MSG_TURN1_FREEZE_SHOCK 9
 
 // gMoveWeatherChangeStringIds
 #define B_MSG_STARTED_RAIN      0
