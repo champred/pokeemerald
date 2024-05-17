@@ -15,17 +15,17 @@ jobs:
       GAME_REVISION: 1
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
 
       - name: Checkout agbcc
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
         with:
           path: 'agbcc'
           repository: 'pret/agbcc'
 
       - name: Checkout symbols
         if: ${{ github.event_name == 'push' }}
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
         with:
           path: 'symbols'
           ref: 'fr-symbols'
@@ -68,8 +68,8 @@ jobs:
       - name: Update JAR
         run: ./offgen.sh
 
-      - name: Upload JAR
+      - name: Upload Files
         uses: actions/upload-artifact@v4
         with:
-          name: Updated JAR
-          path: upr.jar
+          name: Dist
+          path: dist
