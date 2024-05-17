@@ -3,7 +3,6 @@ name: CI
 on:
   push:
     branches: [ firered ]
-  pull_request:
 
 jobs:
   jar:
@@ -69,9 +68,10 @@ jobs:
       - name: Update JAR
         run: |
           cp JAR/upr.jar .
-          bash offgen.sh
+          chmod +x offgen.sh
+          ./offgen.sh
 
-      - name: Upload Jar
+      - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
           name: Updated JAR
