@@ -2,18 +2,18 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ firered ]
   pull_request:
 
 jobs:
+  jar:
+    uses: champred/UPR-Android/.github/workflows/jar.yml@master
   build:
     runs-on: ubuntu-latest
     env:
       GAME_VERSION: FIRERED
       GAME_LANGUAGE: ENGLISH
-      GAME_REVISION: 0
-      MODERN: 0
-      COMPARE: 1
+      GAME_REVISION: 1
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@master
         with:
           path: 'symbols'
-          ref: 'symbols'
+          ref: 'fr-symbols'
 
       - name: Install binutils
         run: sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi
@@ -43,35 +43,8 @@ jobs:
           ./install.sh ../
         working-directory: ./agbcc
 
-      - name: Compare FireRed
-        run: |
-          make -j${nproc} all syms
-
-      - name: Compare FireRed rev1
-        env:
-          GAME_REVISION: 1
-        run: |
-          make -j${nproc} all syms
-
-      - name: Compare LeafGreen
-        env:
-          GAME_VERSION: LEAFGREEN
-        run: |
-          make -j${nproc} all syms
-
-      - name: Compare LeafGreen rev1
-        env:
-          GAME_VERSION: LEAFGREEN
-          GAME_REVISION: 1
-        run: |
-          make -j${nproc} all syms
-
-      - name: Build Modern
-        env:
-          MODERN: 1
-          COMPARE: 0
-        run: |
-          make -j${nproc} all
+      - name: Build ROM
+        run: make -j${nproc} all syms
 
       - name: Move symfiles
         if: ${{ github.event_name == 'push' }}
@@ -83,7 +56,23 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         uses: EndBug/add-and-commit@v7
         with:
-          branch: symbols
+          branch: fr-symbols
           cwd: "./symbols"
           add: "*.sym"
           message: ${{ env.SYMBOLS_COMMIT_MSG }}
+
+      - name: Download JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: JAR
+
+      - name: Update JAR
+        run: |
+          cp JAR/upr.jar .
+          bash offgen.sh
+
+      - name: Upload Jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: Updated JAR
+          path: upr.jar
