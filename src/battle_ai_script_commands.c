@@ -455,18 +455,21 @@ static void BattleAI_DoAIProcessing(void)
     }
 }
 
+#define USED(slot)BATTLE_HISTORY->usedMoves[gBattlerTarget >> 1][slot]
 static void RecordLastUsedMoveByTarget(void)
 {
     s32 i;
 
     for (i = 0; i < 8; i++)
     {
-        if (BATTLE_HISTORY->usedMoves[gBattlerTarget >> 1][i] == 0)
+        if (USED(i) == MOVE_NONE)
         {
-            BATTLE_HISTORY->usedMoves[gBattlerTarget >> 1][i] = gLastMoves[gBattlerTarget];
+            USED(i) = gLastMoves[gBattlerTarget];
             return;
         }
     }
+    for (i = 0; i < 7; i++)USED(i) = USED(i+1);
+    USED(i) = gLastMoves[gBattlerTarget];
 }
 
 bool32 CanUseLastResort(u8 battlerId)
@@ -505,21 +508,20 @@ static void ClearBattlerMoveHistory(u8 battlerId)
         BATTLE_HISTORY->usedMoves[battlerId][i] = MOVE_NONE;
 }
 
-#define IS_LEGAL(move)(move&&move!=MOVE_COPYCAT)
-u16 LastUsedMove(void){
-	s32 i;
+#define USED(slot)BATTLE_HISTORY->usedMoves[slot][i]
+#define IS_LEGAL(slot)for(j=0;banned[j]!=0xffff;j++)if(USED(slot)==banned[j])break;\
+	if(banned[j]==0xffff){\
+		move=USED(slot);\
+		ClearBattlerMoveHistory(slot);\
+		break;\
+	}
+u16 LastUsedMove(const u16 *banned){
+	s32 i,j;
 	u16 move=0xffff;
 	RecordLastUsedMoveByTarget();
 	for(i=7;i>=0;i--){
-		if(IS_LEGAL(BATTLE_HISTORY->usedMoves[0][i])){
-			move = BATTLE_HISTORY->usedMoves[0][i];
-			ClearBattlerMoveHistory(0);
-			break;
-		}if(IS_LEGAL(BATTLE_HISTORY->usedMoves[1][i])){
-			move = BATTLE_HISTORY->usedMoves[1][i];
-			ClearBattlerMoveHistory(1);
-			break;
-		}
+		IS_LEGAL(0)
+		IS_LEGAL(1)
 	}
 	return move;
 }

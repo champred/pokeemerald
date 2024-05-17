@@ -721,32 +721,50 @@ static const struct SpriteTemplate sSpriteTemplate_MonIconOnLvlUpBanner =
 
 static const u16 sProtectSuccessRates[] = {USHRT_MAX, USHRT_MAX / 2, USHRT_MAX / 4, USHRT_MAX / 8};
 
-#define MIMIC_FORBIDDEN_END             0xFFFE
-#define METRONOME_FORBIDDEN_END         0xFFFF
-#define ASSIST_FORBIDDEN_END            0xFFFF
+#define MIMIC_FORBIDDEN_END             0xFFFB
+#define METRONOME_FORBIDDEN_END         0xFFFC
+#define ASSIST_FORBIDDEN_END            0xFFFD
+#define ME_FIRST_FORBIDDEN_END          0xFFFE
+#define COPYCAT_FORBIDDEN_END           0xFFFF
 
 static const u16 sMovesForbiddenToCopy[] =
 {
+    MOVE_NONE,
     MOVE_METRONOME,
     MOVE_STRUGGLE,
     MOVE_SKETCH,
     MOVE_MIMIC,
+    MOVE_CHATTER,
     MIMIC_FORBIDDEN_END,
+    MOVE_METAL_BURST,
     MOVE_COUNTER,
     MOVE_MIRROR_COAT,
+    MOVE_COVET,
+    MOVE_FOCUS_PUNCH,
+    MOVE_THIEF,
+    ME_FIRST_FORBIDDEN_END,
     MOVE_PROTECT,
     MOVE_DETECT,
     MOVE_ENDURE,
     MOVE_DESTINY_BOND,
     MOVE_SLEEP_TALK,
-    MOVE_THIEF,
     MOVE_FOLLOW_ME,
     MOVE_SNATCH,
     MOVE_HELPING_HAND,
-    MOVE_COVET,
     MOVE_TRICK,
-    MOVE_FOCUS_PUNCH,
-    METRONOME_FORBIDDEN_END
+    MOVE_ME_FIRST,
+    MOVE_COPYCAT,
+    MOVE_SWITCHEROO,
+    MOVE_MIRROR_MOVE,
+    ASSIST_FORBIDDEN_END,
+    MOVE_FEINT,
+    MOVE_SNARL,
+    //MOVE_RELIC_SONG,
+    MOVE_FREEZE_SHOCK,
+    METRONOME_FORBIDDEN_END,
+    MOVE_ASSIST,
+    MOVE_COPYCAT,
+    COPYCAT_FORBIDDEN_END,
 };
 
 static const u8 sFlailHpScaleToPowerTable[] =
@@ -6187,7 +6205,7 @@ static void Cmd_various(void)
     u8 side, data[10];
     s32 i;
     u32 monToCheck, status, bits;
-    u16 species;
+    u16 species,move;
     u8 abilityNum;
 
     gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
@@ -6357,19 +6375,6 @@ static void Cmd_various(void)
 	BtlController_EmitSetMonData(BUFFER_A, REQUEST_PP_DATA_BATTLE, 0, 5, data);
 	MarkBattlerForControllerExec(gActiveBattler);
 	break;
-    case VARIOUS_SET_LUCKY_CHANT:
-	/*if (!(gSideStatuses[GET_BATTLER_SIDE(gActiveBattler)] & SIDE_STATUS_LUCKY_CHANT))
-	{
-		gSideStatuses[GET_BATTLER_SIDE(gActiveBattler)] |= SIDE_STATUS_LUCKY_CHANT;
-		gSideTimers[GET_BATTLER_SIDE(gActiveBattler)].luckyChantBattlerId = gActiveBattler;
-		gSideTimers[GET_BATTLER_SIDE(gActiveBattler)].luckyChantTimer = 5;
-		gBattlescriptCurrInstr += 7;
-	}
-	else*/
-	{
-		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
-	}
-	return;
     case VARIOUS_SUCKER_PUNCH_CHECK:
 	if (gProtectStructs[gBattlerTarget].protected)
 		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
@@ -6387,7 +6392,7 @@ static void Cmd_various(void)
 		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
 	else
 	{
-		u16 move = gBattleMons[gBattlerTarget].moves[gBattleStruct->chosenMovePositions[gBattlerTarget]];
+		move = gBattleMons[gBattlerTarget].moves[gBattleStruct->chosenMovePositions[gBattlerTarget]];
 		switch (move)
 		{
 			case MOVE_STRUGGLE:
@@ -6412,13 +6417,14 @@ static void Cmd_various(void)
 	}
 	return;
     case VARIOUS_TRY_COPYCAT:
-	if (LastUsedMove() == 0xFFFF)
+        move = LastUsedMove(sMovesForbiddenToCopy);
+	if (move == 0xFFFF)
 	{
 		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
 	}
 	else
 	{
-		gCalledMove = LastUsedMove();
+		gCalledMove = move;
 		gHitMarker &= ~HITMARKER_ATTACKSTRING_PRINTED;
 		gBattlerTarget = GetMoveTarget(gCalledMove, NO_TARGET_OVERRIDE);
 		gBattlescriptCurrInstr += 7;
