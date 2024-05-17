@@ -67,8 +67,7 @@ jobs:
 
       - name: Update JAR
         run: |
-          cp JAR/upr.jar .
-          chmod +x offgen.sh
+          unzip JAR
           ./offgen.sh
 
       - name: Upload JAR
