@@ -66,9 +66,7 @@ jobs:
           name: JAR
 
       - name: Update JAR
-        run: |
-          unzip JAR
-          ./offgen.sh
+        run: ./offgen.sh
 
       - name: Upload JAR
         uses: actions/upload-artifact@v4
