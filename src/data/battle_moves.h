@@ -4622,7 +4622,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_SPECIAL,
 	},
 
-	[MOVE_ROOST] =
+	/*[MOVE_ROOST] =
 	{
 		.pp = 10,
 		.effect = EFFECT_RESTORE_HP,
@@ -4635,7 +4635,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 		.flags = FLAG_SNATCH_AFFECTED | FLAG_STATUS,
 	},
 
-	/*[MOVE_GRAVITY] =
+	[MOVE_GRAVITY] =
 	{
 		.effect = EFFECT_ACCURACY_UP,
 		.power = 0,
@@ -5496,7 +5496,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 	[MOVE_THUNDER_FANG] =
 	{
 		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_PHYSICAL,
-		.effect = EFFECT_FLINCH_STATUS,
+		.effect = EFFECT_FLINCH_HIT,
 		.power = 65,
 		.type = TYPE_ELECTRIC,
 		.accuracy = 95,
@@ -5509,7 +5509,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 	[MOVE_ICE_FANG] =
 	{
 		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_PHYSICAL,
-		.effect = EFFECT_FLINCH_STATUS,
+		.effect = EFFECT_FLINCH_HIT,
 		.power = 65,
 		.type = TYPE_ICE,
 		.accuracy = 95,
@@ -5522,7 +5522,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 	[MOVE_FIRE_FANG] =
 	{
 		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_PHYSICAL,
-		.effect = EFFECT_FLINCH_STATUS,
+		.effect = EFFECT_FLINCH_HIT,
 		.power = 65,
 		.type = TYPE_FIRE,
 		.accuracy = 95,
@@ -7185,11 +7185,11 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 		.priority = 0,
 		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_SPECIAL,
 		.zMoveEffect = Z_EFFECT_NONE,
-	},
+	},*/
 
 	[MOVE_RELIC_SONG] =
 	{
-		.effect = EFFECT_RELIC_SONG,
+		.effect = EFFECT_SLEEP_HIT,
 		.power = 75,
 		.type = TYPE_NORMAL,
 		.accuracy = 100,
@@ -7197,11 +7197,10 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 		.secondaryEffectChance = 10,
 		.target = MOVE_TARGET_BOTH,
 		.priority = 0,
-		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_SOUND | FLAG_SHEER_FORCE_BOOST | FLAG_SPECIAL,
-		.argument = STATUS1_SLEEP,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_SPECIAL,
 	},
 
-	[MOVE_SECRET_SWORD] =
+	/*[MOVE_SECRET_SWORD] =
 	{
 		.effect = EFFECT_PSYSHOCK,
 		.power = 85,

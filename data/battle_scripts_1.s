@@ -117,7 +117,7 @@ gBattleScriptsForMoveEffects::
 	.4byte BattleScript_EffectConversion2            @ EFFECT_CONVERSION_2
 	.4byte BattleScript_EffectLockOn                 @ EFFECT_LOCK_ON
 	.4byte BattleScript_EffectSketch                 @ EFFECT_SKETCH
-	.4byte BattleScript_EffectFlinchStatus           @ EFFECT_FLINCH_STATUS
+	.4byte BattleScript_EffectSleepHit               @ EFFECT_SLEEP_HIT
 	.4byte BattleScript_EffectSleepTalk              @ EFFECT_SLEEP_TALK
 	.4byte BattleScript_EffectDestinyBond            @ EFFECT_DESTINY_BOND
 	.4byte BattleScript_EffectFlail                  @ EFFECT_FLAIL
@@ -401,6 +401,10 @@ BattleScript_EffectFreezeHit::
 BattleScript_EffectParalyzeHit::
 	setmoveeffect MOVE_EFFECT_PARALYSIS
 	goto BattleScript_EffectHit
+
+BattleScript_EffectSleepHit::
+	setmoveeffect MOVE_EFFECT_SLEEP
+	setmoveeffect MOVE_EFFECT_PARALYSIS
 
 BattleScript_EffectExplosion::
 	attackcanceler
@@ -706,7 +710,6 @@ BattleScript_EffectConversion::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
 
-BattleScript_EffectFlinchStatus::
 BattleScript_EffectFlinchHit::
 	setmoveeffect MOVE_EFFECT_FLINCH
 	call BattleScript_EffectHit_Ret
