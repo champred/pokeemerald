@@ -1117,7 +1117,7 @@ static const u8 sFusionBoltDescription[] = _(
         "Works well with a fireball.");
 */
 
-static const u8 sPlaceholderDescription[]=_("Click to see\ntracker description.");
+static const u8 sPlaceholderDescription[]=_("Click on the move\nto see description\nin the tracker.");
 
 const u8 *const gMoveDescriptionPointers[MOVES_COUNT - 1] = {
 	[MOVE_POUND         - 1] = gMoveDescription_Pound,

@@ -142,7 +142,7 @@
 #define EFFECT_DEFENSE_UP_HIT 138
 #define EFFECT_ATTACK_UP_HIT 139
 #define EFFECT_ALL_STATS_UP_HIT 140
-#define EFFECT_HEAL_BLOCK 141
+#define EFFECT_LAST_RESORT 141
 #define EFFECT_BELLY_DRUM 142
 #define EFFECT_PSYCH_UP 143
 #define EFFECT_MIRROR_COAT 144
@@ -243,6 +243,5 @@
 #define EFFECT_FEINT                        239
 #define EFFECT_BUG_BITE                     240
 #define EFFECT_HAMMER_ARM                   241
-#define EFFECT_LAST_RESORT                  242
 
 #endif  // GUARD_CONSTANTS_BATTLE_MOVE_EFFECTS_H
