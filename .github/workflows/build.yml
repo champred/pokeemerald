@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: 'symbols'
-          ref: 'fr-symbols'
+          ref: 'symbols'
 
       - name: Install binutils
         run: sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi libcapstone-dev
@@ -55,7 +55,7 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         uses: EndBug/add-and-commit@v7
         with:
-          branch: fr-symbols
+          branch: symbols
           cwd: "./symbols"
           add: "*.sym"
           message: ${{ env.SYMBOLS_COMMIT_MSG }}
@@ -65,7 +65,7 @@ jobs:
         with:
           name: JAR
 
-      - name: Update JAR
+      - name: Generate Offsets
         run: ./offgen.sh
 
       - name: Upload Files
