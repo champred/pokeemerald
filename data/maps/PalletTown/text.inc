@@ -1,9 +1,9 @@
 PalletTown_Text_OakDontGoOut::
     .string "OAK: Hey! Wait!\n"
-    .string "Don't go out!$"
+    .string "In exchange for the parcel\n"
+    .string "I have something for you.$"
 
 PalletTown_Text_OakGrassUnsafeNeedMon::
-    .string "It's dangerous to go alone!\n"
     .string "Here, take my BALLS.$"
 
 PalletTown_Text_RaisingMonsToo::

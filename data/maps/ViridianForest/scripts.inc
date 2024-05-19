@@ -9,8 +9,6 @@ ViridianForest_OnTransition::
 ViridianForest_EventScript_Nurse::
 	lock
 	faceplayer
-	@specialvar VAR_RESULT, IsPoisonInParty
-	goto_if_eq VAR_RESULT, TRUE, ViridianForest_EventScript_NurseCantHealPoison
 	msgbox ViridianForest_Text_HealPokemon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, ViridianForest_EventScript_NurseHeal
 	msgbox ViridianForest_Text_PokemonNotHealed, MSGBOX_DEFAULT
@@ -23,11 +21,6 @@ ViridianForest_EventScript_NurseHeal::
 	playse SE_USE_ITEM
 	waitse
 	msgbox ViridianForest_Text_PokemonHealed, MSGBOX_DEFAULT
-	release
-	end
-
-ViridianForest_EventScript_NurseCantHealPoison::
-	msgbox ViridianForest_Text_CantHealPoison, MSGBOX_DEFAULT
 	release
 	end
 
