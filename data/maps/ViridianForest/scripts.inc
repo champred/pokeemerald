@@ -6,8 +6,29 @@ ViridianForest_OnTransition::
 	setworldmapflag FLAG_WORLD_MAP_VIRIDIAN_FOREST
 	end
 
-ViridianForest_EventScript_Youngster::
-	msgbox ViridianForest_Text_FriendsItchingToBattle, MSGBOX_NPC
+ViridianForest_EventScript_Nurse::
+	lock
+	faceplayer
+	@specialvar VAR_RESULT, IsPoisonInParty
+	goto_if_eq VAR_RESULT, TRUE, ViridianForest_EventScript_NurseCantHealPoison
+	msgbox ViridianForest_Text_HealPokemon, MSGBOX_YESNO
+	goto_if_eq VAR_RESULT, YES, ViridianForest_EventScript_NurseHeal
+	msgbox ViridianForest_Text_PokemonNotHealed, MSGBOX_DEFAULT
+	release
+	end
+
+ViridianForest_EventScript_NurseHeal::
+	closemessage
+	special HealPlayerParty
+	playse SE_USE_ITEM
+	waitse
+	msgbox ViridianForest_Text_PokemonHealed, MSGBOX_DEFAULT
+	release
+	end
+
+ViridianForest_EventScript_NurseCantHealPoison::
+	msgbox ViridianForest_Text_CantHealPoison, MSGBOX_DEFAULT
+	release
 	end
 
 ViridianForest_EventScript_Boy::

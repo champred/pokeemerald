@@ -16,8 +16,11 @@ Route1_EventScript_MartClerk::
 	waitfanfare
 	additem ITEM_POTION
 	msgbox Route1_Text_PutPotionAway
+	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_MART, 1
+	giveitem_msg ViridianCity_Mart_Text_ReceivedOaksParcelFromClerk, ITEM_OAKS_PARCEL, 1, MUS_OBTAIN_KEY_ITEM
 	call EventScript_RestorePrevTextColor
 	setflag FLAG_GOT_POTION_ON_ROUTE_1
+	setvar VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 5
 	release
 	end
 

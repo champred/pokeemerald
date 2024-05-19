@@ -1,3 +1,17 @@
+ViridianForest_Text_HealPokemon:
+.string "Want me to heal your Pokémon?$"
+
+ViridianForest_Text_PokemonHealed:
+.string "Your Pokémon is healthy.\n"
+ViridianForest_Text_PokemonNotHealed:
+.string "Come again!$"
+
+ViridianForest_Text_CantHealPoison:
+.string "Sorry, but I can't heal if\n"
+.string "you have a poisoned Pokémon.\p"
+.string "Please visit a Pokémon Center\n"
+.string "to cure poisoning.$"
+
 ViridianForest_Text_FriendsItchingToBattle::
     .string "I came here with some friends to\n"
     .string "catch us some BUG POKéMON!\p"
