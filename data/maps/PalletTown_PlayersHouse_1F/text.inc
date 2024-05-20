@@ -21,6 +21,10 @@ PalletTown_PlayersHouse_1F_Text_LookingGreatTakeCare::
     .string "POKéMON are looking great.\l"
     .string "Take care now!$"
 
+PalletTown_PlayersHouse_1F_Text_DontBeRude::
+.string "Don't be rude!\n"
+.string "Let's try this again.$"
+
 PalletTown_PlayersHouse_1F_Text_MovieOnTVFourBoysOnRailroad::
     .string "There's a movie on TV.\n"
     .string "Four boys are walking on railroad\l"

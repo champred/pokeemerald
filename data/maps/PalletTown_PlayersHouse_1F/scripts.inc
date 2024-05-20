@@ -40,6 +40,15 @@ PalletTown_PlayersHouse_1F_EventScript_MomHeal::
 	release
 	end
 
+PalletTown_PlayersHouse_1F_EventScript_MomStop::
+	lockall
+	msgbox PalletTown_PlayersHouse_1F_Text_DontBeRude
+	closemessage
+	warp MAP_PALLET_TOWN_PLAYERS_HOUSE_2F, 11, 2
+	waitstate
+	releaseall
+	end
+
 @ Displays special text if interacted with from side or back (which are normally inaccessible)
 PalletTown_PlayersHouse_1F_EventScript_TV::
 	lockall

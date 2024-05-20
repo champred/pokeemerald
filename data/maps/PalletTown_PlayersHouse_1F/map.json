@@ -60,7 +60,17 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+  {
+	  "type": "trigger",
+	  "x": 4,
+	  "y": 8,
+	  "elevation": 0,
+	  "var": "VAR_MAP_SCENE_PALLET_TOWN_OAK",
+	  "var_value": "0",
+	  "script": "PalletTown_PlayersHouse_1F_EventScript_MomStop"
+  }
+  ],
   "bg_events": [
     {
       "type": "sign",

@@ -36,12 +36,7 @@
 #include "constants/abilities.h"
 #include "constants/pokemon.h"
 #include "constants/maps.h"
-#define FLAG_PHYSICAL (1<<6)
-#define FLAG_SPECIAL (1<<7)
-#define FLAG_STATUS (3<<6)
-#define IS_MOVE_PHYSICAL(flags)(flags&FLAG_PHYSICAL)
-#define IS_MOVE_SPECIAL(flags)(flags&FLAG_SPECIAL)
-#define IS_MOVE_STATUS(move)(gBattleMoves[move].flags>=FLAG_STATUS)
+
 extern const u8 *const gBattleScriptsForMoveEffects[];
 
 #define DEFENDER_IS_PROTECTED ((gProtectStructs[gBattlerTarget].protected) && (gBattleMoves[gCurrentMove].flags & FLAG_PROTECT_AFFECTED))

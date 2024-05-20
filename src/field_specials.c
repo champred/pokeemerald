@@ -41,6 +41,7 @@
 #include "constants/menu.h"
 #include "constants/event_objects.h"
 #include "constants/metatile_labels.h"
+#include "constants/pokemon.h"
 
 static EWRAM_DATA u8 sElevatorCurrentFloorWindowId = 0;
 static EWRAM_DATA u16 sElevatorScroll = 0;
@@ -551,7 +552,7 @@ void DoPicboxCancel(void)
 
 void SetVermilionTrashCans(void)
 {
-    u16 idx = (Random() % 15) + 1;
+    u16 idx = /*(Random() % 15) + */1;
     gSpecialVar_0x8004 = idx;
     gSpecialVar_0x8005 = idx;
     switch (gSpecialVar_0x8004)
@@ -2074,7 +2075,9 @@ void RunMassageCooldownStepCounter(void)
 
 void DaisyMassageServices(void)
 {
-    AdjustFriendship(&gPlayerParty[gSpecialVar_0x8004], FRIENDSHIP_EVENT_MASSAGE);
+    //AdjustFriendship(&gPlayerParty[gSpecialVar_0x8004], FRIENDSHIP_EVENT_MASSAGE);
+    u8 friendship = MAX_FRIENDSHIP;
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_FRIENDSHIP, &friendship);
     VarSet(VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 0);
 }
 

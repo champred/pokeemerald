@@ -241,6 +241,12 @@
 #define FLAG_SNATCH_AFFECTED        (1 << 3)
 #define FLAG_MIRROR_MOVE_AFFECTED   (1 << 4)
 #define FLAG_KINGS_ROCK_AFFECTED    (1 << 5)
+#define FLAG_PHYSICAL (1<<6)
+#define FLAG_SPECIAL (1<<7)
+#define FLAG_STATUS (3<<6)
+#define IS_MOVE_PHYSICAL(flags)(flags&FLAG_PHYSICAL)
+#define IS_MOVE_SPECIAL(flags)(flags&FLAG_SPECIAL)
+#define IS_MOVE_STATUS(move)(gBattleMoves[move].flags>=FLAG_STATUS)
 
 // Growth rates
 #define GROWTH_MEDIUM_FAST  0
