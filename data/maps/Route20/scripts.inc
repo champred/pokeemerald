@@ -30,3 +30,9 @@ Route20_EventScript_ResetSeafoamBouldersForB4F::
 Route20_EventScript_SeafoamIslandsSign::
 	msgbox Route20_Text_SeafoamIslands, MSGBOX_SIGN
 	end
+
+Route20_EventScript_Sparkle_Stardust::
+	goto_if_set FLAG_HIDDEN_ITEM_ROUTE20_STARDUST, EventScript_ReleaseEnd
+	dofieldeffectsparkle 23, 6, 0
+	setvar VAR_TEMP_F, 1
+	end
