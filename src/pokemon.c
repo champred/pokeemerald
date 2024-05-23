@@ -2462,13 +2462,6 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
 	    	if(GetBattlerTurnOrderNum(battlerIdAtk)>GetBattlerTurnOrderNum(battlerIdDef))
 			gBattleMovePower*=2;
 		break;
-	    case MOVE_VENOSHOCK:
-	    	if(defender->status1&STATUS1_POISON||defender->status1&STATUS1_TOXIC_POISON)
-			gBattleMovePower*=2;
-	    case MOVE_HEX:
-	    	if(defender->status1)
-			gBattleMovePower*=2;
-	    default:break;
     }
 
     // Get attacker hold item info

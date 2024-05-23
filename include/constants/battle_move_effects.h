@@ -243,5 +243,7 @@
 #define EFFECT_FEINT                        239
 #define EFFECT_BUG_BITE                     240
 #define EFFECT_HAMMER_ARM                   241
+#define EFFECT_VENOSHOCK                    242
+#define EFFECT_HEX                          243
 
 #endif  // GUARD_CONSTANTS_BATTLE_MOVE_EFFECTS_H
