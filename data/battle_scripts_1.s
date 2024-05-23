@@ -850,6 +850,7 @@ BattleScript_TwoTurnMovesSecondTurn::
 	orword gHitMarker, HITMARKER_NO_PPDEDUCT
 	jumpifmove MOVE_SKY_ATTACK, BattleScript_EffectFlinchHit
 	jumpifmove MOVE_FREEZE_SHOCK, BattleScript_EffectParalyzeHit
+	jumpifmove MOVE_ICE_BURN, BattleScript_EffectBurnHit
 	attackcanceler
 	goto BattleScript_HitFromAccCheck
 
