@@ -263,6 +263,8 @@ gBattleScriptsForMoveEffects::
 	.4byte BattleScript_EffectFeint                  @ EFFECT_FEINT
 	.4byte BattleScript_EffectBugBite                @ EFFECT_BUG_BITE
 	.4byte BattleScript_EffectHammerArm              @ EFFECT_HAMMER_ARM
+	.4byte BattleScript_EffectVenoshock              @ EFFECT_VENOSHOCK
+	.4byte BattleScript_EffectHex                    @ EFFECT_HEX
 
 BattleScript_EffectHit::
 	jumpifnotmove MOVE_SURF, BattleScript_HitFromAtkCanceler
@@ -2342,16 +2344,24 @@ BattleScript_EffectFocusPunch::
 BattleScript_EffectSmellingsalt::
 	jumpifstatus2 BS_TARGET, STATUS2_SUBSTITUTE, BattleScript_EffectHit
 	setmoveeffect MOVE_EFFECT_REMOVE_PARALYSIS | MOVE_EFFECT_CERTAIN
-	jumpifstatus BS_TARGET, STATUS1_PARALYSIS, BattleScript_SmellingsaltDoubleDmg
+	jumpifstatus BS_TARGET, STATUS1_PARALYSIS, BattleScript_DoubleDmg
 	goto BattleScript_EffectHit
-BattleScript_SmellingsaltDoubleDmg::
+BattleScript_DoubleDmg:
 	setbyte sDMG_MULTIPLIER, 2
 	goto BattleScript_EffectHit
 
 BattleScript_EffectWakeUpSlap::
 	jumpifstatus2 BS_TARGET, STATUS2_SUBSTITUTE, BattleScript_EffectHit
 	setmoveeffect MOVE_EFFECT_REMOVE_SLEEP | MOVE_EFFECT_CERTAIN
-	jumpifstatus BS_TARGET, STATUS1_SLEEP, BattleScript_SmellingsaltDoubleDmg
+	jumpifstatus BS_TARGET, STATUS1_SLEEP, BattleScript_DoubleDmg
+	goto BattleScript_EffectHit
+
+BattleScript_EffectVenoshock::
+	jumpifstatus BS_TARGET, STATUS1_PSN_ANY, BattleScript_DoubleDmg
+	goto BattleScript_EffectHit
+
+BattleScript_EffectHex::
+	jumpifstatus BS_TARGET, STATUS1_ANY, BattleScript_DoubleDmg
 	goto BattleScript_EffectHit
 
 BattleScript_EffectFollowMe::
