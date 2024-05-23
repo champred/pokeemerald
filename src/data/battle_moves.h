@@ -4481,7 +4481,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 		.type = TYPE_ELECTRIC,
 		.accuracy = 100,
 		.pp = 15,
-		.secondaryEffectChance = 0,
+		.secondaryEffectChance = 10,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
 		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_PHYSICAL,
@@ -5126,7 +5126,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_FLARE_BLITZ] =
 	{
-		.effect = EFFECT_RECOIL,
+		.effect = EFFECT_DOUBLE_EDGE,
 		.power = 120,
 		.type = TYPE_FIRE,
 		.accuracy = 100,
@@ -5373,7 +5373,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_BRAVE_BIRD] =
 	{
-		.effect = EFFECT_RECOIL,
+		.effect = EFFECT_DOUBLE_EDGE,
 		.power = 120,
 		.type = TYPE_FLYING,
 		.accuracy = 100,
@@ -5880,7 +5880,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_WOOD_HAMMER] =
 	{
-		.effect = EFFECT_RECOIL,
+		.effect = EFFECT_DOUBLE_EDGE,
 		.power = 120,
 		.type = TYPE_GRASS,
 		.accuracy = 100,
@@ -7275,7 +7275,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	/*[MOVE_ICE_BURN] =
 	{
-		.effect = EFFECT_TWO_TURNS_ATTACK,
+		.effect = EFFECT_SKY_ATTACK,
 		.power = 140,
 		.type = TYPE_ICE,
 		.accuracy = 90,
@@ -7283,8 +7283,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 		.secondaryEffectChance = 30,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
-		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_SHEER_FORCE_BOOST | FLAG_SPECIAL,
-		.zMoveEffect = Z_EFFECT_NONE,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_SPECIAL,
 	},*/
 
 	[MOVE_SNARL] =

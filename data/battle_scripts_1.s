@@ -403,7 +403,7 @@ BattleScript_EffectParalyzeHit::
 
 BattleScript_EffectSleepHit::
 	setmoveeffect MOVE_EFFECT_SLEEP
-	setmoveeffect MOVE_EFFECT_PARALYSIS
+	goto BattleScript_EffectHit
 
 BattleScript_EffectExplosion::
 	attackcanceler
@@ -957,7 +957,13 @@ BattleScript_EffectFocusEnergy::
 
 BattleScript_EffectRecoil::
 	setmoveeffect MOVE_EFFECT_RECOIL_25 | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN
-	jumpifnotmove MOVE_STRUGGLE, BattleScript_EffectHit
+	jumpifmove MOVE_STRUGGLE, BattleScript_EffectStruggle
+	call BattleScript_EffectHit_Ret
+	seteffectwithchance
+	jumpifnotmove MOVE_HEAD_SMASH, BattleScript_EffectRecoilDone
+	call BattleScript_MoveEffectRecoil @2x recoil
+	goto BattleScript_EffectRecoilDone
+BattleScript_EffectStruggle:
 	incrementgamestat GAME_STAT_USED_STRUGGLE
 	goto BattleScript_EffectHit
 
@@ -1131,10 +1137,10 @@ BattleScript_EffectSpDefDownHit2::
 BattleScript_EffectSkyAttack::
 	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_TwoTurnMovesSecondTurn
 	jumpifword CMP_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING, BattleScript_TwoTurnMovesSecondTurn
-	jumpifmove MOVE_FREEZE_SHOCK, BattleScript_FirstTurnFreezeShock
 	setbyte sTWOTURN_STRINGID, B_MSG_TURN1_SKY_ATTACK
-BattleScript_FirstTurnFreezeShock:
+	jumpifmove MOVE_SKY_ATTACK, BattleScript_FirstTurnCharge
 	setbyte sTWOTURN_STRINGID, B_MSG_TURN1_FREEZE_SHOCK
+BattleScript_FirstTurnCharge:
 	call BattleScriptFirstChargingTurn
 	goto BattleScript_MoveEnd
 
@@ -2646,7 +2652,21 @@ BattleScript_EffectSecretPower::
 
 BattleScript_EffectDoubleEdge::
 	setmoveeffect MOVE_EFFECT_RECOIL_33 | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN
-	goto BattleScript_EffectHit
+	call BattleScript_EffectHit_Ret
+	seteffectwithchance
+	jumpifmove MOVE_VOLT_TACKLE, BattleScript_EffectVoltTackle
+	jumpifmove MOVE_FLARE_BLITZ, BattleScript_EffectFlareBlitz
+	goto BattleScript_EffectRecoilDone
+BattleScript_EffectVoltTackle:
+	setmoveeffect MOVE_EFFECT_PARALYSIS
+	seteffectwithchance
+	goto BattleScript_EffectRecoilDone
+BattleScript_EffectFlareBlitz:
+	setmoveeffect MOVE_EFFECT_BURN
+	seteffectwithchance
+BattleScript_EffectRecoilDone:
+	tryfaintmon BS_TARGET
+	goto BattleScript_MoveEnd
 
 BattleScript_EffectTeeterDance::
 	attackcanceler
