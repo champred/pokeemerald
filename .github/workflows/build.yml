@@ -12,8 +12,6 @@ jobs:
       GAME_VERSION: EMERALD
       GAME_REVISION: 0
       GAME_LANGUAGE: ENGLISH
-      MODERN: 0
-      COMPARE: 1
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -43,14 +41,8 @@ jobs:
           ./install.sh ../
         working-directory: agbcc
 
-      - name: Compare
+      - name: Build ROM
         run: make -j${nproc} all syms
-
-      - name: Modern
-        env:
-          MODERN: 1
-          COMPARE: 0
-        run: make -j${nproc} all
 
       - name: Move symfiles
         if: ${{ github.event_name == 'push' }}
