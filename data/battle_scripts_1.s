@@ -4864,6 +4864,7 @@ BattleScript_EffectLastResort::
 	goto BattleScript_HitFromCritCalc
 
 BattleScript_EffectHitEscape::
+	jumpifbyte CMP_EQUAL, sBATTLE_STYLE, OPTIONS_BATTLE_STYLE_SHIFT, BattleScript_EffectHitEscapeStart
 	jumpifcantswitch BS_ATTACKER, BattleScript_EffectHitEscapeStart
 	jumpifnodamage BattleScript_FailedFromAtkCanceler
 BattleScript_EffectHitEscapeStart:
@@ -4871,7 +4872,7 @@ BattleScript_EffectHitEscapeStart:
 	tryfaintmon BS_TARGET
 	moveendto MOVEEND_ATTACKER_VISIBLE
 	moveendfrom MOVEEND_TARGET_VISIBLE
-	jumpifbyte CMP_NOT_EQUAL gBattleOutcome 0, BattleScript_HitEscapeEnd
+	jumpifbyte CMP_NOT_EQUAL, gBattleOutcome, 0, BattleScript_HitEscapeEnd
 	jumpifcantswitch SWITCH_IGNORE_ESCAPE_PREVENTION | BS_ATTACKER, BattleScript_HitEscapeEnd
 	printstring STRINGID_PKMNWENTBACK
 	waitmessage B_WAIT_TIME_SHORT
