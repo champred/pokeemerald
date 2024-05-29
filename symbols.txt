@@ -13,12 +13,12 @@ sBattlerAbilities$
 sStartMenuWindowId$
 gSpecialVar_ItemId$
 sMonSummaryScreen$
-gBattleMainFunc$
-gBattleResults$
+gBattleMainFunc = \.$
+gBattleResults = \.$
 gMultiUsePlayerCursor = \.$
-gSaveBlock1Ptr$
-gSaveBlock2Ptr$
-gTasks$
+gSaveBlock1Ptr = \.$
+gSaveBlock2Ptr = \.$
+gTasks = \.$
 BattleIntroDrawPartySummaryScreens$
 BattleIntroRecordMonsToDex$
 HandleTurnActionSelectionState$
