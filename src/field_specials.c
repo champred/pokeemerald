@@ -2069,7 +2069,7 @@ bool8 BufferTMHMMoveName(void)
 void RunMassageCooldownStepCounter(void)
 {
     u16 count = VarGet(VAR_MASSAGE_COOLDOWN_STEP_COUNTER);
-    if (count < 500)
+    if (count < MASSAGE_COOLDOWN_LENGTH)
         VarSet(VAR_MASSAGE_COOLDOWN_STEP_COUNTER, count + 1);
 }
 

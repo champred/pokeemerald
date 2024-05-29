@@ -3,6 +3,8 @@
 
 #include "global.h"
 
+#define MASSAGE_COOLDOWN_LENGTH 5000
+
 u8 GetLeadMonIndex(void);
 s32 CountDigits(s32 number);
 void TV_PrintIntToStringVar(u8 varidx, s32 number);

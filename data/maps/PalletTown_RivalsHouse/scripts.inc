@@ -1,6 +1,6 @@
 .equ LOCALID_DAISY,    1
 .equ LOCALID_TOWN_MAP, 2
-
+.equ MASSAGE_COOLDOWN_LENGTH, 5000
 .equ RECEIVED_TOWN_MAP, VAR_TEMP_1
 
 PalletTown_RivalsHouse_MapScripts::
@@ -44,7 +44,7 @@ PalletTown_RivalsHouse_EventScript_HeardBattledRival::
 PalletTown_RivalsHouse_EventScript_GroomMon::
 	goto_if_questlog EventScript_ReleaseEnd
 	special QuestLog_CutRecording
-	goto_if_lt VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 500, PalletTown_RivalsHouse_EventScript_RateMonFriendship
+	goto_if_lt VAR_MASSAGE_COOLDOWN_STEP_COUNTER, MASSAGE_COOLDOWN_LENGTH, PalletTown_RivalsHouse_EventScript_RateMonFriendship
 	msgbox PalletTown_RivalsHouse_Text_LikeMeToGroomMon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, NO, PalletTown_RivalsHouse_EventScript_DeclineGrooming
 	msgbox PalletTown_RivalsHouse_Text_GroomWhichOne
@@ -139,6 +139,7 @@ PalletTown_RivalsHouse_EventScript_GiveTownMap::
 	waitmovement 0
 	removeobject LOCALID_TOWN_MAP
 	setvar VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE, 2
+	setvar VAR_MASSAGE_COOLDOWN_STEP_COUNTER, MASSAGE_COOLDOWN_LENGTH
 	delay 15
 	applymovement LOCALID_DAISY, Common_Movement_FacePlayer
 	waitmovement 0
