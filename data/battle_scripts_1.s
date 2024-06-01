@@ -1767,7 +1767,7 @@ BattleScript_EffectMagnitude::
 	pause B_WAIT_TIME_SHORT
 	printstring STRINGID_MAGNITUDESTRENGTH
 	waitmessage B_WAIT_TIME_LONG
-	goto BattleScript_HitsAllWithUndergroundBonusLoop
+	goto BattleScript_HitsAllWithUndergroundBonus
 
 BattleScript_EffectBatonPass::
 	attackcanceler
@@ -1918,17 +1918,35 @@ BattleScript_EffectEarthquake::
 	attackstring
 	ppreduce
 	selectfirstvalidtarget
-BattleScript_HitsAllWithUndergroundBonusLoop::
+BattleScript_HitsAllLoop:
 	movevaluescleanup
+	jumpifmove MOVE_DISCHARGE, BattleScript_HitsAllPara
+	jumpifmove MOVE_LAVA_PLUME, BattleScript_HitsAllBurn
+	jumpifmove MOVE_SLUDGE_WAVE, BattleScript_HitsAllPsn
+	jumpifmove MOVE_BULLDOZE, BattleScript_HitsAllSpeDown
+	jumpifmove MOVE_SEARING_SHOT, BattleScript_HitsAllBurn
+BattleScript_HitsAllWithUndergroundBonus::
 	jumpifnostatus3 BS_TARGET, STATUS3_UNDERGROUND, BattleScript_HitsAllNoUndergroundBonus
 	orword gHitMarker, HITMARKER_IGNORE_UNDERGROUND
 	setbyte sDMG_MULTIPLIER, 2
-	goto BattleScript_DoHitAllWithUndergroundBonus
+	goto BattleScript_DoHitAll
 BattleScript_HitsAllNoUndergroundBonus::
 	bicword gHitMarker, HITMARKER_IGNORE_UNDERGROUND
 	setbyte sDMG_MULTIPLIER, 1
-BattleScript_DoHitAllWithUndergroundBonus::
-	accuracycheck BattleScript_HitAllWithUndergroundBonusMissed, ACC_CURR_MOVE
+	goto BattleScript_DoHitAll
+BattleScript_HitsAllPara:
+	setmoveeffect MOVE_EFFECT_PARALYSIS
+	goto BattleScript_DoHitAll
+BattleScript_HitsAllBurn:
+	setmoveeffect MOVE_EFFECT_BURN
+	goto BattleScript_DoHitAll
+BattleScript_HitsAllPsn:
+	setmoveeffect MOVE_EFFECT_POISON
+	goto BattleScript_DoHitAll
+BattleScript_HitsAllSpeDown:
+	setmoveeffect MOVE_EFFECT_SPD_MINUS_1
+BattleScript_DoHitAll:
+	accuracycheck BattleScript_HitAllMissed, ACC_CURR_MOVE
 	critcalc
 	damagecalc
 	typecalc
@@ -1946,18 +1964,19 @@ BattleScript_DoHitAllWithUndergroundBonus::
 	waitmessage B_WAIT_TIME_LONG
 	printstring STRINGID_EMPTYSTRING3
 	waitmessage 1
+	seteffectwithchance
 	tryfaintmon BS_TARGET
 	moveendto MOVEEND_NEXT_TARGET
-	jumpifnexttargetvalid BattleScript_HitsAllWithUndergroundBonusLoop
+	jumpifnexttargetvalid BattleScript_HitsAllLoop
 	end
-BattleScript_HitAllWithUndergroundBonusMissed::
+BattleScript_HitAllMissed:
 	pause B_WAIT_TIME_SHORT
 	typecalc
 	effectivenesssound
 	resultmessage
 	waitmessage B_WAIT_TIME_LONG
 	moveendto MOVEEND_NEXT_TARGET
-	jumpifnexttargetvalid BattleScript_HitsAllWithUndergroundBonusLoop
+	jumpifnexttargetvalid BattleScript_HitsAllLoop
 	end
 
 BattleScript_EffectFutureSight::

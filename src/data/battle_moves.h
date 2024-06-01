@@ -5659,7 +5659,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_DISCHARGE] =
 	{
-		.effect = EFFECT_PARALYZE_HIT,
+		.effect = EFFECT_EARTHQUAKE,
 		.power = 80,
 		.type = TYPE_ELECTRIC,
 		.accuracy = 100,
@@ -5672,7 +5672,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_LAVA_PLUME] =
 	{
-		.effect = EFFECT_BURN_HIT,
+		.effect = EFFECT_EARTHQUAKE,
 		.power = 80,
 		.type = TYPE_FIRE,
 		.accuracy = 100,
@@ -6283,7 +6283,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_SLUDGE_WAVE] =
 	{
-		.effect = EFFECT_POISON_HIT,
+		.effect = EFFECT_EARTHQUAKE,
 		.power = 95,
 		.type = TYPE_POISON,
 		.accuracy = 100,
@@ -6854,7 +6854,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_BULLDOZE] =
 	{
-		.effect = EFFECT_SPEED_DOWN_HIT,
+		.effect = EFFECT_EARTHQUAKE,
 		.power = 60,
 		.type = TYPE_GROUND,
 		.accuracy = 100,
@@ -7153,7 +7153,7 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 
 	[MOVE_SEARING_SHOT] =
 	{
-		.effect = EFFECT_BURN_HIT,
+		.effect = EFFECT_EARTHQUAKE,
 		.power = 100,
 		.type = TYPE_FIRE,
 		.accuracy = 100,
