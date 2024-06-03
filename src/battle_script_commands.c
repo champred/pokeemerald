@@ -6503,11 +6503,17 @@ static void Cmd_various(void)
 		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
 	return;
     case VARIOUS_CONSUME_BERRY:
+	/*if (gBattleScripting.overrideBerryRequirements == 2)
+	{
+		gBattlescriptCurrInstr += 4;
+		return;
+	}*/
+
 	if (gBattlescriptCurrInstr[3])
 		gLastUsedItem = gBattleMons[gActiveBattler].item;
 
 	gBattleScripting.battler = gEffectBattler = gBattlerTarget = gActiveBattler;    // Cover all berry effect battlerId cases. e.g. ChangeStatBuffs uses target ID
-	if (ItemBattleEffects(ITEMEFFECT_MOVE_END, gActiveBattler, FALSE))
+	if (ItemBattleEffects(ITEMEFFECT_USE_LAST_ITEM, gActiveBattler, FALSE))
 		return;
 	gBattlescriptCurrInstr += 4;
 	return;
