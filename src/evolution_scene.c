@@ -53,7 +53,7 @@ void (*gCB2_AfterEvolution)(void);
 #define sEvoCursorPos           gBattleCommunication[1] // when learning a new move
 #define sEvoGraphicsTaskId      gBattleCommunication[2]
 
-static void Task_EvolutionScene(u8 taskId);
+void Task_EvolutionScene(u8 taskId);
 static void Task_TradeEvolutionScene(u8 taskId);
 static void CB2_EvolutionSceneUpdate(void);
 static void CB2_TradeEvolutionSceneUpdate(void);
@@ -629,7 +629,7 @@ enum {
 // Task data from CycleEvolutionMonSprite
 #define tEvoStopped data[8]
 
-static void Task_EvolutionScene(u8 taskId)
+void Task_EvolutionScene(u8 taskId)
 {
     u32 var;
     struct Pokemon *mon = &gPlayerParty[gTasks[taskId].tPartyId];

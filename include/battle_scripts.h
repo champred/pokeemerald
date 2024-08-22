@@ -1,6 +1,8 @@
 #ifndef GUARD_BATTLE_SCRIPTS_H
 #define GUARD_BATTLE_SCRIPTS_H
 
+#include "global.h"
+
 extern const u8 BattleScript_HitFromCritCalc[];
 extern const u8 BattleScript_MoveEnd[];
 extern const u8 BattleScript_MakeMoveMissed[];
@@ -131,6 +133,7 @@ extern const u8 BattleScript_MoveEffectPayDay[];
 extern const u8 BattleScript_MoveEffectWrap[];
 extern const u8 BattleScript_MoveEffectConfusion[];
 extern const u8 BattleScript_MoveEffectRecoil[];
+extern const u8 BattleScript_MoveEffectRecoil33[];
 extern const u8 BattleScript_DoRecoil33[];
 extern const u8 BattleScript_Recoil33End[];
 extern const u8 BattleScript_ItemSteal[];
@@ -222,5 +225,29 @@ extern const u8 BattleScript_RunByUsingItem[];
 extern const u8 BattleScript_ActionWatchesCarefully[];
 extern const u8 BattleScript_ActionGetNear[];
 extern const u8 BattleScript_ActionThrowPokeblock[];
+extern const u8 BattleScript_GhostGetOutGetOut[];
+extern const u8 BattleScript_TooScaredToMove[];
+extern const u8 BattleScript_IntimidateActivates[];
+extern const u8 BattleScript_IntimidateActivatesEnd3[];
+extern const u8 BattleScript_IgnoresWhileAsleep[];
+extern const u8 BattleScript_IgnoresAndHitsItself[];
+extern const u8 BattleScript_MoveEffectRecoil[];
+extern const u8 BattleScript_FlushMessageBox[];
+extern const u8 BattleScript_SpikesOnFaintedBattler[];
+extern const u8 BattleScript_GhostBallDodge[];
+extern const u8 BattleScript_OldMan_Pokedude_CaughtMessage[];
+extern const u8 BattleScript_SilphScopeUnveiled[];
+extern const u8 BattleScript_BattleTowerTrainerBattleWon[];
+extern const u8 BattleScript_MoveEffectBugBite[];
+extern const u8 BattleScript_MoveEffectFeint[];
+extern const u8 BattleScript_DefSpDefDown[];
+extern const u8 BattleScript_TargetWokeUp[];
+extern const u8 BattleScript_MoveEffectClearSmog[];
+
+extern const u8 *const gBattleScriptsForMoveEffects[];
+extern const u8 *const gBattlescriptsForBallThrow[];
+extern const u8 *const gBattlescriptsForRunningByItem[];
+extern const u8 *const gBattlescriptsForUsingItem[];
+extern const u8 *const gBattlescriptsForSafariActions[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

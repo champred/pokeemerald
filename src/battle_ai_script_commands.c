@@ -614,32 +614,75 @@ static void BattleAI_DoAIProcessing(void)
         }
     }
 }
-
+#define USED(id,slot)BATTLE_HISTORY->usedMoves[id].moves[slot]
 static void RecordLastUsedMoveByTarget(void)
 {
     s32 i;
 
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
-        if (BATTLE_HISTORY->usedMoves[gBattlerTarget].moves[i] == gLastMoves[gBattlerTarget])
+        if (USED(gBattlerTarget,i) == gLastMoves[gBattlerTarget])
             break;
 
-        if (BATTLE_HISTORY->usedMoves[gBattlerTarget].moves[i] == MOVE_NONE)
+        if (USED(gBattlerTarget,i) == MOVE_NONE)
         {
-            BATTLE_HISTORY->usedMoves[gBattlerTarget].moves[i] = gLastMoves[gBattlerTarget];
+            USED(gBattlerTarget,i) = gLastMoves[gBattlerTarget];
             break;
         }
     }
 }
+#define CHECK(slot)if(moves[4]==moves[slot])moves[slot]=MOVE_NONE
+bool8 CanUseLastResort(u8 battlerId)
+{
+	s32 i;
+	u32 knownMovesCount = 0, usedMovesCount = 0;
+	u16 moves[MAX_MON_MOVES+1]={};
 
+	for (i = 0; i < MAX_MON_MOVES; i++)
+	{
+		moves[i]=gBattleMons[battlerId].moves[i];
+		if (moves[i] != MOVE_NONE)
+			knownMovesCount++;
+	}
+	RecordLastUsedMoveByTarget();
+	for(i=0;i<MAX_MON_MOVES;i++){
+		moves[4]=USED(battlerId,i);
+		if(moves[4]&&moves[4]!=MOVE_LAST_RESORT){
+			CHECK(0);
+			else CHECK(1);
+			else CHECK(2);
+			else CHECK(3);
+			else continue;
+			usedMovesCount++;
+		}
+	}
+
+	return (knownMovesCount >= 2 && usedMovesCount >= knownMovesCount - 1);
+}
 void ClearBattlerMoveHistory(u8 battlerId)
 {
     s32 i;
 
     for (i = 0; i < MAX_MON_MOVES; i++)
-        BATTLE_HISTORY->usedMoves[battlerId].moves[i] = MOVE_NONE;
+        USED(battlerId,i) = MOVE_NONE;
 }
-
+u16 LastUsedMove(const u16 *banned){
+	s32 i,j;
+	u16 move=gLastMoves[gBattlerTarget];
+	u8 turnOrder=GetBattlerTurnOrderNum(gBattlerTarget);
+	for(i=turnOrder-1;i!=turnOrder;i--){
+		if(i<0){
+			i=MAX_BATTLERS_COUNT;
+			continue;
+		}
+		move=gLastMoves[gBattlerByTurnOrder[i]];
+		for(j=0;banned[j]!=0xffff;j++){
+			if(move==banned[j])break;
+		}
+		if(move&&banned[j]==0xffff)break;
+	}
+	return move;
+}
 void RecordAbilityBattle(u8 battlerId, u8 abilityId)
 {
     BATTLE_HISTORY->abilities[battlerId] = abilityId;

@@ -3127,6 +3127,59 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     spAttack = attacker->spAttack;
     spDefense = defender->spDefense;
 
+    switch(move){
+	    case MOVE_CRUSH_GRIP:
+	    case MOVE_WRING_OUT:
+		    gBattleMovePower = 120 * defender->hp / defender->maxHP;
+		    break;
+	    case MOVE_ASSURANCE:
+		    if (gProtectStructs[battlerIdDef].physicalDmg != 0 || gProtectStructs[battlerIdDef].specialDmg != 0 || gProtectStructs[battlerIdDef].confusionSelfDmg)
+			    gBattleMovePower *= 2;
+		    break;
+	    case MOVE_TRUMP_CARD:
+		    for(i=0;i<MAX_MON_MOVES;i++){
+			    if(attacker->moves[i]==move)break;
+		    }
+		    if(i!=MAX_MON_MOVES){
+			    switch(attacker->pp[i]){
+				    case 0:
+					    gBattleMovePower=200;
+					    break;
+				    case 1:
+					    gBattleMovePower=80;
+					    break;
+				    case 2:
+					    gBattleMovePower=60;
+					    break;
+				    case 3:
+					    gBattleMovePower=50;
+					    break;
+				    default:
+					    gBattleMovePower=40;
+					    break;
+			    }
+		    }
+		    break;
+	    case MOVE_PUNISHMENT:
+		    for(i=0;i<NUM_BATTLE_STATS;i++){
+			    if(defender->statStages[i]>DEFAULT_STAT_STAGE)
+				    gBattleMovePower+=20*(defender->statStages[i]-DEFAULT_STAT_STAGE);
+		    }
+		    if(gBattleMovePower>200)gBattleMovePower=200;
+		    break;
+	    case MOVE_GYRO_BALL:
+		    gBattleMovePower=((25*defender->speed)/attacker->speed)+1;
+		    if(gBattleMovePower>150)gBattleMovePower=150;
+		    break;
+	    case MOVE_BRINE:
+		    if(defender->hp<=(defender->maxHP/2))gBattleMovePower*=2;
+		    break;
+	    case MOVE_PAYBACK:
+		    if(GetBattlerTurnOrderNum(battlerIdAtk)>GetBattlerTurnOrderNum(battlerIdDef))
+			    gBattleMovePower*=2;
+		    break;
+    }
+
     // Get attacker hold item info
     if (attacker->item == ITEM_ENIGMA_BERRY)
     {
@@ -3363,11 +3416,6 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         if ((gBattleResources->flags->flags[battlerIdAtk] & RESOURCE_FLAG_FLASH_FIRE) && type == TYPE_FIRE)
             damage = (15 * damage) / 10;
     }
-#define NOP asm("nop")
-#define rep(a) a;a;a;a;a;a;a;a;a;a;a;a;a;a
-    rep(NOP); //replace with NOP so that function is padded to proper address
-#undef NOP
-#undef rep
     return damage + 2;
 }
 

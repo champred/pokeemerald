@@ -71,7 +71,6 @@
 #define NATURE_QUIRKY   24
 #define NUM_NATURES     25
 
-// Pokémon Stats
 #define STAT_HP      0
 #define STAT_ATK     1
 #define STAT_DEF     2
@@ -214,6 +213,9 @@
 #define FLAG_PHYSICAL               (1 << 6)
 #define FLAG_SPECIAL                (1 << 7)
 #define FLAG_STATUS                 (3 << 6)
+#define IS_MOVE_PHYSICAL(flags)(flags&FLAG_PHYSICAL)
+#define IS_MOVE_SPECIAL(flags)(flags&FLAG_SPECIAL)
+#define IS_MOVE_STATUS(move)(gBattleMoves[move].flags>=FLAG_STATUS)
 
 // Growth rates
 #define GROWTH_MEDIUM_FAST  0
@@ -223,7 +225,6 @@
 #define GROWTH_FAST         4
 #define GROWTH_SLOW         5
 
-// Body colors for Pokédex search
 #define BODY_COLOR_RED      0
 #define BODY_COLOR_BLUE     1
 #define BODY_COLOR_YELLOW   2
@@ -256,7 +257,6 @@
 
 #define EVOS_PER_MON 5
 
-// Evolution 'modes,' for GetEvolutionTargetSpecies
 #define EVO_MODE_NORMAL     0
 #define EVO_MODE_TRADE      1
 #define EVO_MODE_ITEM_USE   2

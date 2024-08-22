@@ -1,6 +1,8 @@
 #ifndef GUARD_BATTLE_MAIN_H
 #define GUARD_BATTLE_MAIN_H
 
+#include "constants/abilities.h"
+
 struct TrainerMoney
 {
     u8 classId;
@@ -21,6 +23,9 @@ struct MultiPartnerMenuPokemon
     /*0x1C*/ u8 gender;
     /*0x1D*/ u8 language;
 };
+
+#define TYPE_NAME_LENGTH 6
+#define ABILITY_NAME_LENGTH 12
 
 // defines for the u8 array gTypeEffectiveness
 #define TYPE_EFFECT_ATK_TYPE(i)((gTypeEffectiveness[i + 0]))

@@ -1253,6 +1253,41 @@
 	.byte \position
 	.endm
 
+	.macro setgastroacid failInstr:req
+	.byte 0xf9
+	.4byte \failInstr
+	.endm
+
+	.macro swapstatstages stat:req
+	.byte 0xfa
+	.byte \stat
+	.endm
+
+	.macro averagestats stat:req
+	.byte 0xfb
+	.byte \stat
+	.endm
+
+	.macro jumpifoppositegenders jumpInstr:req
+	.byte 0xfc
+	.4byte \jumpInstr
+	.endm
+
+	.macro setmiracleeye failInstr:req
+	.byte 0xfd
+	.4byte \failInstr
+	.endm
+
+	.macro tryworryseed failInstr:req
+	.byte 0xfe
+	.4byte \failInstr
+	.endm
+
+	.macro metalburstdamagecalculator failInstr:req
+	.byte 0xff
+	.4byte \failInstr
+	.endm
+
 @ various command changed to more readable macros
 	.macro cancelmultiturnmoves battler:req
 	various \battler, VARIOUS_CANCEL_MULTI_TURN_MOVES
@@ -1362,6 +1397,84 @@
 	various \battler, VARIOUS_PLAY_TRAINER_DEFEATED_MUSIC
 	.endm
 
+	.macro getbattlersforrecall
+	various BS_ATTACKER, VARIOUS_GET_BATTLERS_FOR_RECALL
+	.endm
+
+	.macro checkpokeflute battler:req
+	various \battler, VARIOUS_CHECK_POKEFLUTE
+	.endm
+
+	.macro waitfanfare battler:req
+	various \battler, VARIOUS_WAIT_FANFARE
+	.endm
+
+	.macro instanthpdrop battler:req
+	various \battler, VARIOUS_INSTANT_HP_DROP
+	.endm
+	
+	.macro clearstatus battler:req
+	various \battler, VARIOUS_CLEAR_STATUS
+	.endm
+	
+	.macro restorepp battler:req
+	various \battler, VARIOUS_RESTORE_PP
+	.endm
+
+	.macro setluckychant battler:req, ptr:req
+	various \battler VARIOUS_SET_LUCKY_CHANT
+	.4byte \ptr
+	.endm
+	
+	.macro suckerpunchcheck ptr:req
+	various BS_ATTACKER, VARIOUS_SUCKER_PUNCH_CHECK
+	.4byte \ptr
+	.endm
+	
+	.macro trymefirst ptr:req
+	various BS_ATTACKER, VARIOUS_TRY_ME_FIRST
+	.4byte \ptr
+	.endm
+	
+	.macro trycopycat ptr:req
+	various BS_ATTACKER, VARIOUS_TRY_COPYCAT
+	.4byte \ptr
+	.endm
+
+	.macro defogclear battler:req, clear:req, ptr:req
+	various \battler, VARIOUS_DEFOG
+	.byte \clear
+	.4byte \ptr
+	.endm
+
+	.macro trypsychoshift ptr:req
+	various BS_ATTACKER, VARIOUS_PSYCHO_SHIFT
+	.4byte \ptr
+	.endm
+
+	.macro curestatus battler:req
+	various \battler, VARIOUS_CURE_STATUS
+	.endm
+
+	.macro powertrick battler:req
+	various \battler, VARIOUS_POWER_TRICK
+	.endm
+
+	.macro tryaccupressure battler:req, ptr:req
+	various \battler, VARIOUS_ACUPRESSURE
+	.4byte \ptr
+	.endm
+
+	.macro jumpifcantuselastresort battler:req, jumpInstr:req
+	various \battler, VARIOUS_TRY_LAST_RESORT
+	.4byte \jumpInstr
+	.endm
+
+	.macro consumeberry battler:req, frombattler:req
+	various \battler, VARIOUS_CONSUME_BERRY
+	.byte \frombattler
+	.endm
+
 @ helpful macros
 	.macro setstatchanger stat:req, stages:req, down:req
 	setbyte sSTATCHANGER, \stat | \stages << 4 | \down << 7
@@ -1437,4 +1550,13 @@
 
 	.macro jumpifnotbattletype flags:req, jumpptr:req
 	jumpifword CMP_NO_COMMON_BITS, gBattleTypeFlags, \flags, \jumpptr
+	.endm
+
+	.macro jumpifnotchosenmove move:req, jumpptr:req
+	jumpifhalfword CMP_NOT_EQUAL, gChosenMove, \move, \jumpptr
+	.endm
+
+	.macro flushtextbox
+	printstring STRINGID_EMPTYSTRING3
+	waitmessage 1
 	.endm

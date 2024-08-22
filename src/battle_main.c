@@ -92,24 +92,24 @@ static void BattleStartClearSetData(void);
 static void BattleIntroGetMonsData(void);
 static void BattleIntroPrepareBackgroundSlide(void);
 static void BattleIntroDrawTrainersOrMonsSprites(void);
-static void BattleIntroDrawPartySummaryScreens(void);
+void BattleIntroDrawPartySummaryScreens(void);
 static void BattleIntroPrintTrainerWantsToBattle(void);
 static void BattleIntroPrintWildMonAttacked(void);
 static void BattleIntroPrintOpponentSendsOut(void);
 static void BattleIntroPrintPlayerSendsOut(void);
 static void BattleIntroOpponent1SendsOutMonAnimation(void);
 static void BattleIntroOpponent2SendsOutMonAnimation(void);
-static void BattleIntroRecordMonsToDex(void);
+void BattleIntroRecordMonsToDex(void);
 static void BattleIntroPlayer1SendsOutMonAnimation(void);
 static void TryDoEventsBeforeFirstTurn(void);
-static void HandleTurnActionSelectionState(void);
+void HandleTurnActionSelectionState(void);
 static void RunTurnActionsFunctions(void);
 static void SetActionsAndBattlersTurnOrder(void);
 static void UpdateBattlerPartyOrdersOnSwitch(void);
 static bool8 AllAtActionConfirmed(void);
 static void CheckFocusPunch_ClearVarsBeforeTurnStarts(void);
 static void FreeResetData_ReturnToOvOrDoEvolutions(void);
-static void ReturnFromBattleToOverworld(void);
+void ReturnFromBattleToOverworld(void);
 static void TryEvolvePokemon(void);
 static void WaitForEvoSceneToFinish(void);
 static void HandleEndTurn_ContinueBattle(void);
@@ -406,7 +406,6 @@ const u8 gTypeEffectiveness[336] =
     TYPE_PSYCHIC, TYPE_FIGHTING, TYPE_MUL_SUPER_EFFECTIVE,
     TYPE_PSYCHIC, TYPE_POISON, TYPE_MUL_SUPER_EFFECTIVE,
     TYPE_PSYCHIC, TYPE_PSYCHIC, TYPE_MUL_NOT_EFFECTIVE,
-    TYPE_PSYCHIC, TYPE_DARK, TYPE_MUL_NO_EFFECT,
     TYPE_PSYCHIC, TYPE_STEEL, TYPE_MUL_NOT_EFFECTIVE,
     TYPE_BUG, TYPE_FIRE, TYPE_MUL_NOT_EFFECTIVE,
     TYPE_BUG, TYPE_GRASS, TYPE_MUL_SUPER_EFFECTIVE,
@@ -443,6 +442,7 @@ const u8 gTypeEffectiveness[336] =
     TYPE_STEEL, TYPE_ROCK, TYPE_MUL_SUPER_EFFECTIVE,
     TYPE_STEEL, TYPE_STEEL, TYPE_MUL_NOT_EFFECTIVE,
     TYPE_FORESIGHT, TYPE_FORESIGHT, TYPE_MUL_NO_EFFECT,
+    TYPE_PSYCHIC, TYPE_DARK, TYPE_MUL_NO_EFFECT,
     TYPE_NORMAL, TYPE_GHOST, TYPE_MUL_NO_EFFECT,
     TYPE_FIGHTING, TYPE_GHOST, TYPE_MUL_NO_EFFECT,
     TYPE_ENDTABLE, TYPE_ENDTABLE, TYPE_MUL_NO_EFFECT
@@ -3484,7 +3484,7 @@ static void BattleIntroDrawTrainersOrMonsSprites(void)
     gBattleMainFunc = BattleIntroDrawPartySummaryScreens;
 }
 
-static void BattleIntroDrawPartySummaryScreens(void)
+void BattleIntroDrawPartySummaryScreens(void)
 {
     s32 i;
     struct HpAndStatus hpStatus[PARTY_SIZE];
@@ -3666,7 +3666,7 @@ static void BattleIntroOpponent1SendsOutMonAnimation(void)
     gBattleMainFunc = BattleIntroRecordMonsToDex;
 }
 
-static void BattleIntroRecordMonsToDex(void)
+void BattleIntroRecordMonsToDex(void)
 {
     if (gBattleControllerExecFlags == 0)
     {
@@ -4098,7 +4098,7 @@ enum
     STATE_SELECTION_SCRIPT_MAY_RUN
 };
 
-static void HandleTurnActionSelectionState(void)
+void HandleTurnActionSelectionState(void)
 {
     s32 i;
 
@@ -5184,7 +5184,7 @@ static void WaitForEvoSceneToFinish(void)
         gBattleMainFunc = TryEvolvePokemon;
 }
 
-static void ReturnFromBattleToOverworld(void)
+void ReturnFromBattleToOverworld(void)
 {
     if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
     {

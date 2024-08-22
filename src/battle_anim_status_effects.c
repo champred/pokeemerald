@@ -16,7 +16,6 @@ extern const struct CompressedSpritePalette gBattleAnimPaletteTable[];
 extern const u8 *const gBattleAnims_StatusConditions[];
 extern const struct OamData gOamData_AffineOff_ObjNormal_8x8;
 extern const struct OamData gOamData_AffineOff_ObjBlend_64x64;
-
 static void Task_UpdateFlashingCircleImpacts(u8 taskId);
 static void AnimTask_FrozenIceCube_Step1(u8 taskId);
 static void AnimTask_FrozenIceCube_Step2(u8 taskId);
@@ -207,40 +206,15 @@ static const struct SpriteTemplate sFlickeringShrinkOrbSpriteTemplate =
     .callback = AnimTranslateLinearAndFlicker_Flipped,
 };
 
+// Presumably some debug text
+static const u8 sText_TaskOver[] = _("TASK OVER\nタスクがオ-バ-しました");
+
 static const struct Subsprite sFrozenIceCubeSubsprites[] =
 {
-    {
-        .x = -16,
-        .y = -16,
-        .shape = SPRITE_SHAPE(64x64),
-        .size = SPRITE_SIZE(64x64),
-        .tileOffset = 0,
-        .priority = 2
-    },
-    {
-        .x = -16,
-        .y =  48,
-        .shape = SPRITE_SHAPE(64x32),
-        .size = SPRITE_SIZE(64x32),
-        .tileOffset = 64,
-        .priority = 2
-    },
-    {
-        .x =  48,
-        .y = -16,
-        .shape = SPRITE_SHAPE(32x64),
-        .size = SPRITE_SIZE(32x64),
-        .tileOffset = 96,
-        .priority = 2
-    },
-    {
-        .x =  48,
-        .y =  48,
-        .shape = SPRITE_SHAPE(32x32),
-        .size = SPRITE_SIZE(32x32),
-        .tileOffset = 128,
-        .priority = 2
-    },
+    {.x = -16, .y = -16, .shape = SPRITE_SHAPE(64x64),  .size = SPRITE_SIZE(64x64), .tileOffset =   0, .priority = 2},
+    {.x = -16, .y =  48, .shape = SPRITE_SHAPE(64x32), .size = SPRITE_SIZE(64x32), .tileOffset =  64, .priority = 2},
+    {.x =  48, .y = -16, .shape = SPRITE_SHAPE(32x64), .size = SPRITE_SIZE(32x64), .tileOffset =  96, .priority = 2},
+    {.x =  48, .y =  48, .shape = SPRITE_SHAPE(32x32),  .size = SPRITE_SIZE(32x32), .tileOffset = 128, .priority = 2},
 };
 
 static const struct SubspriteTable sFrozenIceCubeSubspriteTable[] =
@@ -270,27 +244,27 @@ static const struct SpriteTemplate sFlashingCircleImpactSpriteTemplate =
     .callback = AnimFlashingCircleImpact,
 };
 
-static u8 UNUSED Task_FlashingCircleImpacts(u8 battlerId, bool8 red)
+static u8 Task_FlashingCircleImpacts(u8 battlerId, bool8 b)
 {
     u8 battlerSpriteId = gBattlerSpriteIds[battlerId];
     u8 taskId = CreateTask(Task_UpdateFlashingCircleImpacts, 10);
-    u8 spriteId;
+    u8 spriteId2;
     u8 i;
 
     LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_CIRCLE_IMPACT)]);
     LoadCompressedSpritePaletteUsingHeap(&gBattleAnimPaletteTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_CIRCLE_IMPACT)]);
     gTasks[taskId].data[0] = battlerId;
-    if (red)
+    if (b)
     {
         gTasks[taskId].data[1] = RGB_RED;
         for (i = 0; i < 10; i++)
         {
-            spriteId = CreateSprite(&sFlashingCircleImpactSpriteTemplate, gSprites[battlerSpriteId].x, gSprites[battlerSpriteId].y + 32, 0);
-            gSprites[spriteId].data[0] = i * 51;
-            gSprites[spriteId].data[1] = -256;
-            gSprites[spriteId].invisible = TRUE;
+            spriteId2 = CreateSprite(&sFlashingCircleImpactSpriteTemplate, gSprites[battlerSpriteId].x, gSprites[battlerSpriteId].y + 32, 0);
+            gSprites[spriteId2].data[0] = i * 51;
+            gSprites[spriteId2].data[1] = -256;
+            gSprites[spriteId2].invisible = TRUE;
             if (i > 4)
-                gSprites[spriteId].data[6] = 21;
+                gSprites[spriteId2].data[6] = 21;
         }
     }
     else
@@ -298,15 +272,15 @@ static u8 UNUSED Task_FlashingCircleImpacts(u8 battlerId, bool8 red)
         gTasks[taskId].data[1] = RGB_BLUE;
         for (i = 0; i < 10; i++)
         {
-            spriteId = CreateSprite(&sFlashingCircleImpactSpriteTemplate, gSprites[battlerSpriteId].x, gSprites[battlerSpriteId].y - 32, 0);
-            gSprites[spriteId].data[0] = i * 51;
-            gSprites[spriteId].data[1] = 256;
-            gSprites[spriteId].invisible = TRUE;
+            spriteId2 = CreateSprite(&sFlashingCircleImpactSpriteTemplate, gSprites[battlerSpriteId].x, gSprites[battlerSpriteId].y - 32, 0);
+            gSprites[spriteId2].data[0] = i * 51;
+            gSprites[spriteId2].data[1] = 256;
+            gSprites[spriteId2].invisible = TRUE;
             if (i > 4)
-                gSprites[spriteId].data[6] = 21;
+                gSprites[spriteId2].data[6] = 21;
         }
     }
-    gSprites[spriteId].data[7] = 1;
+    gSprites[spriteId2].data[7] = 1;
     return taskId;
 }
 

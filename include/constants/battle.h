@@ -165,6 +165,10 @@
 #define STATUS3_INTIMIDATE_POKES        (1 << 19)
 #define STATUS3_TRACE                   (1 << 20)
 #define STATUS3_SEMI_INVULNERABLE       (STATUS3_UNDERGROUND | STATUS3_ON_AIR | STATUS3_UNDERWATER)
+#define STATUS3_MIRACLE_EYED            (1 << 21)
+#define STATUS3_ME_FIRST                (1 << 22)
+#define STATUS3_GASTRO_ACID             (1 << 23)
+#define STATUS3_POWER_TRICK             (1 << 24)
 
 // Not really sure what a "hitmarker" is.
 #define HITMARKER_WAKE_UP_CLEAR         (1 << 4) // Cleared when waking up. Never set or checked.
@@ -286,12 +290,13 @@
 #define MOVE_EFFECT_EVS_MINUS_2         52
 #define MOVE_EFFECT_THRASH              53
 #define MOVE_EFFECT_KNOCK_OFF           54
-#define MOVE_EFFECT_NOTHING_37          55
-#define MOVE_EFFECT_NOTHING_38          56
-#define MOVE_EFFECT_NOTHING_39          57
-#define MOVE_EFFECT_NOTHING_3A          58
+#define MOVE_EFFECT_DEF_SPDEF_DOWN      55
+#define MOVE_EFFECT_FEINT               56
+#define MOVE_EFFECT_BUG_BITE            57
+#define MOVE_EFFECT_REMOVE_SLEEP        58
 #define MOVE_EFFECT_SP_ATK_TWO_DOWN     59
-#define NUM_MOVE_EFFECTS                60
+#define MOVE_EFFECT_CLEAR_SMOG          60
+#define NUM_MOVE_EFFECTS                61
 
 #define MOVE_EFFECT_AFFECTS_USER        (1 << 6) // 64
 #define MOVE_EFFECT_CERTAIN             (1 << 7) // 128
@@ -307,6 +312,16 @@
 #define BATTLE_TERRAIN_CAVE         7
 #define BATTLE_TERRAIN_BUILDING     8
 #define BATTLE_TERRAIN_PLAIN        9
+#define BATTLE_TERRAIN_LINK        10
+#define BATTLE_TERRAIN_GYM         11
+#define BATTLE_TERRAIN_LEADER      12
+#define BATTLE_TERRAIN_INDOOR_2    13
+#define BATTLE_TERRAIN_INDOOR_1    14
+#define BATTLE_TERRAIN_LORELEI     15
+#define BATTLE_TERRAIN_BRUNO       16
+#define BATTLE_TERRAIN_AGATHA      17
+#define BATTLE_TERRAIN_LANCE       18
+#define BATTLE_TERRAIN_CHAMPION    19
 
 #define B_WAIT_TIME_LONG  64
 #define B_WAIT_TIME_MED   48

@@ -24,9 +24,29 @@ static void AnimTask_MoveTargetMementoShadow_Step(u8);
 static void DoMementoShadowEffect(struct Task *);
 static void SetAllBattlersSpritePriority(u8);
 static void AnimTask_MetallicShine_Step(u8);
+static void AnimUnusedBagSteal(struct Sprite *sprite);
+static void AnimUnusedBagSteal_Step(struct Sprite *sprite);
+static void AnimBite(struct Sprite *sprite);
+static void AnimTearDrop(struct Sprite *sprite);
+static void AnimClawSlash(struct Sprite *sprite);
+static void AnimTask_AttackerFadeToInvisible_Step(u8 taskId);
+static void AnimTask_AttackerFadeFromInvisible_Step(u8 taskId);
+static void AnimBite_Step1(struct Sprite *sprite);
+static void AnimBite_Step2(struct Sprite *sprite);
+static void AnimTearDrop_Step(struct Sprite *sprite);
+static void SetAllBattlersSpritePriority(u8 priority);
+static void AnimTask_MoveAttackerMementoShadow_Step(u8 taskId);
+static void DoMementoShadowEffect(struct Task *task);
+static void AnimTask_MoveTargetMementoShadow_Step(u8 taskId);
+static void AnimTask_MetallicShine_Step(u8 taskId);
+static void AnimPunishment(struct Sprite *sprite);
+static void SpriteCB_LockingJaw(struct Sprite *sprite);
+static void SpriteCB_LockingJawStep(struct Sprite *sprite);
+static void SpriteCB_LockingJawFinish(struct Sprite *sprite);
+static void AnimRockFragment(struct Sprite *sprite);
 
 // Unused
-static const struct SpriteTemplate sUnusedBagStealSpriteTemplate =
+const struct SpriteTemplate sUnusedBagStealSpriteTemplate =
 {
     .tileTag = ANIM_TAG_TIED_BAG,
     .paletteTag = ANIM_TAG_TIED_BAG,
@@ -187,9 +207,153 @@ const struct SpriteTemplate gClawSlashSpriteTemplate =
     .callback = AnimClawSlash,
 };
 
+const union AffineAnimCmd gPunishmentImpactAffineAnimCmd_1[] =
+{
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd gPunishmentImpactAffineAnimCmd_2[] =
+{
+    AFFINEANIMCMD_FRAME(0xD8, 0xD8, 0, 0),
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd gPunishmentImpactAffineAnimCmd_3[] =
+{
+    AFFINEANIMCMD_FRAME(0xB0, 0xB0, 0, 0),
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd gPunishmentImpactAffineAnimCmd_4[] =
+{
+    AFFINEANIMCMD_FRAME(0x80, 0x80, 0, 0),
+    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 8),
+    AFFINEANIMCMD_END,
+};
+
+const union AffineAnimCmd *const gPunishmentImpactAffineAnim[] =
+{
+    gPunishmentImpactAffineAnimCmd_1,
+    gPunishmentImpactAffineAnimCmd_2,
+    gPunishmentImpactAffineAnimCmd_3,
+    gPunishmentImpactAffineAnimCmd_4,
+};
+
+const union AnimCmd gPunishmentAnimCmd[] =
+{
+    ANIMCMD_FRAME(0, 4),
+    ANIMCMD_FRAME(16, 4),
+    ANIMCMD_FRAME(32, 4),
+    ANIMCMD_FRAME(48, 4),
+    ANIMCMD_FRAME(64, 4),
+    ANIMCMD_END,
+};
+
+const union AnimCmd *const gPunishmentAnim[] =
+{
+    gPunishmentAnimCmd,
+};
+
+const struct SpriteTemplate gPunishmentSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_SCRATCH,
+    .paletteTag = ANIM_TAG_POISON_BUBBLE,
+    .oam = &gOamData_AffineNormal_ObjNormal_32x32,
+    .anims = gPunishmentAnim,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimSpriteOnMonPos,
+};
+
+const struct SpriteTemplate gPunishmentImpactSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_IMPACT,
+    .paletteTag = ANIM_TAG_POISON_BUBBLE,
+    .oam = &gOamData_AffineNormal_ObjNormal_32x32,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gPunishmentImpactAffineAnim,
+    .callback = AnimPunishment,
+};
+
+//shell smash
+const struct SpriteTemplate gShellSmashLeftShellSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_SHELL_RIGHT,
+    .paletteTag = ANIM_TAG_SHELL_RIGHT,
+    .oam = &gOamData_AffineNormal_ObjBlend_64x64,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gAffineAnims_Bite,
+    .callback = SpriteCB_LockingJaw
+};
+
+const struct SpriteTemplate gShellSmashRightShellSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_SHELL_LEFT,
+    .paletteTag = ANIM_TAG_SHELL_LEFT,
+    .oam = &gOamData_AffineNormal_ObjBlend_64x64,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gAffineAnims_Bite,
+    .callback = SpriteCB_LockingJaw
+};
+
+static const union AnimCmd sAnim_FlyingRock_0[] =
+{
+    ANIMCMD_FRAME(32, 1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd sAnim_FlyingRock_1[] =
+{
+    ANIMCMD_FRAME(48, 1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd sAnim_FlyingRock_2[] =
+{
+    ANIMCMD_FRAME(64, 1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd *const sAnims_FlyingRock[] =
+{
+    sAnim_FlyingRock_0,
+    sAnim_FlyingRock_1,
+    sAnim_FlyingRock_2,
+};
+
+const struct SpriteTemplate gShellSmashPurpleRocksSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_ROCKS,
+    .paletteTag = ANIM_TAG_SHELL_RIGHT,
+    .oam = &gOamData_AffineOff_ObjNormal_32x32,
+    .anims = sAnims_FlyingRock,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimRockFragment
+};
+
+static void AnimPunishment(struct Sprite *sprite)
+{
+    StartSpriteAffineAnim(sprite, gBattleAnimArgs[3]);
+    if (gBattleAnimArgs[2] == 0)
+        InitSpritePosToAnimAttacker(sprite, 1);
+    else
+        InitSpritePosToAnimTarget(sprite, TRUE);
+
+    sprite->callback = RunStoredCallbackWhenAffineAnimEnds;
+    StoreSpriteCallbackInData6(sprite, DestroyAnimSprite);
+}
+
 void AnimTask_AttackerFadeToInvisible(u8 taskId)
 {
-    int battler;
+    s32 battler;
+
     gTasks[taskId].data[0] = gBattleAnimArgs[0];
     battler = gBattleAnimAttacker;
     gTasks[taskId].data[1] = 16;
@@ -198,7 +362,6 @@ void AnimTask_AttackerFadeToInvisible(u8 taskId)
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG1);
     else
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG2);
-
     gTasks[taskId].func = AnimTask_AttackerFadeToInvisible_Step;
 }
 
@@ -264,7 +427,6 @@ void AnimTask_InitAttackerFadeFromInvisible(u8 taskId)
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG1);
     else
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG2);
-
     DestroyAnimVisualTask(taskId);
 }
 
@@ -380,12 +542,10 @@ static void AnimTearDrop(struct Sprite *sprite)
         xOffset = -20;
         break;
     }
-
     sprite->data[0] = 32;
     sprite->data[2] = sprite->x + xOffset;
     sprite->data[4] = sprite->y + 12;
     sprite->data[5] = -12;
-
     InitAnimArcTranslation(sprite);
     sprite->callback = AnimTearDrop_Step;
 }
@@ -402,7 +562,7 @@ void AnimTask_MoveAttackerMementoShadow(u8 taskId)
     struct BattleAnimBgData animBg;
     u16 i;
     u8 pos;
-    int var0;
+    s32 var0;
     struct Task *task = &gTasks[taskId];
 
     task->data[7] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y) + 31;
@@ -419,7 +579,6 @@ void AnimTask_MoveAttackerMementoShadow(u8 taskId)
         task->data[8] = -12;
     else
         task->data[8] = -64;
-
     task->data[3] = GetBattlerSpriteBGPriorityRank(gBattleAnimAttacker);
     if (task->data[3] == 1)
     {
@@ -442,7 +601,6 @@ void AnimTask_MoveAttackerMementoShadow(u8 taskId)
         if (!IsContest())
             gBattle_BG1_X += DISPLAY_WIDTH;
     }
-
     scanlineParams.dmaControl = SCANLINE_EFFECT_DMACNT_16BIT;
     scanlineParams.initState = 1;
     scanlineParams.unused9 = 0;
@@ -457,7 +615,6 @@ void AnimTask_MoveAttackerMementoShadow(u8 taskId)
         gScanlineEffectRegBuffers[0][i] = task->data[10];
         gScanlineEffectRegBuffers[1][i] = task->data[10];
     }
-
     ScanlineEffect_SetParams(scanlineParams);
     SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ | WINOUT_WINOBJ_CLR | (var0 ^ (WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR)));
     SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR | WININ_WIN1_BG_ALL | WININ_WIN1_OBJ | WININ_WIN1_CLR);
@@ -584,12 +741,10 @@ void AnimTask_MoveTargetMementoShadow(u8 taskId)
         x = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X);
         task->data[14] = x - 4;
         task->data[15] = x + 4;
-
         if (GetBattlerSide(gBattleAnimTarget) == B_SIDE_PLAYER)
             task->data[8] = -12;
         else
             task->data[8] = -64;
-
         task->data[4] = task->data[8];
         task->data[5] = task->data[8];
         task->data[11] = 12;
@@ -607,7 +762,6 @@ void AnimTask_MoveTargetMementoShadow(u8 taskId)
             gScanlineEffectRegBuffers[0][i] = task->data[10] + (159 - i);
             gScanlineEffectRegBuffers[1][i] = task->data[10] + (159 - i);
         }
-
         scanlineParams.dmaControl = SCANLINE_EFFECT_DMACNT_16BIT;
         scanlineParams.initState = 1;
         scanlineParams.unused9 = 0;
@@ -635,13 +789,16 @@ void AnimTask_MoveTargetMementoShadow(u8 taskId)
 
 static void AnimTask_MoveTargetMementoShadow_Step(u8 taskId)
 {
+
+    u8 pos;
+    u16 i;
     struct Task *task = &gTasks[taskId];
 
     switch (task->data[0])
     {
     case 0:
         task->data[5] += 8;
-        if (task->data[5] >=  task->data[7])
+        if (task->data[5] >= task->data[7])
             task->data[5] = task->data[7];
 
         DoMementoShadowEffect(task);
@@ -658,12 +815,10 @@ static void AnimTask_MoveTargetMementoShadow_Step(u8 taskId)
         {
             task->data[1] = 1;
         }
-
         gBattle_WIN0H = (task->data[14] << 8) | task->data[15];
         task->data[4] += 8;
         if (task->data[4] >= task->data[6])
             task->data[4] = task->data[6];
-
         DoMementoShadowEffect(task);
         if (task->data[4] == task->data[6] && task->data[1])
         {
@@ -708,10 +863,8 @@ static void AnimTask_MoveTargetMementoShadow_Step(u8 taskId)
 
 static void DoMementoShadowEffect(struct Task *task)
 {
-    int var0, var1;
-    s16 var2;
-    s16 i;
-    int var4;
+    s32 var0, var1, var4;
+    s16 var2, i;
 
     var2 = task->data[5] - task->data[4];
     if (var2 != 0)
@@ -831,7 +984,6 @@ void AnimTask_MetallicShine(u8 taskId)
     SetAnimBgAttribute(1, BG_ANIM_SCREEN_SIZE, 0);
     if (!IsContest())
         SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 1);
-
     if (IsDoubleBattle() && !IsContest())
     {
         if (GetBattlerPosition(gBattleAnimAttacker) == B_POSITION_OPPONENT_RIGHT || GetBattlerPosition(gBattleAnimAttacker) == B_POSITION_PLAYER_LEFT)
@@ -916,7 +1068,6 @@ static void AnimTask_MetallicShine_Step(u8 taskId)
             SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ | WINOUT_WINOBJ_CLR | WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR);
             if (!IsContest())
                 SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 0);
-
             SetGpuReg(REG_OFFSET_DISPCNT, GetGpuReg(REG_OFFSET_DISPCNT) ^ DISPCNT_OBJWIN_ON);
             SetGpuReg(REG_OFFSET_BLDCNT, 0);
             SetGpuReg(REG_OFFSET_BLDALPHA, 0);
@@ -963,7 +1114,6 @@ void AnimTask_SetGrayscaleOrOriginalPal(u8 taskId)
         spriteId = SPRITE_NONE;
         break;
     }
-
     if (calcSpriteId)
     {
         battler = GetBattlerAtPosition(position);
@@ -983,9 +1133,58 @@ void GetIsDoomDesireHitTurn(u8 taskId)
 {
     if (gAnimMoveTurn < 2)
         gBattleAnimArgs[ARG_RET_ID] = FALSE;
-
     if (gAnimMoveTurn == 2)
         gBattleAnimArgs[ARG_RET_ID] = TRUE;
-
     DestroyAnimVisualTask(taskId);
+}
+
+//Creates a jaw that bites down and locks on the target.
+//args: Idk same as bite and crunch
+//arg 6: Time to hold bite for.
+static void SpriteCB_LockingJaw(struct Sprite *sprite)
+{
+    sprite->x += gBattleAnimArgs[0];
+    sprite->y += gBattleAnimArgs[1];
+    StartSpriteAffineAnim(sprite, gBattleAnimArgs[2]);
+    sprite->data[0] = gBattleAnimArgs[3];
+    sprite->data[1] = gBattleAnimArgs[4];
+    sprite->data[2] = gBattleAnimArgs[5];
+    sprite->data[6] = -gBattleAnimArgs[6];
+    sprite->callback = SpriteCB_LockingJawStep;
+}
+static void SpriteCB_LockingJawStep(struct Sprite *sprite)
+{
+    sprite->data[4] += sprite->data[0];
+    sprite->data[5] += sprite->data[1];
+    sprite->x2 = sprite->data[4] >> 8;
+    sprite->y2 = sprite->data[5] >> 8;
+    if (++sprite->data[3] == sprite->data[2])
+        sprite->callback = SpriteCB_LockingJawFinish;
+}
+static void SpriteCB_LockingJawFinish(struct Sprite *sprite)
+{
+    if (--sprite->data[3] <= sprite->data[6])
+        DestroySpriteAndMatrix(sprite);
+}
+
+// Animates the rock particles that are shown on the impact for Rock Blast / Rock Smash
+static void AnimRockFragment(struct Sprite *sprite)
+{
+    StartSpriteAnim(sprite, gBattleAnimArgs[5]);
+    AnimateSprite(sprite);
+    if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
+        sprite->x -= gBattleAnimArgs[0];
+    else
+        sprite->x += gBattleAnimArgs[0];
+    sprite->y += gBattleAnimArgs[1];
+    sprite->data[0] = gBattleAnimArgs[4];
+    sprite->data[1] = sprite->x;
+    sprite->data[2] = sprite->x + gBattleAnimArgs[2];
+    sprite->data[3] = sprite->y;
+    sprite->data[4] = sprite->y + gBattleAnimArgs[3];
+    InitSpriteDataForLinearTranslation(sprite);
+    sprite->data[3] = 0;
+    sprite->data[4] = 0;
+    sprite->callback = TranslateSpriteLinearFixedPoint;
+    StoreSpriteCallbackInData6(sprite, DestroySpriteAndMatrix);
 }

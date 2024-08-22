@@ -34,6 +34,9 @@ static void AnimTask_BlendColorCycleByTagLoop(u8);
 static void AnimTask_FlashAnimTagWithColor_Step1(u8);
 static void AnimTask_FlashAnimTagWithColor_Step2(u8);
 static void AnimTask_ShakeBattleTerrain_Step(u8);
+static void AnimFlashingHitSplat_Step(struct Sprite *sprite);
+static void AnimMovePowerSwapGuardSwap(struct Sprite *);
+
 
 static const union AnimCmd sAnim_ConfusionDuck_0[] =
 {
@@ -90,6 +93,63 @@ const struct SpriteTemplate gComplexPaletteBlendSpriteTemplate =
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = AnimComplexPaletteBlend,
+};
+
+static const union AnimCmd sPowerSwapGuardSwapFrame0[] =
+{
+    ANIMCMD_FRAME(0, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sPowerSwapGuardSwapFrame1[] =
+{
+    ANIMCMD_FRAME(4, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sPowerSwapGuardSwapFrame2[] =
+{
+    ANIMCMD_FRAME(8, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sPowerSwapGuardSwapFrame3[] =
+{
+    ANIMCMD_FRAME(12, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sPowerSwapGuardSwapFrame4[] =
+{
+    ANIMCMD_FRAME(16, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sPowerSwapGuardSwapFrame5[] =
+{
+    ANIMCMD_FRAME(20, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd * const sPowerSwapGuardSwapAnimTable[] =
+{
+    sPowerSwapGuardSwapFrame0,
+    sPowerSwapGuardSwapFrame1,
+    sPowerSwapGuardSwapFrame2,
+    sPowerSwapGuardSwapFrame3,
+    sPowerSwapGuardSwapFrame4,
+    sPowerSwapGuardSwapFrame5
+};
+
+const struct SpriteTemplate gPowerSwapGuardSwapSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_COLORED_ORBS,
+    .paletteTag = ANIM_TAG_COLORED_ORBS,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = sPowerSwapGuardSwapAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimMovePowerSwapGuardSwap
 };
 
 static const union AnimCmd sAnim_CirclingSparkle[] =
@@ -253,6 +313,50 @@ const struct SpriteTemplate gPersistHitSplatSpriteTemplate =
     .callback = AnimHitSplatPersistent,
 };
 
+const struct SpriteTemplate gThousandWavesPoundImpactTemplate =
+{
+    .tileTag = ANIM_TAG_IMPACT,
+    .paletteTag = ANIM_TAG_LEAF,
+    .oam = &gOamData_AffineNormal_ObjBlend_32x32,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = sAffineAnims_HitSplat,
+    .callback = AnimHitSplatOnMonEdge
+};
+
+static void AnimMovePowerSwapGuardSwapWait(struct Sprite *sprite)
+{
+    if (TranslateAnimHorizontalArc(sprite))
+        DestroyAnimSprite(sprite);
+}
+
+// arg 0: initial x pixel offset
+// arg 1: initial y pixel offset
+// arg 2: orb type (0..5) - color and size
+// arg 3: from user to target / target to user
+// arg 4: wave period
+// arg 5: wave amplitude
+static void AnimMovePowerSwapGuardSwap(struct Sprite *sprite)
+{
+    StartSpriteAnim(sprite, gBattleAnimArgs[2]);
+    if(gBattleAnimArgs[3] == 0)
+    {
+        InitSpritePosToAnimAttacker(sprite, TRUE);
+        sprite->data[2] = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X);
+        sprite->data[4] = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_Y);
+    }
+    else
+    {
+        InitSpritePosToAnimTarget(sprite, TRUE);
+        sprite->data[2] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X);
+        sprite->data[4] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y);
+    }
+    sprite->data[0] = gBattleAnimArgs[4];
+    sprite->data[5] = gBattleAnimArgs[5];
+    InitAnimArcTranslation(sprite);
+    sprite->callback = AnimMovePowerSwapGuardSwapWait;
+}
+
 // Moves a spinning duck around the mon's head.
 // arg 0: initial x pixel offset
 // arg 1: initial y pixel offset
@@ -275,7 +379,6 @@ static void AnimConfusionDuck(struct Sprite *sprite)
         sprite->data[4] = 0;
         StartSpriteAnim(sprite, 1);
     }
-
     sprite->data[3] = gBattleAnimArgs[4];
     sprite->callback = AnimConfusionDuck_Step;
     sprite->callback(sprite);
@@ -285,12 +388,10 @@ static void AnimConfusionDuck_Step(struct Sprite *sprite)
 {
     sprite->x2 = Cos(sprite->data[0], 30);
     sprite->y2 = Sin(sprite->data[0], 10);
-
     if ((u16)sprite->data[0] < 128)
         sprite->oam.priority = 1;
     else
         sprite->oam.priority = 3;
-
     sprite->data[0] = (sprite->data[0] + sprite->data[1]) & 0xFF;
     if (++sprite->data[2] == sprite->data[3])
         DestroyAnimSprite(sprite);
@@ -317,17 +418,17 @@ static void AnimSimplePaletteBlend(struct Sprite *sprite)
 //   2: F_PAL_TARGET, gBattleAnimTarget OBJ palette
 //   3: F_PAL_ATK_PARTNER, gBattleAnimAttacker partner OBJ palette
 //   4: F_PAL_DEF_PARTNER, gBattleAnimTarget partner OBJ palette
-//   5: F_PAL_ANIM_1, BG palette 8 (or 14, if in Contest)
+//   5: F_PAL_ANIM_1, BG palette 8
 //   6: F_PAL_ANIM_2, BG palette 9
 u32 UnpackSelectedBattlePalettes(s16 selector)
 {
-    bool8 battleBackground = selector & 1;
-    bool8 attacker = (selector >> 1) & 1;
-    bool8 target = (selector >> 2) & 1;
-    bool8 attackerPartner = (selector >> 3) & 1;
-    bool8 targetPartner = (selector >> 4) & 1;
-    bool8 anim1 = (selector >> 5) & 1;
-    bool8 anim2 = (selector >> 6) & 1;
+    u8 battleBackground = selector & 1;
+    u8 attacker = (selector >> 1) & 1;
+    u8 target = (selector >> 2) & 1;
+    u8 attackerPartner = (selector >> 3) & 1;
+    u8 targetPartner = (selector >> 4) & 1;
+    u8 anim1 = (selector >> 5) & 1;
+    u8 anim2 = (selector >> 6) & 1;
     return GetBattlePalettesMask(battleBackground, attacker, target, attackerPartner, targetPartner, anim1, anim2);
 }
 
@@ -349,7 +450,6 @@ static void AnimComplexPaletteBlend(struct Sprite *sprite)
     sprite->data[5] = gBattleAnimArgs[5];
     sprite->data[6] = gBattleAnimArgs[6];
     sprite->data[7] = gBattleAnimArgs[0];
-
     selectedPalettes = UnpackSelectedBattlePalettes(sprite->data[7]);
     BlendPalettes(selectedPalettes, gBattleAnimArgs[4], gBattleAnimArgs[3]);
     sprite->invisible = TRUE;
@@ -374,7 +474,6 @@ static void AnimComplexPaletteBlend_Step1(struct Sprite *sprite)
         sprite->callback = AnimComplexPaletteBlend_Step2;
         return;
     }
-
     selectedPalettes = UnpackSelectedBattlePalettes(sprite->data[7]);
     if (sprite->data[1] & 0x100)
         BlendPalettes(selectedPalettes, sprite->data[4], sprite->data[3]);
@@ -646,15 +745,12 @@ void AnimTask_FlashAnimTagWithColor(u8 taskId)
     gTasks[taskId].data[5] = gBattleAnimArgs[5];
     gTasks[taskId].data[6] = gBattleAnimArgs[6];
     gTasks[taskId].data[7] = gBattleAnimArgs[0];
-
     paletteIndex = IndexOfSpritePaletteTag(gBattleAnimArgs[0]);
-    BeginNormalPaletteFade(
-        1 << (paletteIndex + 16),
-        0,
-        gBattleAnimArgs[4],
-        gBattleAnimArgs[4],
-        gBattleAnimArgs[3]);
-
+    BeginNormalPaletteFade(1 << (paletteIndex + 16),
+                           0,
+                           gBattleAnimArgs[4],
+                           gBattleAnimArgs[4],
+                           gBattleAnimArgs[3]);
     gTasks[taskId].func = AnimTask_FlashAnimTagWithColor_Step1;
 }
 
@@ -820,13 +916,11 @@ static void AnimShakeMonOrBattleTerrain(struct Sprite *sprite)
         StoreSpriteCallbackInData6(sprite, (void *)&gSpriteCoordOffsetY);
         break;
     }
-
     sprite->data[4] = *(u16 *)(sprite->data[6] | (sprite->data[7] << 16));
     sprite->data[5] = gBattleAnimArgs[3];
     var0 = sprite->data[5] - 2;
     if (var0 < 2)
         AnimShakeMonOrBattleTerrain_UpdateCoordOffsetEnabled();
-
     sprite->callback = AnimShakeMonOrBattleTerrain_Step;
 }
 
@@ -867,7 +961,6 @@ static void AnimShakeMonOrBattleTerrain_UpdateCoordOffsetEnabled(void)
 {
     gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].coordOffsetEnabled = FALSE;
     gSprites[gBattlerSpriteIds[gBattleAnimTarget]].coordOffsetEnabled = FALSE;
-
     if (gBattleAnimArgs[4] == 2)
     {
         gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].coordOffsetEnabled = TRUE;
@@ -973,7 +1066,6 @@ static void AnimHitSplatHandleInvert(struct Sprite *sprite)
 {
     if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER && !IsContest())
         gBattleAnimArgs[1] = -gBattleAnimArgs[1];
-
     AnimHitSplatBasic(sprite);
 }
 
@@ -990,7 +1082,6 @@ static void AnimHitSplatRandom(struct Sprite *sprite)
 
     sprite->x2 += (Random2() % 48) - 24;
     sprite->y2 += (Random2() % 24) - 12;
-
     StoreSpriteCallbackInData6(sprite, DestroySpriteAndMatrix);
     sprite->callback = RunStoredCallbackWhenAffineAnimEnds;
 }
@@ -1013,7 +1104,6 @@ static void AnimCrossImpact(struct Sprite *sprite)
         InitSpritePosToAnimAttacker(sprite, TRUE);
     else
         InitSpritePosToAnimTarget(sprite, TRUE);
-
     sprite->data[0] = gBattleAnimArgs[3];
     StoreSpriteCallbackInData6(sprite, DestroyAnimSprite);
     sprite->callback = WaitAnimForDuration;
@@ -1026,7 +1116,6 @@ static void AnimFlashingHitSplat(struct Sprite *sprite)
         InitSpritePosToAnimAttacker(sprite, TRUE);
     else
         InitSpritePosToAnimTarget(sprite, TRUE);
-
     sprite->callback = AnimFlashingHitSplat_Step;
 }
 

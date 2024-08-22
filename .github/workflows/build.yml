@@ -2,10 +2,12 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ phys-spec-split ]
   pull_request:
 
 jobs:
+  jar:
+    uses: champred/UPR-Android/.github/workflows/jar.yml@master
   build:
     runs-on: ubuntu-latest
     env:
@@ -14,26 +16,23 @@ jobs:
       GAME_LANGUAGE: ENGLISH
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
 
       - name: Checkout syms
         if: ${{ github.event_name == 'push' }}
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
         with:
           path: symbols
           ref: symbols
 
       - name: Checkout agbcc
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
         with:
           path: agbcc
           repository: pret/agbcc
 
       - name: Install binutils
-        run: sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi
-        # build-essential, git, and libpng-dev are already installed
-        # gcc-arm-none-eabi is only needed for the modern build
-        # as an alternative to dkP
+        run: sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi libcapstone-dev
 
       - name: Install agbcc
         run: |
@@ -58,3 +57,17 @@ jobs:
           cwd: "./symbols"
           add: "*.sym"
           message: ${{ env.SYMBOLS_COMMIT_MSG }}
+
+      - name: Download JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: JAR
+
+      - name: Generate Offsets
+        run: ./offgen.sh
+
+      - name: Upload Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: Dist
+          path: dist

@@ -296,12 +296,53 @@
 #define ANIM_TAG_SLASH_2                    (ANIM_SPRITES_START + 286)
 #define ANIM_TAG_WHIP_HIT                   (ANIM_SPRITES_START + 287)
 #define ANIM_TAG_BLUE_RING_2                (ANIM_SPRITES_START + 288)
+#define ANIM_TAG_FEINT                      (ANIM_SPRITES_START + 289)
+#define ANIM_TAG_SEED_BROWN                 (ANIM_SPRITES_START + 290)
+#define ANIM_TAG_ACUPRESSURE                (ANIM_SPRITES_START + 291)
+#define ANIM_TAG_TRUMP_CARD                 (ANIM_SPRITES_START + 292)
+#define ANIM_TAG_TRUMP_CARD_PARTICLES       (ANIM_SPRITES_START + 293)
+#define ANIM_TAG_WRING_OUT                  (ANIM_SPRITES_START + 294)
+#define ANIM_TAG_POWER_TRICK                (ANIM_SPRITES_START + 295)
+#define ANIM_TAG_GREEN_POISON_BUBBLE        (ANIM_SPRITES_START + 296)
+#define ANIM_TAG_COLORED_ORBS               (ANIM_SPRITES_START + 297)
+#define ANIM_TAG_WORRY_SEED                 (ANIM_SPRITES_START + 298)
+#define ANIM_TAG_SMALL_CLOUD                (ANIM_SPRITES_START + 299)
+#define ANIM_TAG_POISON_JAB                 (ANIM_SPRITES_START + 300)
+#define ANIM_TAG_WHITE_STREAK               (ANIM_SPRITES_START + 301)
+#define ANIM_TAG_PURPLE_JAB                 (ANIM_SPRITES_START + 302)
+#define ANIM_TAG_DRAGON_PULSE               (ANIM_SPRITES_START + 303)
+#define ANIM_TAG_POWER_GEM                  (ANIM_SPRITES_START + 304)
+#define ANIM_TAG_ENERGY_BALL                (ANIM_SPRITES_START + 305)
+#define ANIM_TAG_QUICK_GUARD_HAND           (ANIM_SPRITES_START + 306)
+#define ANIM_TAG_PSYCHO_CUT                 (ANIM_SPRITES_START + 307)
+#define ANIM_TAG_FLASH_CANNON_BALL          (ANIM_SPRITES_START + 308)
+#define ANIM_TAG_FAIRY_LOCK_CHAINS          (ANIM_SPRITES_START + 309)
+#define ANIM_TAG_WATER_GUN                  (ANIM_SPRITES_START + 310)
+#define ANIM_TAG_STONE_EDGE                 (ANIM_SPRITES_START + 311)
+#define ANIM_TAG_WOOD_HAMMER                (ANIM_SPRITES_START + 312)
+#define ANIM_TAG_WOOD_HAMMER_HAMMER         (ANIM_SPRITES_START + 313)
+#define ANIM_TAG_ATTACK_ORDER               (ANIM_SPRITES_START + 314)
+#define ANIM_TAG_PUNISHMENT_BLADES          (ANIM_SPRITES_START + 315)
+#define ANIM_TAG_METAL_BITS                 (ANIM_SPRITES_START + 316)
+#define ANIM_TAG_HEART_STAMP                (ANIM_SPRITES_START + 317)
+#define ANIM_TAG_SHELL_RIGHT                (ANIM_SPRITES_START + 318)
+#define ANIM_TAG_SHELL_LEFT                 (ANIM_SPRITES_START + 319)
+#define ANIM_TAG_GEAR                       (ANIM_SPRITES_START + 320)
+#define ANIM_TAG_HORN_LEECH                 (ANIM_SPRITES_START + 321)
+#define ANIM_TAG_HYDRO_PUMP                 (ANIM_SPRITES_START + 322)
+#define ANIM_TAG_RAZOR_SHELL                (ANIM_SPRITES_START + 323)
+#define ANIM_TAG_VERTICAL_HEX               (ANIM_SPRITES_START + 324)
+#define ANIM_TAG_CRAFTY_SHIELD              (ANIM_SPRITES_START + 325)
+#define ANIM_TAG_STEAM_ERUPTION             (ANIM_SPRITES_START + 326)
+#define ANIM_TAG_ZYGARDE_HEXES              (ANIM_SPRITES_START + 327)
+#define ANIM_TAG_LARGE_SPIKE                (ANIM_SPRITES_START + 328)
+#define ANIM_TAG_DRAGON_ASCENT              (ANIM_SPRITES_START + 329)
 
 // battlers
-#define ANIM_ATTACKER         0
-#define ANIM_TARGET           1
-#define ANIM_ATK_PARTNER      2
-#define ANIM_DEF_PARTNER      3
+#define ANIM_ATTACKER    0
+#define ANIM_TARGET      1
+#define ANIM_ATK_PARTNER 2
+#define ANIM_DEF_PARTNER 3
 
 // Below are used by AnimTask_ShakeMon2 and AnimTask_SetGrayscaleOrOriginalPal
 #define ANIM_PLAYER_LEFT      (MAX_BATTLERS_COUNT + 0)
@@ -352,6 +393,26 @@
 #define BG_SOLAR_BEAM_OPPONENT 24
 #define BG_SOLAR_BEAM_PLAYER 25
 #define BG_SOLAR_BEAM_CONTESTS 26
+#define BG_AURA_SPHERE 27
+#define BG_FOCUS_BLAST 28
+#define BG_GIGA_IMPACT_OPPONENT 29
+#define BG_GIGA_IMPACT_PLAYER 30
+#define BG_TRICK_ROOM 31
+#define BG_ROCK_WRECKER 32
+#define BG_GUNK_SHOT 33
+#define BG_SPACIAL_REND_ON_OPPONENT 34
+#define BG_SPACIAL_REND_ON_PLAYER 35
+#define BG_MAGMA_STORM 36
+#define BG_DARK_VOID 37
+#define BG_HURRICANE 38
+#define BG_BOLT_STRIKE 39
+#define BG_FIRE 40
+#define BG_NIGHTMARE 41
+#define BG_ELECTRIC_TERRAIN 42
+#define BG_GRASSY_TERRAIN 43
+#define BG_MISTY_TERRAIN 44
+#define BG_PSYCHIC_TERRAIN 45
+#define BG_WATER 46
 
 // table ids for general animations (gBattleAnims_General)
 #define B_ANIM_CASTFORM_CHANGE          0
@@ -377,6 +438,14 @@
 #define B_ANIM_FOCUS_PUNCH_SETUP        20
 #define B_ANIM_INGRAIN_HEAL             21
 #define B_ANIM_WISH_HEAL                22
+#define B_ANIM_MON_SCARED               23
+#define B_ANIM_GHOST_GET_OUT            24
+#define B_ANIM_SILPH_SCOPED             25
+#define B_ANIM_ROCK_THROW               26
+#define B_ANIM_SAFARI_REACTION          27
+#define B_ANIM_AQUA_RING_HEAL           28
+#define B_ANIM_RESTORE_BG               29
+#define B_ANIM_STRONG_WINDS             30
 
 // special animations table (gBattleAnims_Special)
 #define B_ANIM_LVL_UP                   0
@@ -412,6 +481,8 @@
 #define TRAP_ANIM_WHIRLPOOL 2
 #define TRAP_ANIM_CLAMP 3
 #define TRAP_ANIM_SAND_TOMB 4
+#define TRAP_ANIM_MAGMA_STORM 5
+#define TRAP_ANIM_INFESTATION 6
 
 // Weather defines for battle animation scripts.
 #define ANIM_WEATHER_NONE 0
@@ -419,6 +490,11 @@
 #define ANIM_WEATHER_RAIN 2
 #define ANIM_WEATHER_SANDSTORM 3
 #define ANIM_WEATHER_HAIL 4
+
+// surf wave palettes
+#define ANIM_SURF_PAL_SURF           0
+#define ANIM_SURF_PAL_MUDDY_WATER    1
+#define ANIM_SURF_PAL_SLUDGE_WAVE    2
 
 // Flags given to various functions to indicate which palettes to consider.
 // Handled by UnpackSelectedBattlePalettes
@@ -436,5 +512,32 @@
 // It's redundant with F_PAL_BATTLERS, because they're only ever used together to refer to all the battlers at once.
 #define F_PAL_BATTLERS_2  (1 << 7 | 1 << 8 | 1 << 9 | 1 << 10)
 
+// Battle mon back animations.
+#define BACK_ANIM_NONE                         0x00
+#define BACK_ANIM_H_SLIDE_QUICK                0x01
+#define BACK_ANIM_H_SLIDE                      0x02
+#define BACK_ANIM_H_SLIDE_WITH_V_COMPRESS_1    0x03
+#define BACK_ANIM_H_SLIDE_WITH_V_COMPRESS_2    0x04
+#define BACK_ANIM_SHRINK_GROW_1                0x05
+#define BACK_ANIM_GROW_1                       0x06
+#define BACK_ANIM_CIRCLE_MOVE_COUNTERCLOCKWISE 0x07
+#define BACK_ANIM_HORIZONTAL_SHAKE             0x08
+#define BACK_ANIM_VERTICAL_SHAKE               0x09
+#define BACK_ANIM_V_SHAKE_WITH_H_SLIDE         0x0a
+#define BACK_ANIM_VERTICAL_STRETCH             0x0b
+#define BACK_ANIM_HORIZONTAL_STRETCH           0x0c
+#define BACK_ANIM_GROW_2                       0x0d
+#define BACK_ANIM_V_SHAKE_WITH_PAUSE           0x0e
+#define BACK_ANIM_CIRCLE_MOVE_CLOCKWISE        0x0f
+#define BACK_ANIM_CONCAVE_DOWN_ARC_SWAY_SMALL  0x10
+#define BACK_ANIM_CONCAVE_DOWN_ARC_SWAY_LARGE  0x11
+#define BACK_ANIM_CONCAVE_UP_ARC_SWAY_LARGE    0x12
+#define BACK_ANIM_DIP_RIGHT_SIDE               0x13
+#define BACK_ANIM_SHRINK_GROW_2                0x14
+#define BACK_ANIM_JOLT_RIGHT                   0x15
+#define BACK_ANIM_FLASH_YELLOW_WITH_SHAKE      0x16
+#define BACK_ANIM_FADE_RED_WITH_SHAKE          0x17
+#define BACK_ANIM_FADE_GREEN_WITH_SHAKE        0x18
+#define BACK_ANIM_FADE_BLUE_WITH_SHAKE         0x19
 
 #endif // GUARD_CONSTANTS_BATTLE_ANIM_H

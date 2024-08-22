@@ -302,5 +302,9 @@ extern const union AffineAnimCmd *const gAffineAnims_Droplet[];
 extern const union AnimCmd *const gAnims_SmallBubblePair[];
 extern const union AnimCmd *const gAnims_WaterBubble[];
 extern const union AffineAnimCmd *const gAffineAnims_Bite[];
-
+extern const union AffineAnimCmd* const sSpriteAffineAnimTable_HydroCannonBall[];
+extern const union AffineAnimCmd sSpriteAffineAnim_HydroCannonBall[];
+void AnimDracoMeteorRock(struct Sprite *sprite);
+void AnimTask_SquishTarget(u8 taskId);
+void AnimTask_CompressTargetHorizontally(u8 taskId);
 #endif // GUARD_BATTLE_ANIM_H

@@ -26,16 +26,13 @@ void SoundTask_FireBlast(u8 taskId)
 
     gTasks[taskId].data[0] = gBattleAnimArgs[0];
     gTasks[taskId].data[1] = gBattleAnimArgs[1];
-
     pan1 = BattleAnimAdjustPanning(SOUND_PAN_ATTACKER);
     pan2 = BattleAnimAdjustPanning(SOUND_PAN_TARGET);
     panIncrement = CalculatePanIncrement(pan1, pan2, 2);
-
     gTasks[taskId].data[2] = pan1;
     gTasks[taskId].data[3] = pan2;
     gTasks[taskId].data[4] = panIncrement;
     gTasks[taskId].data[10] = 10;
-
     gTasks[taskId].func = SoundTask_FireBlast_Step1;
 }
 
@@ -87,7 +84,6 @@ void SoundTask_LoopSEAdjustPanning(u8 taskId)
 
     targetPan = BattleAnimAdjustPanning(targetPan);
     panIncrement = CalculatePanIncrement(sourcePan, targetPan, panIncrement);
-
     gTasks[taskId].data[0] = songId;
     gTasks[taskId].data[1] = sourcePan;
     gTasks[taskId].data[2] = targetPan;
@@ -98,7 +94,6 @@ void SoundTask_LoopSEAdjustPanning(u8 taskId)
     gTasks[taskId].data[10] = 0;
     gTasks[taskId].data[11] = sourcePan;
     gTasks[taskId].data[12] = r9;
-
     gTasks[taskId].func = SoundTask_LoopSEAdjustPanning_Step;
     gTasks[taskId].func(taskId);
 }
@@ -115,7 +110,6 @@ static void SoundTask_LoopSEAdjustPanning_Step(u8 taskId)
             return;
         }
     }
-
     if (gTasks[taskId].data[10]++ == gTasks[taskId].data[5])
     {
         u16 dPan, oldPan;
@@ -220,14 +214,12 @@ void SoundTask_PlayDoubleCry(u8 taskId)
     gTasks[taskId].data[0] = gBattleAnimArgs[1];
     gTasks[taskId].data[1] = species;
     gTasks[taskId].data[2] = pan;
-
     if (species != SPECIES_NONE)
     {
         if (gBattleAnimArgs[1] == DOUBLE_CRY_GROWL)
             PlayCry_ByMode(species, pan, CRY_MODE_GROWL_1);
         else // DOUBLE_CRY_ROAR
             PlayCry_ByMode(species, pan, CRY_MODE_ROAR_1);
-
         gTasks[taskId].func = SoundTask_PlayDoubleCry_Step;
     }
     else
@@ -376,14 +368,12 @@ void SoundTask_AdjustPanningVar(u8 taskId)
 
     targetPan = BattleAnimAdjustPanning(targetPan);
     panIncrement = CalculatePanIncrement(sourcePan, targetPan, panIncrement);
-
     gTasks[taskId].data[1] = sourcePan;
     gTasks[taskId].data[2] = targetPan;
     gTasks[taskId].data[3] = panIncrement;
     gTasks[taskId].data[5] = r9;
     gTasks[taskId].data[10] = 0;
     gTasks[taskId].data[11] = sourcePan;
-
     gTasks[taskId].func = SoundTask_AdjustPanningVar_Step;
     gTasks[taskId].func(taskId);
 }

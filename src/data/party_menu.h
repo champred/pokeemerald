@@ -1126,7 +1126,7 @@ static const u8 *const sUnused_StatStrings[] =
  *     ...
  * }; */
 #define TMHM_MOVE(id) CAT(MOVE_, id),
-static const u16 sTMHMMoves[] =
+const u16 sTMHMMoves[] =
 {
     FOREACH_TMHM(TMHM_MOVE)
 };

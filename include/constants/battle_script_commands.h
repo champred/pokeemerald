@@ -105,11 +105,27 @@
 #define VARIOUS_PALACE_TRY_ESCAPE_STATUS        24
 #define VARIOUS_SET_TELEPORT_OUTCOME            25
 #define VARIOUS_PLAY_TRAINER_DEFEATED_MUSIC     26
+#define VARIOUS_INSTANT_HP_DROP                      31
+#define VARIOUS_CLEAR_STATUS                         32
+#define VARIOUS_RESTORE_PP                           33
+#define VARIOUS_SET_LUCKY_CHANT                      37
+#define VARIOUS_SUCKER_PUNCH_CHECK                   38
+#define VARIOUS_TRY_ME_FIRST                         44
+#define VARIOUS_TRY_LAST_RESORT                      49
+#define VARIOUS_TRY_COPYCAT                          56
+#define VARIOUS_PSYCHO_SHIFT                         57
+#define VARIOUS_DEFOG                                58
+#define VARIOUS_POWER_TRICK                          59
+#define VARIOUS_CURE_STATUS                          62
+#define VARIOUS_ACUPRESSURE                          68
+#define VARIOUS_CONSUME_BERRY                        112
 
 // Cmd_manipulatedmg
 #define DMG_CHANGE_SIGN            0
 #define DMG_RECOIL_FROM_MISS       1
 #define DMG_DOUBLED                2
+#define DMG_FULL_ATTACKER_HP       3
+#define DMG_CURR_ATTACKER_HP       4
 
 // Cmd_jumpifcantswitch
 #define SWITCH_IGNORE_ESCAPE_PREVENTION   (1 << 7)

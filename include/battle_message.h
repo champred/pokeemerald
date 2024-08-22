@@ -7,7 +7,11 @@
                                 max(MOVE_NAME_LENGTH + 2, /* +2 to hold the "!" and EOS. */ \
                                     POKEMON_NAME_LENGTH + 1))
 
+#include "global.h"
+#include "constants/battle_string_ids.h"
+
 // for 0xFD
+
 #define B_TXT_BUFF1 0x0
 #define B_TXT_BUFF2 0x1
 #define B_TXT_COPY_VAR_1 0x2

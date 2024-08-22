@@ -1,7 +1,11 @@
 #ifndef GUARD_BATTLE_CONTROLLERS_H
 #define GUARD_BATTLE_CONTROLLERS_H
 
-enum {
+#include "global.h"
+#include "battle.h"
+
+enum
+{
     REQUEST_ALL_BATTLE,
     REQUEST_SPECIES_BATTLE,
     REQUEST_HELDITEM_BATTLE,
@@ -91,6 +95,8 @@ enum {
     LINK_STANDBY_STOP_BOUNCE_ONLY,
     LINK_STANDBY_MSG_ONLY,
 };
+
+#define RET_VALUE_LEVELLED_UP   11
 
 #define INSTANT_HP_BAR_DROP     0x7FFF
 

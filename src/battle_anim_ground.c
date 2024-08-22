@@ -26,6 +26,8 @@ static void AnimTask_ShakeTerrain(u8);
 static void AnimTask_ShakeBattlers(u8);
 static void SetBattlersXOffsetForShake(struct Task *);
 static void WaitForFissureCompletion(u8);
+static void AnimSludgeBombHitParticle(struct Sprite *);
+static void AnimSludgeBombHitParticle_Step(struct Sprite *);
 
 static const union AffineAnimCmd sAffineAnim_Bonemerang[] =
 {
@@ -137,6 +139,28 @@ const struct SpriteTemplate gDirtMoundSpriteTemplate =
     .callback = AnimDigDirtMound,
 };
 
+const struct SpriteTemplate gMudBombSplash =
+{
+    .tileTag = ANIM_TAG_MUD_SAND,
+    .paletteTag = ANIM_TAG_MUD_SAND,
+    .oam = &gOamData_AffineOff_ObjNormal_8x8,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimSludgeBombHitParticle,
+};
+
+const struct SpriteTemplate gMudBombToss =
+{
+    .tileTag = ANIM_TAG_MUD_SAND,
+    .paletteTag = ANIM_TAG_MUD_SAND,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = sAnims_MudSlapMud,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = AnimThrowProjectile,
+};
+
 // Moves a bone projectile towards the target mon, which moves like
 // a boomerang. After hitting the target mon, it comes back to the user.
 static void AnimBonemerangProjectile(struct Sprite *sprite)
@@ -186,7 +210,6 @@ static void AnimBoneHitProjectile(struct Sprite *sprite)
     InitSpritePosToAnimTarget(sprite, TRUE);
     if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
         gBattleAnimArgs[2] = -gBattleAnimArgs[2];
-
     sprite->data[0] = gBattleAnimArgs[4];
     sprite->data[2] = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2) + gBattleAnimArgs[2];
     sprite->data[4] = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_Y_PIC_OFFSET) + gBattleAnimArgs[3];
@@ -216,7 +239,6 @@ static void AnimDirtScatter(struct Sprite *sprite)
         xOffset = 16 - xOffset;
     if (yOffset > 16)
         yOffset = 16 - yOffset;
-
     sprite->data[0] = gBattleAnimArgs[2];
     sprite->data[2] = targetXPos + xOffset;
     sprite->data[4] = targetYPos + yOffset;
@@ -255,7 +277,6 @@ static void AnimMudSportDirtRising(struct Sprite *sprite)
         sprite->data[1] = 0;
         sprite->x += sprite->data[0];
     }
-
     sprite->y -= 4;
     if (sprite->y < -4)
         DestroyAnimSprite(sprite);
@@ -379,7 +400,6 @@ static void AnimTask_DigEndBounceMovementSetInvisible(u8 taskId)
         gBattle_BG1_Y = 0;
     else
         gBattle_BG2_Y = 0;
-
     DestroyAnimVisualTask(taskId);
 }
 
@@ -510,14 +530,12 @@ void AnimDirtPlumeParticle(struct Sprite *sprite)
         battler = gBattleAnimAttacker;
     else
         battler = gBattleAnimTarget;
-
     xOffset = 24;
     if (gBattleAnimArgs[1] == 1)
     {
         xOffset *= -1;
         gBattleAnimArgs[2] *= -1;
     }
-
     sprite->x = GetBattlerSpriteCoord(battler, BATTLER_COORD_X_2) + xOffset;
     sprite->y = GetBattlerYCoordWithElevation(battler) + 30;
     sprite->data[0] = gBattleAnimArgs[5];
@@ -548,7 +566,6 @@ static void AnimDigDirtMound(struct Sprite *sprite)
         battler = gBattleAnimAttacker;
     else
         battler = gBattleAnimTarget;
-
     sprite->x = GetBattlerSpriteCoord(battler, BATTLER_COORD_X) - 16 + (gBattleAnimArgs[1] * 32);
     sprite->y = GetBattlerYCoordWithElevation(battler) + 32;
     sprite->oam.tileNum += gBattleAnimArgs[1] * 8;
@@ -556,7 +573,6 @@ static void AnimDigDirtMound(struct Sprite *sprite)
     sprite->data[0] = gBattleAnimArgs[2];
     sprite->callback = WaitAnimForDuration;
 }
-
 
 #define tState               data[0]
 #define tDelay               data[1]
@@ -707,8 +723,7 @@ static void AnimTask_ShakeBattlers(u8 taskId)
 
 static void SetBattlersXOffsetForShake(struct Task *task)
 {
-    u16 i;
-    u16 xOffset;
+    u16 i, xOffset;
 
     if ((task->tTimer & 1) == 0)
         xOffset = (task->tHorizOffset / 2) + (task->tHorizOffset & 1);
@@ -771,4 +786,31 @@ static void WaitForFissureCompletion(u8 taskId)
         gBattle_BG3_X = task->data[1];
         gBattle_BG3_Y = task->data[2];
     }
+}
+
+static void AnimSludgeBombHitParticle(struct Sprite *sprite)
+{
+    sprite->data[0] = gBattleAnimArgs[2];
+    sprite->data[1] = sprite->x;
+    sprite->data[2] = sprite->x + gBattleAnimArgs[0];
+    sprite->data[3] = sprite->y;
+    sprite->data[4] = sprite->y + gBattleAnimArgs[1];
+
+    InitSpriteDataForLinearTranslation(sprite);
+
+    sprite->data[5] = sprite->data[1] / gBattleAnimArgs[2];
+    sprite->data[6] = sprite->data[2] / gBattleAnimArgs[2];
+
+    sprite->callback = AnimSludgeBombHitParticle_Step;
+}
+
+static void AnimSludgeBombHitParticle_Step(struct Sprite *sprite)
+{
+    TranslateSpriteLinearFixedPoint(sprite);
+
+    sprite->data[1] -= sprite->data[5];
+    sprite->data[2] -= sprite->data[6];
+
+    if (!sprite->data[0])
+        DestroyAnimSprite(sprite);
 }
