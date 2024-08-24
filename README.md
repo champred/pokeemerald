@@ -1,3 +1,10 @@
+Compiling with `make release` will also generate an .ini file that can be used to build the Universal Pokémon Randomizer ZX 4.6.0 for the purpose of randomizing Pokeemerald decomp hacks. Provided in this branch, inigen when built from unmodified code will produce an .ini file containing text identical to that of the "Emerald (U)" section of "gen3_offsets.ini" in the randomizer.
+
+[**It is important to read the inigen notes because the randomizer uses binary patches, thus some symbols must remain at the same address as vanilla Emerald**](tools/inigen/inigen.c#L735-L854)
+
+Credit to PikalaxALT and ProjectRevoTPP for inigen.
+
+
 # Pokémon Emerald
 
 This is a decompilation of Pokémon Emerald.
