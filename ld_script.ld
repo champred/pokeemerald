@@ -1301,6 +1301,11 @@ SECTIONS {
         data/multiboot_pokemon_colosseum.o(.rodata);
     } > ROM =0
 
+    empty_data_1 0x08A00000:
+    ALIGN(4)
+    {
+	    data/instant_text.o(.rodata);
+    } > ROM =0
     anim_mon_front_pic_data __anim_mon_load_address :
     ALIGN(4)
     {
@@ -1312,7 +1317,6 @@ SECTIONS {
     {
         src/graphics.o(.rodata);
     } > ROM =0
-
     extra :
     ALIGN(4)
     {
@@ -1320,9 +1324,18 @@ SECTIONS {
         gflib/*.o(.text);
         src/*.o(.rodata);
         gflib/*.o(.rodata);
-        data/*.o(.rodata);
     } > ROM = 0
 
+    empty_data_2 0x08FE0000:
+    ALIGN(4)
+    {
+        data/random_statics.o(.rodata);
+    } > ROM =0
+    empty_data_3 0x08FE0100:
+    ALIGN(4)
+    {
+        data/fix_music.o(.rodata);
+    } > ROM =0
     /* DWARF debug sections.
        Symbols in the DWARF debugging sections are relative to the beginning
        of the section so we begin them at 0.  */
