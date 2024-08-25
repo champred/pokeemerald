@@ -692,10 +692,10 @@ int main(int argc, char ** argv)
     }
 
     print("StaticEggPokemonOffsets=[22]\n"); // index no of wynaut egg static
-    print("StaticFirstBattleTweak=hardcoded_statics/em_firstbattle\n"); // hardcoded
+    /*print("StaticFirstBattleTweak=hardcoded_statics/em_firstbattle\n"); // hardcoded
     print("StaticFirstBattleSpeciesOffset=0xFE003C\n"); // hardcoded
     print("StaticFirstBattleLevelOffset=0xFE0008\n"); // hardcoded
-    print("StaticFirstBattleOffset=25\n"); // hardcoded
+    print("StaticFirstBattleOffset=25\n"); // hardcoded*/
     Elf32_Sym * Em_CreateInitialRoamerMon = GetSymbolByName("CreateInitialRoamerMon");
     print("CreateInitialRoamerMonFunctionStartOffset=0x%X\n", (Em_CreateInitialRoamerMon->st_value - 1) & 0x1FFFFFF);
     print("StaticSouthernIslandOffsets=[16, 17]\n"); // index nos of latios/latias statics

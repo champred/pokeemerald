@@ -8,6 +8,7 @@
 #include "link.h"
 #include "link_rfu.h"
 #include "party_menu.h"
+#include "random.h"
 #include "recorded_battle.h"
 #include "task.h"
 #include "util.h"
@@ -39,6 +40,12 @@ void HandleLinkBattleSetup(void)
     }
 }
 
+static u16 GetRandomSpecies(void){
+	u16 species;
+	while((species=(Random()%SPECIES_CHIMECHO)+1)>SPECIES_CELEBI&&species<SPECIES_TREECKO);
+	return species;
+}
+
 void SetUpBattleVarsAndBirchZigzagoon(void)
 {
     s32 i;
@@ -62,7 +69,7 @@ void SetUpBattleVarsAndBirchZigzagoon(void)
     if (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE)
     {
         ZeroEnemyPartyMons();
-        CreateMon(&gEnemyParty[0], SPECIES_ZIGZAGOON, 2, USE_RANDOM_IVS, 0, 0, OT_ID_PLAYER_ID, 0);
+        CreateMon(&gEnemyParty[0], GetRandomSpecies(), 2, USE_RANDOM_IVS, 0, 0, OT_ID_PLAYER_ID, 0);
         i = 0;
         SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &i);
     }
