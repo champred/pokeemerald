@@ -8,12 +8,12 @@ PlayersHouse_2F_EventScript_BlockStairsUntilClockIsSet::
 	return
 
 PlayersHouse_1F_EventScript_EnterHouseMovingIn::
-	msgbox PlayersHouse_1F_Text_IsntItNiceInHere, MSGBOX_DEFAULT
+	@msgbox PlayersHouse_1F_Text_IsntItNiceInHere, MSGBOX_DEFAULT
 	applymovement VAR_0x8004, Common_Movement_FacePlayer
 	waitmovement 0
 	call_if_eq VAR_0x8005, MALE, PlayersHouse_1F_EventScript_MomFacePlayerMovingInMale
 	call_if_eq VAR_0x8005, FEMALE, PlayersHouse_1F_EventScript_MomFacePlayerMovingInFemale
-	msgbox PlayersHouse_1F_Text_MoversPokemonGoSetClock, MSGBOX_DEFAULT
+	@msgbox PlayersHouse_1F_Text_MoversPokemonGoSetClock, MSGBOX_DEFAULT
 	closemessage
 	setvar VAR_LITTLEROOT_INTRO_STATE, 4
 	applymovement OBJ_EVENT_ID_PLAYER, PlayersHouse_1F_Movement_PlayerWalkIn
@@ -59,7 +59,7 @@ LittlerootTown_MaysHouse_2F_EventScript_WallClock::
 
 PlayersHouse_2F_EventScript_WallClock::
 	goto_if_set FLAG_SET_WALL_CLOCK, PlayersHouse_2F_EventScript_CheckWallClock
-	msgbox PlayersHouse_2F_Text_ClockIsStopped, MSGBOX_DEFAULT
+	@msgbox PlayersHouse_2F_Text_ClockIsStopped, MSGBOX_DEFAULT
 	call PlayersHouse_2F_EventScript_SetWallClock
 	delay 30
 	setvar VAR_LITTLEROOT_INTRO_STATE, 6
@@ -67,10 +67,10 @@ PlayersHouse_2F_EventScript_WallClock::
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_1
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_2
 	checkplayergender
-	call_if_eq VAR_RESULT, MALE, PlayersHouse_2F_EventScript_MomComesUpstairsMale
-	call_if_eq VAR_RESULT, FEMALE, PlayersHouse_2F_EventScript_MomComesUpstairsFemale
+	@call_if_eq VAR_RESULT, MALE, PlayersHouse_2F_EventScript_MomComesUpstairsMale
+	@call_if_eq VAR_RESULT, FEMALE, PlayersHouse_2F_EventScript_MomComesUpstairsFemale
 	playse SE_EXIT
-	removeobject VAR_0x8008
+	@removeobject VAR_0x8008
 	releaseall
 	end
 
@@ -146,56 +146,18 @@ PlayersHouse_2F_Movement_MomExitsFemale:
 
 PlayersHouse_1F_EventScript_SetWatchedBroadcast::
 	setvar VAR_LITTLEROOT_INTRO_STATE, 7
+	setvar VAR_LITTLEROOT_TOWN_STATE, 2
+	setvar VAR_LITTLEROOT_RIVAL_STATE, 3
 	releaseall
 	end
 
 PlayersHouse_1F_EventScript_PetalburgGymReportMale::
-	applymovement VAR_0x8005, Common_Movement_WalkInPlaceFasterRight
-	waitmovement 0
-	call PlayersHouse_1F_EventScript_MomNoticeGymBroadcast
-	applymovement OBJ_EVENT_ID_PLAYER, PlayersHouse_1F_Movement_PlayerApproachTVForGymMale
-	waitmovement 0
-	playbgm MUS_ENCOUNTER_INTERVIEWER, FALSE
-	msgbox PlayersHouse_1F_Text_MaybeDadWillBeOn, MSGBOX_DEFAULT
-	closemessage
-	applymovement VAR_0x8005, PlayersHouse_1F_Movement_MomMakeRoomToSeeTVMale
-	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, PlayersHouse_1F_Movement_PlayerMoveToTVMale
-	waitmovement 0
-	call PlayersHouse_1F_EventScript_WatchGymBroadcast
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
-	waitmovement 0
-	msgbox PlayersHouse_1F_Text_ItsOverWeMissedHim, MSGBOX_DEFAULT
-	msgbox PlayersHouse_1F_Text_GoIntroduceYourselfNextDoor, MSGBOX_DEFAULT
-	closemessage
-	setvar VAR_TEMP_1, 1
-	applymovement VAR_0x8005, PlayersHouse_1F_Movement_MomReturnToSeatMale
-	waitmovement 0
+	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 2
 	goto PlayersHouse_1F_EventScript_SetWatchedBroadcast
 	end
 
 PlayersHouse_1F_EventScript_PetalburgGymReportFemale::
-	applymovement VAR_0x8005, Common_Movement_WalkInPlaceFasterLeft
-	waitmovement 0
-	call PlayersHouse_1F_EventScript_MomNoticeGymBroadcast
-	applymovement OBJ_EVENT_ID_PLAYER, PlayersHouse_1F_Movement_PlayerApproachTVForGymFemale
-	waitmovement 0
-	playbgm MUS_ENCOUNTER_INTERVIEWER, FALSE
-	msgbox PlayersHouse_1F_Text_MaybeDadWillBeOn, MSGBOX_DEFAULT
-	closemessage
-	applymovement VAR_0x8005, PlayersHouse_1F_Movement_MomMakeRoomToSeeTVFemale
-	waitmovement 0
-	applymovement OBJ_EVENT_ID_PLAYER, PlayersHouse_1F_Movement_PlayerMoveToTVFemale
-	waitmovement 0
-	call PlayersHouse_1F_EventScript_WatchGymBroadcast
-	applymovement OBJ_EVENT_ID_PLAYER, Common_Movement_WalkInPlaceFasterRight
-	waitmovement 0
-	msgbox PlayersHouse_1F_Text_ItsOverWeMissedHim, MSGBOX_DEFAULT
-	msgbox PlayersHouse_1F_Text_GoIntroduceYourselfNextDoor, MSGBOX_DEFAULT
-	closemessage
-	setvar VAR_TEMP_1, 1
-	applymovement VAR_0x8005, PlayersHouse_1F_Movement_MomReturnToSeatFemale
-	waitmovement 0
+	setvar VAR_LITTLEROOT_HOUSES_STATE_MAY, 2
 	goto PlayersHouse_1F_EventScript_SetWatchedBroadcast
 	end
 

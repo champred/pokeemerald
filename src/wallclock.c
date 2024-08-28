@@ -802,7 +802,7 @@ static void Task_SetClock_HandleInput(u8 taskId)
         gTasks[taskId].tHourHandAngle = (gTasks[taskId].tHours % 12) * 30 + (gTasks[taskId].tMinutes / 10) * 5;
         if (JOY_NEW(A_BUTTON))
         {
-            gTasks[taskId].func = Task_SetClock_AskConfirm;
+            gTasks[taskId].func = Task_SetClock_Confirmed;
         }
         else
         {
