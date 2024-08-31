@@ -1161,7 +1161,7 @@ bool32 TryStartMatchCall(void)
         && MapAllowsMatchCall()
         && SelectMatchCallTrainer())
     {
-        StartMatchCall();
+        //StartMatchCall();
         return TRUE;
     }
 
@@ -1171,7 +1171,7 @@ bool32 TryStartMatchCall(void)
 void StartMatchCallFromScript(const u8 *message)
 {
     sMatchCallState.triggeredFromScript = TRUE;
-    StartMatchCall();
+    //StartMatchCall();
 }
 
 bool32 IsMatchCallTaskActive(void)

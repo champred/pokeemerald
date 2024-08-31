@@ -1752,12 +1752,12 @@ static u32 GetTrainerMatchCallFlag(u32 trainerId)
 
 static void RegisterTrainerInMatchCall(void)
 {
-    if (FlagGet(FLAG_HAS_MATCH_CALL))
+    /*if (FlagGet(FLAG_HAS_MATCH_CALL))
     {
         u32 matchCallFlagId = GetTrainerMatchCallFlag(gTrainerBattleOpponent_A);
         if (matchCallFlagId != 0xFFFF)
             FlagSet(matchCallFlagId);
-    }
+    }*/
 }
 
 static bool8 WasSecondRematchWon(const struct RematchTrainer *table, u16 firstBattleTrainerId)
