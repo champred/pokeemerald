@@ -6670,7 +6670,7 @@ static void Cmd_various(void)
 	return;
     case VARIOUS_TRY_COPYCAT:
         move = LastUsedMove(sMovesForbiddenToCopy);
-	if (move == 0xFFFF)
+	if (!move||move == 0xFFFF)
 	{
 		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
 	}
@@ -10667,4 +10667,22 @@ static void Cmd_metalburstdamagecalculator(void)
 		gSpecialStatuses[gBattlerAttacker].ppNotAffectedByPressure = TRUE;
 		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
 	}
+}
+#define BAN_CHECK for (j = 0; banned[j] != COPYCAT_FORBIDDEN_END; j++) if (move == banned[j])return MOVE_UNAVAILABLE;return move
+u16 LastUsedMove(const u16* banned) {
+    s32 i, j;
+    u16 move;
+    u8 turnOrder = GetBattlerTurnOrderNum(gActiveBattler);
+    for (i = turnOrder - 1; i != turnOrder; i--) {
+        if (i < 0) {
+            i = gBattlersCount;
+            continue;
+        }
+        move = gLastMoves[gBattlerByTurnOrder[i]];
+        if (!move)continue;
+        BAN_CHECK;
+    }
+    //fallback to last move by user
+    move = gLastMoves[gActiveBattler];
+    BAN_CHECK;
 }

@@ -644,7 +644,7 @@ bool8 CanUseLastResort(u8 battlerId)
 		if (moves[i] != MOVE_NONE)
 			knownMovesCount++;
 	}
-	RecordLastUsedMoveByTarget();
+	//RecordLastUsedMoveByTarget();
 	for(i=0;i<MAX_MON_MOVES;i++){
 		moves[4]=USED(battlerId,i);
 		if(moves[4]&&moves[4]!=MOVE_LAST_RESORT){
@@ -666,23 +666,7 @@ void ClearBattlerMoveHistory(u8 battlerId)
     for (i = 0; i < MAX_MON_MOVES; i++)
         USED(battlerId,i) = MOVE_NONE;
 }
-u16 LastUsedMove(const u16 *banned){
-	s32 i,j;
-	u16 move=gLastMoves[gBattlerTarget];
-	u8 turnOrder=GetBattlerTurnOrderNum(gBattlerTarget);
-	for(i=turnOrder-1;i!=turnOrder;i--){
-		if(i<0){
-			i=MAX_BATTLERS_COUNT;
-			continue;
-		}
-		move=gLastMoves[gBattlerByTurnOrder[i]];
-		for(j=0;banned[j]!=0xffff;j++){
-			if(move==banned[j])break;
-		}
-		if(move&&banned[j]==0xffff)break;
-	}
-	return move;
-}
+
 void RecordAbilityBattle(u8 battlerId, u8 abilityId)
 {
     BATTLE_HISTORY->abilities[battlerId] = abilityId;
