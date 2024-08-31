@@ -23,6 +23,7 @@
 #include "tv.h"
 #include "constants/items.h"
 #include "constants/battle_frontier.h"
+#include "constants/party_menu.h"
 
 static void CB2_ReturnFromChooseHalfParty(void);
 static void CB2_ReturnFromChooseBattleFrontierParty(void);
@@ -37,6 +38,7 @@ void HealPlayerParty(void)
     for(i = 0; i < gPlayerPartyCount; i++)
     {
         u16 maxHP = GetMonData(&gPlayerParty[i], MON_DATA_MAX_HP);
+	if(IsMapTypeOutdoors(GetCurrentMapType())&&GetAilmentFromStatus(GetMonData(&gPlayerParty[i], MON_DATA_STATUS)) == AILMENT_PSN)continue;
         arg[0] = maxHP;
         arg[1] = maxHP >> 8;
         SetMonData(&gPlayerParty[i], MON_DATA_HP, arg);
