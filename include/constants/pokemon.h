@@ -213,9 +213,6 @@
 #define FLAG_PHYSICAL               (1 << 6)
 #define FLAG_SPECIAL                (1 << 7)
 #define FLAG_STATUS                 (3 << 6)
-#define IS_MOVE_PHYSICAL(flags)(flags&FLAG_PHYSICAL)&&!(flags&FLAG_SPECIAL)
-#define IS_MOVE_SPECIAL(flags)(flags&FLAG_SPECIAL)&&!(flags&FLAG_PHYSICAL)
-#define IS_MOVE_STATUS(move)(gBattleMoves[move].flags>=FLAG_STATUS)
 
 // Growth rates
 #define GROWTH_MEDIUM_FAST  0
