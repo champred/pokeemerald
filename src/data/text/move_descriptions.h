@@ -1960,22 +1960,6 @@ static const u8 sFusionBoltDescription[] = _(
     "Summons a thunderbolt.\n"
     "Works well with a fireball.");
 
-static const u8 sPhysicalCategory[] = _("(P)");
-static const u8 sSpecialCategory[] = _("(Sp)");
-static const u8 sStatusCategory[] = _("(St)");
-
-u8 *AddCategory(const u8* src, u16 move) {
-    u8* dest;
-    const u8* cat;
-    if (IS_MOVE_STATUS(move))cat = sStatusCategory;
-    else if (IS_MOVE_PHYSICAL(gBattleMoves[move].flags))cat = sPhysicalCategory;
-    else cat = sSpecialCategory;
-    dest = Alloc(StringLength(src) + StringLength(cat));
-    StringCopy(dest, src);
-    StringAppend(dest, cat);
-    return dest;
-}
-
 // MOVE_NONE is ignored in this table. Make sure to always subtract 1 before getting the right pointer.
 const u8 *const gMoveDescriptionPointers[MOVES_COUNT - 1] =
 {
