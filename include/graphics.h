@@ -4028,6 +4028,8 @@ extern const u32 gSummaryPage_BattleMoves_Tilemap[];
 extern const u32 gSummaryPage_ContestMoves_Tilemap[];
 extern const u16 gPPTextPalette[];
 extern const u32 gMoveTypes_Pal[];
+extern const u16 gSplitIcons_Pal[];
+extern const u8 gSplitIcons_Gfx[];
 
 extern const u16 gSummaryScreen_MoveEffect_Battle_Tilemap[];
 extern const u16 gSummaryScreen_MoveEffect_Contest_Tilemap[];

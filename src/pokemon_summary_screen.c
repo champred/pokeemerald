@@ -3534,10 +3534,16 @@ static void PrintMoveNameAndPP(u8 moveIndex)
 static void PrintMovePowerAndAccuracy(u16 moveIndex)
 {
     const u8 *text;
+    u32 moveCategory = 0;
     if (moveIndex != 0)
     {
         FillWindowPixelRect(PSS_LABEL_WINDOW_MOVES_POWER_ACC, PIXEL_FILL(0), 53, 0, 19, 32);
+        if (IS_MOVE_STATUS(moveIndex))moveCategory = 2;
+        else if (IS_MOVE_SPECIAL(gBattleMoves[moveIndex].flags))moveCategory = 1;
 
+        BlitBitmapRectToWindow(PSS_LABEL_WINDOW_MOVES_POWER_ACC, &gSplitIcons_Gfx[0x80 * moveCategory],1,4,16,16, 33,4,10,9);
+        PutWindowTilemap(PSS_LABEL_WINDOW_MOVES_POWER_ACC);
+        CopyWindowToVram(PSS_LABEL_WINDOW_MOVES_POWER_ACC, 3);
         if (gBattleMoves[moveIndex].power < 2)
         {
             text = gText_ThreeDashes;
