@@ -614,17 +614,14 @@ static void UNUSED ClearFriendshipStepCounter(void)
 static void UpdateFriendshipStepCounter(void)
 {
     u16 *ptr = GetVarPointer(VAR_FRIENDSHIP_STEP_COUNTER);
-    int i;
-
-    (*ptr)++;
-    (*ptr) %= 128;
-    if (*ptr == 0)
+    *ptr %= 500;
+    if (!(*ptr)++)
     {
-        struct Pokemon *mon = gPlayerParty;
-        for (i = 0; i < PARTY_SIZE; i++)
+        struct Pokemon *mon;
+        u8 friendship = MAX_FRIENDSHIP;
+        for (mon = gPlayerParty; mon != gPlayerParty + gPlayerPartyCount; mon++)
         {
-            AdjustFriendship(mon, FRIENDSHIP_EVENT_WALKING);
-            mon++;
+            SetMonData(mon, MON_DATA_FRIENDSHIP, &friendship);
         }
     }
 }
