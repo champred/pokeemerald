@@ -500,6 +500,8 @@ const u8 gMoveDescription_Snarl[] = _("Yells and rants at\nthe foe lowering\nits
 const u8 gMoveDescription_IcicleCrash[] = _("Drops large icicles\non the foe.\nMay cause flinching.\n(P)");
 const u8 gMoveDescription_FusionFlare[] = _("Summons a huge\nfireball and hurls\nit at the foe.\n(Sp)");
 const u8 gMoveDescription_FusionBolt[] = _("Summons a huge\nthunderbolt and hurls\nit at the foe.\n(P)");
+const u8 gMoveDescription_HealingWish[] = _("The user faints\nto heal up\nthe recipient.\n(St)");
+const u8 gMoveDescription_GastroAcid[] = _("Stomach acid\nthat suppresses\nthe foe's ability.\n(St)");
 
 const u8 *const gMoveDescriptionPointers[MOVES_COUNT - 1] = {
 	[MOVE_POUND         - 1] = gMoveDescription_Pound,
