@@ -4723,7 +4723,8 @@ static void Cmd_jumpifcantswitch(void)
         {
             battlerIn1 = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
 
-            if(gCurrentMove==MOVE_U_TURN&&!(gBattlescriptCurrInstr[1] & SWITCH_IGNORE_ESCAPE_PREVENTION)){
+            if(gBattleMoves[gCurrentMove].effect==EFFECT_HIT_ESCAPE
+                    &&!(gBattlescriptCurrInstr[1] & SWITCH_IGNORE_ESCAPE_PREVENTION)){
             	gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 2);
 		return;
 	    }else if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
