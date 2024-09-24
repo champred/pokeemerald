@@ -600,6 +600,7 @@ int main(int argc, char ** argv)
     print("ItemEntrySize=%d\n", Em_gItems->st_size / ITEMS_COUNT);
     print("ItemCount=%d\n", ITEMS_COUNT - 1);
     print("MoveCount=%d\n", MOVES_COUNT - 1);
+    print("AbilityCount=%d\n", ABILITIES_COUNT - 1);
     config_sym("MoveDescriptions", "gMoveDescriptionPointers");
     Elf32_Sym * Em_gMoveNames = GetSymbolByName("gMoveNames");
     print("MoveNameLength=%d\n", Em_gMoveNames->st_size / MOVES_COUNT);
