@@ -1144,7 +1144,7 @@ static void Cmd_accuracycheck(void)
     }
     else
     {
-        u8 type, moveAcc, holdEffect, param, ability;
+        u8 type, moveAcc, holdEffect, param, acc, ability=gBattleMons[gBattlerAttacker].ability;
         s8 buff;
         u16 calc;
 
@@ -1158,24 +1158,26 @@ static void Cmd_accuracycheck(void)
         if (AccuracyCalcHelper(move))
             return;
 
-        if (gBattleMons[gBattlerTarget].status2 & STATUS2_FORESIGHT || gStatuses3[gBattlerTarget] & STATUS3_MIRACLE_EYED)
+        if (gBattleMons[gBattlerTarget].status2 & STATUS2_FORESIGHT || gStatuses3[gBattlerTarget] & STATUS3_MIRACLE_EYED
+            ||(ability==ABILITY_UNAWARE&&!IS_MOVE_STATUS(move)))
         {
-            u8 acc = gBattleMons[gBattlerAttacker].statStages[STAT_ACC];
+            acc = gBattleMons[gBattlerAttacker].statStages[STAT_ACC];
             buff = acc;
         }
         else
         {
-            u8 acc = gBattleMons[gBattlerAttacker].statStages[STAT_ACC];
+            acc = gBattleMons[gBattlerAttacker].statStages[STAT_ACC];
             buff = acc + DEFAULT_STAT_STAGE - gBattleMons[gBattlerTarget].statStages[STAT_EVASION];
         }
-
+        ability=gBattleMons[gBattlerTarget].ability;
+        if(ability==ABILITY_UNAWARE&&!IS_MOVE_STATUS(move))
+            buff-=acc;
         if (buff < MIN_STAT_STAGE)
             buff = MIN_STAT_STAGE;
         if (buff > MAX_STAT_STAGE)
             buff = MAX_STAT_STAGE;
 
         moveAcc = gBattleMoves[move].accuracy;
-        ability=gBattleMons[gBattlerTarget].ability;
         // check Thunder on sunny weather
         if ((WEATHER_HAS_EFFECT && gBattleWeather & B_WEATHER_SUN && gBattleMoves[move].effect == EFFECT_THUNDER)||
                 (ability==ABILITY_WONDER_SKIN&&IS_MOVE_STATUS(move)&&moveAcc>50))
@@ -7261,13 +7263,14 @@ static u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8 *BS_ptr)
     bool8 certain = FALSE;
     bool8 notProtectAffected = FALSE;
     u32 index;
+    u8 ability;
 
     if (flags & MOVE_EFFECT_AFFECTS_USER)
         gActiveBattler = gBattlerAttacker;
     else
         gActiveBattler = gBattlerTarget;
-
     flags &= ~MOVE_EFFECT_AFFECTS_USER;
+    ability=gBattleMons[gActiveBattler].ability;
 
     if (flags & MOVE_EFFECT_CERTAIN)
         certain++;
@@ -7278,7 +7281,8 @@ static u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8 *BS_ptr)
     flags &= ~STAT_CHANGE_NOT_PROTECT_AFFECTED;
 
     PREPARE_STAT_BUFFER(gBattleTextBuff1, statId)
-
+    if(ability==ABILITY_CONTRARY)
+        statValue^=STAT_BUFF_NEGATIVE;
     if (statValue <= -1) // Stat decrease.
     {
         if (gSideTimers[GET_BATTLER_SIDE(gActiveBattler)].mistTimer
@@ -7306,8 +7310,7 @@ static u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8 *BS_ptr)
             gBattlescriptCurrInstr = BattleScript_ButItFailed;
             return STAT_CHANGE_DIDNT_WORK;
         }
-        else if ((gBattleMons[gActiveBattler].ability == ABILITY_CLEAR_BODY
-                  || gBattleMons[gActiveBattler].ability == ABILITY_WHITE_SMOKE)
+        else if ((ability == ABILITY_CLEAR_BODY || ability == ABILITY_WHITE_SMOKE)
                  && !certain && gCurrentMove != MOVE_CURSE)
         {
             if (flags == STAT_CHANGE_ALLOW_PTR)
@@ -7321,40 +7324,38 @@ static u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8 *BS_ptr)
                     BattleScriptPush(BS_ptr);
                     gBattleScripting.battler = gActiveBattler;
                     gBattlescriptCurrInstr = BattleScript_AbilityNoStatLoss;
-                    gLastUsedAbility = gBattleMons[gActiveBattler].ability;
+                    gLastUsedAbility = ability;
                     RecordAbilityBattle(gActiveBattler, gLastUsedAbility);
                     gSpecialStatuses[gActiveBattler].statLowered = 1;
                 }
             }
             return STAT_CHANGE_DIDNT_WORK;
         }
-        else if (gBattleMons[gActiveBattler].ability == ABILITY_KEEN_EYE
-                 && !certain && statId == STAT_ACC)
+        else if (ability == ABILITY_KEEN_EYE && !certain && statId == STAT_ACC)
         {
             if (flags == STAT_CHANGE_ALLOW_PTR)
             {
                 BattleScriptPush(BS_ptr);
                 gBattleScripting.battler = gActiveBattler;
                 gBattlescriptCurrInstr = BattleScript_AbilityNoSpecificStatLoss;
-                gLastUsedAbility = gBattleMons[gActiveBattler].ability;
+                gLastUsedAbility = ability;
                 RecordAbilityBattle(gActiveBattler, gLastUsedAbility);
             }
             return STAT_CHANGE_DIDNT_WORK;
         }
-        else if (gBattleMons[gActiveBattler].ability == ABILITY_HYPER_CUTTER
-                 && !certain && statId == STAT_ATK)
+        else if (ability == ABILITY_HYPER_CUTTER && !certain && statId == STAT_ATK)
         {
             if (flags == STAT_CHANGE_ALLOW_PTR)
             {
                 BattleScriptPush(BS_ptr);
                 gBattleScripting.battler = gActiveBattler;
                 gBattlescriptCurrInstr = BattleScript_AbilityNoSpecificStatLoss;
-                gLastUsedAbility = gBattleMons[gActiveBattler].ability;
+                gLastUsedAbility = ability;
                 RecordAbilityBattle(gActiveBattler, gLastUsedAbility);
             }
             return STAT_CHANGE_DIDNT_WORK;
         }
-        else if (gBattleMons[gActiveBattler].ability == ABILITY_SHIELD_DUST && flags == 0)
+        else if (ability == ABILITY_SHIELD_DUST && flags == 0)
         {
             return STAT_CHANGE_DIDNT_WORK;
         }
@@ -7403,7 +7404,8 @@ static u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8 *BS_ptr)
         else
             gBattleCommunication[MULTISTRING_CHOOSER] = (gBattlerTarget == gActiveBattler); // B_MSG_ATTACKER_STAT_ROSE or B_MSG_DEFENDER_STAT_ROSE
     }
-
+    if(ability==ABILITY_SIMPLE)
+        statValue*=2;
     gBattleMons[gActiveBattler].statStages[statId] += statValue;
     if (gBattleMons[gActiveBattler].statStages[statId] < MIN_STAT_STAGE)
         gBattleMons[gActiveBattler].statStages[statId] = MIN_STAT_STAGE;
@@ -7416,6 +7418,16 @@ static u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8 *BS_ptr)
     if (gBattleCommunication[MULTISTRING_CHOOSER] == B_MSG_STAT_WONT_INCREASE && !(flags & STAT_CHANGE_ALLOW_PTR))
         return STAT_CHANGE_DIDNT_WORK;
 
+    if(ability==ABILITY_DEFIANT&&GetBattlerSide(gActiveBattler)!=GetBattlerSide(gBattlerAttacker)&&statValue<0){
+        if (flags == STAT_CHANGE_ALLOW_PTR)
+        {
+            BattleScriptPush(BS_ptr);
+            gBattleScripting.battler = gActiveBattler;
+            gBattlescriptCurrInstr = BattleScript_DefiantActivates-6;
+            gLastUsedAbility = ability;
+            RecordAbilityBattle(gActiveBattler, gLastUsedAbility);
+        }
+    }
     return STAT_CHANGE_WORKED;
 }
 
@@ -7424,6 +7436,8 @@ static void Cmd_statbuffchange(void)
     const u8 *jumpPtr = T1_READ_PTR(gBattlescriptCurrInstr + 2);
     if (ChangeStatBuffs(gBattleScripting.statChanger & 0xF0, GET_STAT_BUFF_ID(gBattleScripting.statChanger), gBattlescriptCurrInstr[1], jumpPtr) == STAT_CHANGE_WORKED)
         gBattlescriptCurrInstr += 6;
+    else
+        gBattlescriptCurrInstr=jumpPtr;
 }
 
 // Haze
@@ -9052,16 +9066,17 @@ static void Cmd_setsunny(void)
 // Belly Drum
 static void Cmd_maxattackhalvehp(void)
 {
-    u32 halfHp = gBattleMons[gBattlerAttacker].maxHP / 2;
+    struct BattlePokemon *bp=&gBattleMons[gBattlerAttacker];
+    u32 halfHp = bp->maxHP / 2;
 
-    if (!(gBattleMons[gBattlerAttacker].maxHP / 2))
+    if (!(bp->maxHP / 2))
         halfHp = 1;
 
-    if (gBattleMons[gBattlerAttacker].statStages[STAT_ATK] < MAX_STAT_STAGE
-        && gBattleMons[gBattlerAttacker].hp > halfHp)
+    if (bp->statStages[STAT_ATK] < MAX_STAT_STAGE
+        && bp->hp > halfHp)
     {
-        gBattleMons[gBattlerAttacker].statStages[STAT_ATK] = MAX_STAT_STAGE;
-        gBattleMoveDamage = gBattleMons[gBattlerAttacker].maxHP / 2;
+        bp->statStages[STAT_ATK] = (bp->ability==ABILITY_CONTRARY)?MIN_STAT_STAGE : MAX_STAT_STAGE;
+        gBattleMoveDamage = bp->maxHP / 2;
         if (gBattleMoveDamage == 0)
             gBattleMoveDamage = 1;
 

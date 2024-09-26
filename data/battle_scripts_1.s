@@ -3930,7 +3930,25 @@ BattleScript_MoveUsedIsParalyzed::
 BattleScript_MoveUsedFlinched::
 	printstring STRINGID_PKMNFLINCHED
 	waitmessage B_WAIT_TIME_LONG
+	jumpifability BS_TARGET, ABILITY_STEADFAST, BattleScript_SteadfastActivates
 	goto BattleScript_MoveEnd
+
+BattleScript_SteadfastActivates::
+	setstatchanger STAT_SPEED, 1, FALSE
+	statbuffchange 0, BattleScript_MoveEnd
+	setgraphicalstatchangevalues
+	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	goto BattleScript_StatUpPrintString
+
+BattleScript_DefiantActivates::
+	setgraphicalstatchangevalues
+	call BattleScript_StatDown
+	setstatchanger STAT_ATK, 2, FALSE
+	statbuffchange 0, BattleScript_DefiantActivatesReturn
+	setgraphicalstatchangevalues
+	call BattleScript_StatUp
+BattleScript_DefiantActivatesReturn:
+	return
 
 BattleScript_PrintUproarOverTurns::
 	printfromtable gUproarOverTurnStringIds
