@@ -1119,7 +1119,8 @@ static bool8 AccuracyCalcHelper(u16 move)
 
     gHitMarker &= ~HITMARKER_IGNORE_UNDERWATER;
 
-    if ((WEATHER_HAS_EFFECT && (gBattleWeather & B_WEATHER_RAIN) && gBattleMoves[move].effect == EFFECT_THUNDER)
+    if ((WEATHER_HAS_EFFECT && ((gBattleWeather & B_WEATHER_RAIN && gBattleMoves[move].effect == EFFECT_THUNDER)
+     || (gBattleWeather & B_WEATHER_HAIL && move == MOVE_BLIZZARD)))
      || (gBattleMoves[move].effect == EFFECT_ALWAYS_HIT || gBattleMoves[move].effect == EFFECT_VITAL_THROW))
     {
         JumpIfMoveFailed(7, move);
@@ -1351,8 +1352,16 @@ static void Cmd_damagecalc(void)
     if (gProtectStructs[gBattlerAttacker].helpingHand)
         gBattleMoveDamage = gBattleMoveDamage * 15 / 10;
     ability=gBattleMons[gBattlerTarget].ability;
-    if((ability==ABILITY_HEATPROOF&&type==TYPE_FIRE)||
-            (ability==ABILITY_MULTISCALE&&gBattleMons[gBattlerTarget].hp==gBattleMons[gBattlerTarget].maxHP))
+    if(type==TYPE_FIRE){
+        switch(ability){
+        case ABILITY_HEATPROOF:
+            gBattleMoveDamage/=2;
+            break;
+        case ABILITY_DRY_SKIN:
+            gBattleMoveDamage=(125*gBattleMoveDamage)/100;
+        }
+    }
+    if(ability==ABILITY_MULTISCALE&&gBattleMons[gBattlerTarget].hp==gBattleMons[gBattlerTarget].maxHP)
         gBattleMoveDamage/=2;
 
     gBattlescriptCurrInstr++;
@@ -2327,6 +2336,27 @@ void SetMoveEffect(bool8 primary, u8 certain)
 
     if (gBattleCommunication[MOVE_EFFECT_BYTE] <= PRIMARY_STATUS_MOVE_EFFECT)
     {
+        if (gBattleMons[gEffectBattler].ability == ABILITY_LEAF_GUARD && WEATHER_HAS_EFFECT && gBattleWeather & B_WEATHER_SUN){
+                if (primary == TRUE || certain == MOVE_EFFECT_CERTAIN)
+                {
+                    gLastUsedAbility = ABILITY_LEAF_GUARD;
+                    RecordAbilityBattle(gEffectBattler, gLastUsedAbility);
+
+                    BattleScriptPush(gBattlescriptCurrInstr + 1);
+                    gBattlescriptCurrInstr = BattleScript_AbilityCuredStatus;
+
+                    if (gHitMarker & HITMARKER_STATUS_ABILITY_EFFECT)
+                    {
+                        gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_ABILITY_PREVENTS_ABILITY_STATUS;
+                        gHitMarker &= ~HITMARKER_STATUS_ABILITY_EFFECT;
+                    }
+                    else
+                    {
+                        gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_ABILITY_PREVENTS_MOVE_STATUS;
+                    }
+                    RESET_RETURN
+                }else INCREMENT_RESET_RETURN
+	}
         switch (sStatusFlagsForMoveEffects[gBattleCommunication[MOVE_EFFECT_BYTE]])
         {
         case STATUS1_SLEEP:
@@ -7257,6 +7287,14 @@ static void Cmd_negativedamage(void)
 
 #define STAT_CHANGE_WORKED      0
 #define STAT_CHANGE_DIDNT_WORK  1
+#define ABILITY_BLOCKS if (flags == STAT_CHANGE_ALLOW_PTR){\
+                BattleScriptPush(BS_ptr);\
+                gBattleScripting.battler = gActiveBattler;\
+                gBattlescriptCurrInstr = BattleScript_AbilityNoSpecificStatLoss;\
+                gLastUsedAbility = ability;\
+                RecordAbilityBattle(gActiveBattler, gLastUsedAbility);\
+            }\
+            return STAT_CHANGE_DIDNT_WORK
 
 static u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8 *BS_ptr)
 {
@@ -7333,27 +7371,15 @@ static u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8 *BS_ptr)
         }
         else if (ability == ABILITY_KEEN_EYE && !certain && statId == STAT_ACC)
         {
-            if (flags == STAT_CHANGE_ALLOW_PTR)
-            {
-                BattleScriptPush(BS_ptr);
-                gBattleScripting.battler = gActiveBattler;
-                gBattlescriptCurrInstr = BattleScript_AbilityNoSpecificStatLoss;
-                gLastUsedAbility = ability;
-                RecordAbilityBattle(gActiveBattler, gLastUsedAbility);
-            }
-            return STAT_CHANGE_DIDNT_WORK;
+		ABILITY_BLOCKS;
         }
         else if (ability == ABILITY_HYPER_CUTTER && !certain && statId == STAT_ATK)
         {
-            if (flags == STAT_CHANGE_ALLOW_PTR)
-            {
-                BattleScriptPush(BS_ptr);
-                gBattleScripting.battler = gActiveBattler;
-                gBattlescriptCurrInstr = BattleScript_AbilityNoSpecificStatLoss;
-                gLastUsedAbility = ability;
-                RecordAbilityBattle(gActiveBattler, gLastUsedAbility);
-            }
-            return STAT_CHANGE_DIDNT_WORK;
+		ABILITY_BLOCKS;
+        }
+        else if (ability == ABILITY_BIG_PECKS && !certain && statId == STAT_DEF)
+        {
+		ABILITY_BLOCKS;
         }
         else if (ability == ABILITY_SHIELD_DUST && flags == 0)
         {
@@ -7433,10 +7459,11 @@ static u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8 *BS_ptr)
 
 static void Cmd_statbuffchange(void)
 {
+    u8 flags=gBattlescriptCurrInstr[1];
     const u8 *jumpPtr = T1_READ_PTR(gBattlescriptCurrInstr + 2);
-    if (ChangeStatBuffs(gBattleScripting.statChanger & 0xF0, GET_STAT_BUFF_ID(gBattleScripting.statChanger), gBattlescriptCurrInstr[1], jumpPtr) == STAT_CHANGE_WORKED)
+    if (ChangeStatBuffs(gBattleScripting.statChanger & 0xF0, GET_STAT_BUFF_ID(gBattleScripting.statChanger), flags, jumpPtr) == STAT_CHANGE_WORKED)
         gBattlescriptCurrInstr += 6;
-    else
+    else if(!(flags & STAT_CHANGE_ALLOW_PTR))
         gBattlescriptCurrInstr=jumpPtr;
 }
 
@@ -7906,6 +7933,10 @@ static void Cmd_weatherdamage(void)
                 && gBattleMons[gBattlerAttacker].type2 != TYPE_STEEL
                 && gBattleMons[gBattlerAttacker].type2 != TYPE_GROUND
                 && gBattleMons[gBattlerAttacker].ability != ABILITY_SAND_VEIL
+                && gBattleMons[gBattlerAttacker].ability != ABILITY_SAND_RUSH
+                && gBattleMons[gBattlerAttacker].ability != ABILITY_SAND_FORCE
+                && gBattleMons[gBattlerAttacker].ability != ABILITY_SAND_STREAM
+                && gBattleMons[gBattlerAttacker].ability != ABILITY_OVERCOAT
                 && !(gStatuses3[gBattlerAttacker] & STATUS3_UNDERGROUND)
                 && !(gStatuses3[gBattlerAttacker] & STATUS3_UNDERWATER))
             {
@@ -7921,6 +7952,10 @@ static void Cmd_weatherdamage(void)
         if (gBattleWeather & B_WEATHER_HAIL)
         {
             if (!IS_BATTLER_OF_TYPE(gBattlerAttacker, TYPE_ICE)
+                && gBattleMons[gBattlerAttacker].ability != ABILITY_SNOW_WARNING
+                && gBattleMons[gBattlerAttacker].ability != ABILITY_SNOW_CLOAK
+                && gBattleMons[gBattlerAttacker].ability != ABILITY_ICE_BODY
+                && gBattleMons[gBattlerAttacker].ability != ABILITY_OVERCOAT
                 && !(gStatuses3[gBattlerAttacker] & STATUS3_UNDERGROUND)
                 && !(gStatuses3[gBattlerAttacker] & STATUS3_UNDERWATER))
             {

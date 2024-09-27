@@ -3933,8 +3933,25 @@ BattleScript_MoveUsedFlinched::
 	jumpifability BS_TARGET, ABILITY_STEADFAST, BattleScript_SteadfastActivates
 	goto BattleScript_MoveEnd
 
+BattleScript_WeakArmorActivates::
+	setstatchanger STAT_DEF, 1, TRUE
+	statbuffchange 0, BattleScript_WeakArmorActivatesSpeed
+	setgraphicalstatchangevalues
+	call BattleScript_StatDown
+BattleScript_WeakArmorActivatesSpeed:
+BattleScript_MotorDriveActivates::
 BattleScript_SteadfastActivates::
+BattleScript_RattledActivates::
 	setstatchanger STAT_SPEED, 1, FALSE
+	goto BattleScript_AbilityStatUp
+BattleScript_SapSipperActivates::
+BattleScript_JustifiedActivates::
+	setstatchanger STAT_ATK, 1, FALSE
+	goto BattleScript_AbilityStatUp
+BattleScript_LightningRodActivates::
+BattleScript_StormDrainActivates::
+	setstatchanger STAT_SPATK, 1, FALSE
+BattleScript_AbilityStatUp:
 	statbuffchange 0, BattleScript_MoveEnd
 	setgraphicalstatchangevalues
 	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
@@ -4143,6 +4160,9 @@ BattleScript_TraceActivates::
 	end3
 
 BattleScript_RainDishActivates::
+BattleScript_DrySkinActivates::
+BattleScript_SolarPowerActivates::
+BattleScript_IceBodyActivates::
 	printstring STRINGID_PKMNSXRESTOREDHPALITTLE2
 	waitmessage B_WAIT_TIME_LONG
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
@@ -4225,6 +4245,14 @@ BattleScript_DroughtActivates::
 	call BattleScript_WeatherFormChanges
 	end3
 
+BattleScript_SnowWarningActivates::
+	pause B_WAIT_TIME_SHORT
+	@printstring STRINGID_PKMNSXINTENSIFIEDSUN
+	waitstate
+	playanimation BS_BATTLER_0, B_ANIM_HAIL_CONTINUES
+	call BattleScript_WeatherFormChanges
+	end3
+
 BattleScript_TookAttack::
 	attackstring
 	pause B_WAIT_TIME_SHORT
@@ -4248,6 +4276,9 @@ BattleScript_DampStopsExplosion::
 BattleScript_MoveHPDrain_PPLoss::
 	ppreduce
 BattleScript_MoveHPDrain::
+	jumpifability BS_TARGET, ABILITY_MOTOR_DRIVE, BattleScript_MonMadeMoveUseless
+	jumpifability BS_TARGET, ABILITY_LIGHTNING_ROD, BattleScript_MonMadeMoveUseless
+	jumpifability BS_TARGET, ABILITY_STORM_DRAIN, BattleScript_MonMadeMoveUseless
 	attackstring
 	pause B_WAIT_TIME_SHORT
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
@@ -4266,6 +4297,10 @@ BattleScript_MonMadeMoveUseless::
 	printstring STRINGID_PKMNSXMADEYUSELESS
 	waitmessage B_WAIT_TIME_LONG
 	orbyte gMoveResultFlags, MOVE_RESULT_DOESNT_AFFECT_FOE
+	jumpifability BS_TARGET, ABILITY_MOTOR_DRIVE, BattleScript_MotorDriveActivates
+	jumpifability BS_TARGET, ABILITY_LIGHTNING_ROD, BattleScript_LightningRodActivates
+	jumpifability BS_TARGET, ABILITY_STORM_DRAIN, BattleScript_StormDrainActivates
+	jumpifability BS_TARGET, ABILITY_SAP_SIPPER, BattleScript_SapSipperActivates
 	goto BattleScript_MoveEnd
 
 BattleScript_FlashFireBoost_PPLoss::

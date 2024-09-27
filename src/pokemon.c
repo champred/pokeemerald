@@ -3446,6 +3446,8 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
                 damage /= 2;
                 break;
             }
+            if(attacker->ability==ABILITY_SOLAR_POWER)
+                damage = (15 * damage) / 10;
         }
         if((gBattleWeather&B_WEATHER_SANDSTORM)&&attacker->ability==ABILITY_SAND_FORCE){
             switch(type){

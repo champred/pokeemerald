@@ -244,6 +244,17 @@ extern const u8 BattleScript_DefSpDefDown[];
 extern const u8 BattleScript_TargetWokeUp[];
 extern const u8 BattleScript_MoveEffectClearSmog[];
 extern const u8 BattleScript_DefiantActivates[];
+extern const u8 BattleScript_MotorDriveActivates[];
+extern const u8 BattleScript_LightningRodActivates[];
+extern const u8 BattleScript_StormDrainActivates[];
+extern const u8 BattleScript_SapSipperActivates[];
+extern const u8 BattleScript_DrySkinActivates[];
+extern const u8 BattleScript_SolarPowerActivates[];
+extern const u8 BattleScript_IceBodyActivates[];
+extern const u8 BattleScript_SnowWarningActivates[];
+extern const u8 BattleScript_WeakArmorActivates[];
+extern const u8 BattleScript_JustifiedActivates[];
+extern const u8 BattleScript_RattledActivates[];
 
 extern const u8 *const gBattleScriptsForMoveEffects[];
 extern const u8 *const gBattlescriptsForBallThrow[];
