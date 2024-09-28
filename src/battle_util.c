@@ -2626,15 +2626,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                         effect++;
                     }
                     break;
-                case ABILITY_HYDRATION:
-                    if (WEATHER_HAS_EFFECT && (gBattleWeather & B_WEATHER_RAIN)
-                     && gBattleMons[battler].status1)
-                    {
-                        BattleScriptPushCursorAndCallback(BattleScript_AbilityCuredStatus);
-                        gBattleMons[battler].status1=STATUS1_NONE;
-                        effect++;
-                    }
-                    break;
                 case ABILITY_SOLAR_POWER:
                     if (WEATHER_HAS_EFFECT && (gBattleWeather & (B_WEATHER_SUN)))
                     {
@@ -2657,8 +2648,12 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                         effect++;
                     }
                     break;
+                case ABILITY_HYDRATION:
+                    if (!WEATHER_HAS_EFFECT) break;
                 case ABILITY_SHED_SKIN:
-                    if ((gBattleMons[battler].status1 & STATUS1_ANY) && (Random() % 3) == 0)
+                    if ((gBattleMons[battler].status1 & STATUS1_ANY) &&
+                       ((gLastUsedAbility == ABILITY_SHED_SKIN && (Random() % 3) == 0) ||
+                       ((gBattleWeather & B_WEATHER_RAIN) && gLastUsedAbility == ABILITY_HYDRATION)))
                     {
                         if (gBattleMons[battler].status1 & (STATUS1_POISON | STATUS1_TOXIC_POISON))
                             StringCopy(gBattleTextBuff1, gStatusConditionString_PoisonJpn);
