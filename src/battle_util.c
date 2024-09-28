@@ -75,6 +75,13 @@ static const u8 sPkblToEscapeFactor[][3] = {
 static const u8 sGoNearCounterToCatchFactor[] = {4, 3, 2, 1};
 static const u8 sGoNearCounterToEscapeFactor[] = {4, 4, 4, 4};
 
+#define CHECK_ABILITY(a) for (gActiveBattler = 0; gActiveBattler < gBattlersCount; gActiveBattler++){\
+            if (side != GetBattlerSide(gActiveBattler)\
+                && *(gBattleStruct->moveTarget + gBattlerAttacker) != gActiveBattler\
+                && gBattleMons[gActiveBattler].ability == a\
+                && GetBattlerTurnOrderNum(gActiveBattler) < var)\
+                var = GetBattlerTurnOrderNum(gActiveBattler);\
+        }
 void HandleAction_UseMove(void)
 {
     u8 side;
@@ -157,21 +164,16 @@ void HandleAction_UseMove(void)
     else if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
              && gSideTimers[side].followmeTimer == 0
              && (gBattleMoves[gCurrentMove].power != 0
-                 || gBattleMoves[gCurrentMove].target != MOVE_TARGET_USER)
-             && gBattleMons[*(gBattleStruct->moveTarget + gBattlerAttacker)].ability != ABILITY_LIGHTNING_ROD
-             && gBattleMoves[gCurrentMove].type == TYPE_ELECTRIC)
+                 || gBattleMoves[gCurrentMove].target != MOVE_TARGET_USER))
     {
+        if (gBattleMons[*(gBattleStruct->moveTarget + gBattlerAttacker)].ability != ABILITY_LIGHTNING_ROD
+             && gBattleMoves[gCurrentMove].type == TYPE_ELECTRIC){
+		CHECK_ABILITY(ABILITY_LIGHTNING_ROD)
+        }else if (gBattleMons[*(gBattleStruct->moveTarget + gBattlerAttacker)].ability != ABILITY_STORM_DRAIN
+             && gBattleMoves[gCurrentMove].type == TYPE_WATER){
+		CHECK_ABILITY(ABILITY_STORM_DRAIN)
+	}
         side = GetBattlerSide(gBattlerAttacker);
-        for (gActiveBattler = 0; gActiveBattler < gBattlersCount; gActiveBattler++)
-        {
-            if (side != GetBattlerSide(gActiveBattler)
-                && *(gBattleStruct->moveTarget + gBattlerAttacker) != gActiveBattler
-                && gBattleMons[gActiveBattler].ability == ABILITY_LIGHTNING_ROD
-                && GetBattlerTurnOrderNum(gActiveBattler) < var)
-            {
-                var = GetBattlerTurnOrderNum(gActiveBattler);
-            }
-        }
         if (var == 4)
         {
             if (gBattleMoves[gChosenMove].target & MOVE_TARGET_RANDOM)
@@ -1535,6 +1537,8 @@ u8 DoBattlerEndTurnEffects(void)
                 if ((gBattleMons[gActiveBattler].status1 & STATUS1_BURN) && gBattleMons[gActiveBattler].hp != 0)
                 {
                     gBattleMoveDamage = gBattleMons[gActiveBattler].maxHP / 8;
+                    if (gBattleMons[gActiveBattler].ability == ABILITY_HEATPROOF)
+                        gBattleMoveDamage /= 2;
                     if (gBattleMoveDamage == 0)
                         gBattleMoveDamage = 1;
                     BattleScriptExecute(BattleScript_BurnTurnDmg);
@@ -3933,9 +3937,12 @@ u8 GetMoveTarget(u16 move, u8 setTarget)
             {
                 targetBattler = Random() % gBattlersCount;
             } while (targetBattler == gBattlerAttacker || side == GetBattlerSide(targetBattler) || gAbsentBattlerFlags & gBitTable[targetBattler]);
-            if (gBattleMoves[move].type == TYPE_ELECTRIC
+            if ((gBattleMoves[move].type == TYPE_ELECTRIC
                 && AbilityBattleEffects(ABILITYEFFECT_COUNT_OTHER_SIDE, gBattlerAttacker, ABILITY_LIGHTNING_ROD, 0, 0)
                 && gBattleMons[targetBattler].ability != ABILITY_LIGHTNING_ROD)
+            || (gBattleMoves[move].type == TYPE_WATER
+                && AbilityBattleEffects(ABILITYEFFECT_COUNT_OTHER_SIDE, gBattlerAttacker, ABILITY_STORM_DRAIN, 0, 0)
+                && gBattleMons[targetBattler].ability != ABILITY_STORM_DRAIN))
             {
                 targetBattler ^= BIT_FLANK;
                 RecordAbilityBattle(targetBattler, gBattleMons[targetBattler].ability);

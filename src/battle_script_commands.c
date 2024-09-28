@@ -1086,6 +1086,7 @@ static bool8 JumpIfMoveAffectedByProtect(u16 move)
 
 static bool8 AccuracyCalcHelper(u16 move)
 {
+    struct BattleMove bm=gBattleMoves[move];
     if (gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
     {
         JumpIfMoveFailed(7, move);
@@ -1119,9 +1120,11 @@ static bool8 AccuracyCalcHelper(u16 move)
 
     gHitMarker &= ~HITMARKER_IGNORE_UNDERWATER;
 
-    if ((WEATHER_HAS_EFFECT && ((gBattleWeather & B_WEATHER_RAIN && gBattleMoves[move].effect == EFFECT_THUNDER)
+    if ((WEATHER_HAS_EFFECT && ((gBattleWeather & B_WEATHER_RAIN && bm.effect == EFFECT_THUNDER)
      || (gBattleWeather & B_WEATHER_HAIL && move == MOVE_BLIZZARD)))
-     || (gBattleMoves[move].effect == EFFECT_ALWAYS_HIT || gBattleMoves[move].effect == EFFECT_VITAL_THROW))
+     || (bm.type == TYPE_ELECTRIC && gBattleMons[gBattlerTarget].ability == ABILITY_LIGHTNING_ROD)
+     || (bm.type == TYPE_WATER && gBattleMons[gBattlerTarget].ability == ABILITY_STORM_DRAIN)
+     || (bm.effect == EFFECT_ALWAYS_HIT || bm.effect == EFFECT_VITAL_THROW))
     {
         JumpIfMoveFailed(7, move);
         return TRUE;
@@ -2323,7 +2326,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
         INCREMENT_RESET_RETURN
 
     if (gSideStatuses[GET_BATTLER_SIDE(gEffectBattler)] & SIDE_STATUS_SAFEGUARD && !(gHitMarker & HITMARKER_STATUS_ABILITY_EFFECT)
-        && !primary && gBattleCommunication[MOVE_EFFECT_BYTE] <= 7)
+        && !primary && gBattleCommunication[MOVE_EFFECT_BYTE] <= 7 && gBattleMons[gBattlerAttacker].ability != ABILITY_INFILTRATOR)
         INCREMENT_RESET_RETURN
 
     if (gBattleMons[gEffectBattler].hp == 0
@@ -3303,7 +3306,7 @@ static void Cmd_jumpifsideaffecting(void)
     flags = T2_READ_16(gBattlescriptCurrInstr + 2);
     jumpPtr = T2_READ_PTR(gBattlescriptCurrInstr + 4);
 
-    if (gSideStatuses[side] & flags)
+    if (gSideStatuses[side] & flags && gBattleMons[gBattlerAttacker].ability != ABILITY_INFILTRATOR)
         gBattlescriptCurrInstr = jumpPtr;
     else
         gBattlescriptCurrInstr += 8;
@@ -7324,7 +7327,8 @@ static u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8 *BS_ptr)
     if (statValue <= -1) // Stat decrease.
     {
         if (gSideTimers[GET_BATTLER_SIDE(gActiveBattler)].mistTimer
-            && !certain && gCurrentMove != MOVE_CURSE)
+            && !certain && gCurrentMove != MOVE_CURSE
+            && gBattleMons[gBattlerAttacker].ability != ABILITY_INFILTRATOR)
         {
             if (flags == STAT_CHANGE_ALLOW_PTR)
             {
