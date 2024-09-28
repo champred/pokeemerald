@@ -3935,13 +3935,15 @@ BattleScript_MoveUsedFlinched::
 
 BattleScript_WeakArmorActivates::
 	setstatchanger STAT_DEF, 1, TRUE
-	statbuffchange 0, BattleScript_WeakArmorActivatesSpeed
+	statbuffchange 0, BattleScript_AbilitySpeedUp
 	setgraphicalstatchangevalues
-	call BattleScript_StatDown
-BattleScript_WeakArmorActivatesSpeed:
+	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_TARGETABILITYSTATLOWER
+	waitmessage B_WAIT_TIME_LONG
 BattleScript_MotorDriveActivates::
 BattleScript_SteadfastActivates::
 BattleScript_RattledActivates::
+BattleScript_AbilitySpeedUp:
 	setstatchanger STAT_SPEED, 1, FALSE
 	goto BattleScript_AbilityStatUp
 BattleScript_SapSipperActivates::
@@ -3955,7 +3957,9 @@ BattleScript_AbilityStatUp:
 	statbuffchange 0, BattleScript_MoveEnd
 	setgraphicalstatchangevalues
 	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
-	goto BattleScript_StatUpPrintString
+	printstring STRINGID_TARGETABILITYSTATRAISE
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_MoveEnd
 
 BattleScript_DefiantActivates::
 	setgraphicalstatchangevalues
@@ -3963,7 +3967,9 @@ BattleScript_DefiantActivates::
 	setstatchanger STAT_ATK, 2, FALSE
 	statbuffchange 0, BattleScript_DefiantActivatesReturn
 	setgraphicalstatchangevalues
-	call BattleScript_StatUp
+	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_TARGETABILITYSTATRAISE
+	waitmessage B_WAIT_TIME_LONG
 BattleScript_DefiantActivatesReturn:
 	return
 
@@ -4159,11 +4165,17 @@ BattleScript_TraceActivates::
 	waitmessage B_WAIT_TIME_LONG
 	end3
 
-BattleScript_RainDishActivates::
 BattleScript_DrySkinActivates::
+	jumpifhalfword CMP_COMMON_BITS, gBattleWeather, B_WEATHER_RAIN, BattleScript_RainDishActivates
 BattleScript_SolarPowerActivates::
+	printstring STRINGID_SOLARPOWERHPDROP
+	goto BattleScript_WeatherAbilityUpdate
 BattleScript_IceBodyActivates::
+	printstring STRINGID_ICEBODYHPGAIN
+	goto BattleScript_WeatherAbilityUpdate
+BattleScript_RainDishActivates::
 	printstring STRINGID_PKMNSXRESTOREDHPALITTLE2
+BattleScript_WeatherAbilityUpdate:
 	waitmessage B_WAIT_TIME_LONG
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
 	healthbarupdate BS_ATTACKER
@@ -4247,7 +4259,7 @@ BattleScript_DroughtActivates::
 
 BattleScript_SnowWarningActivates::
 	pause B_WAIT_TIME_SHORT
-	@printstring STRINGID_PKMNSXINTENSIFIEDSUN
+	printstring STRINGID_SNOWWARNINGHAIL
 	waitstate
 	playanimation BS_BATTLER_0, B_ANIM_HAIL_CONTINUES
 	call BattleScript_WeatherFormChanges
