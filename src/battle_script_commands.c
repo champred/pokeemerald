@@ -9462,7 +9462,7 @@ static void Cmd_jumpifnodamage(void)
 
 static void Cmd_settaunt(void)
 {
-    if (gDisableStructs[gBattlerTarget].tauntTimer == 0)
+    if (gDisableStructs[gBattlerTarget].tauntTimer == 0 && gBattleMons[gBattlerTarget].ability != ABILITY_OBLIVIOUS)
     {
         gDisableStructs[gBattlerTarget].tauntTimer = 2;
         gDisableStructs[gBattlerTarget].tauntTimer2 = 2;
