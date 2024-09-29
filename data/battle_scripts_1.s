@@ -3075,10 +3075,17 @@ BattleScript_LocalBattleWonReward::
 	getmoneyreward
 	printstring STRINGID_PLAYERGOTMONEY
 	waitmessage B_WAIT_TIME_LONG
+	jumpifability BS_BATTLER_0, ABILITY_NATURAL_CURE, BattleScript_TryNaturalCure
 BattleScript_PayDayMoneyAndPickUpItems::
 	givepaydaymoney
 	pickup
 	end2
+
+BattleScript_TryNaturalCure:
+	jumpifstatus BS_BATTLER_0, STATUS1_NONE, BattleScript_PayDayMoneyAndPickUpItems
+	curestatus BS_BATTLER_0
+	call BattleScript_AbilityCuredStatus
+	goto BattleScript_PayDayMoneyAndPickUpItems
 
 BattleScript_LocalBattleLost::
 	jumpifbattletype BATTLE_TYPE_DOME, BattleScript_CheckDomeDrew
