@@ -3082,9 +3082,7 @@ BattleScript_PayDayMoneyAndPickUpItems::
 	end2
 
 BattleScript_TryNaturalCure:
-	jumpifstatus BS_BATTLER_0, STATUS1_NONE, BattleScript_PayDayMoneyAndPickUpItems
 	curestatus BS_BATTLER_0
-	call BattleScript_AbilityCuredStatus
 	goto BattleScript_PayDayMoneyAndPickUpItems
 
 BattleScript_LocalBattleLost::
@@ -3947,37 +3945,48 @@ BattleScript_WeakArmorActivates::
 	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
 	printstring STRINGID_TARGETABILITYSTATLOWER
 	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_AbilitySpeedUp
 BattleScript_MotorDriveActivates::
 BattleScript_SteadfastActivates::
+	setstatchanger STAT_SPEED, 1, FALSE
+	call BattleScript_AbilityStatUp
+	goto BattleScript_MoveEnd
 BattleScript_RattledActivates::
 BattleScript_AbilitySpeedUp:
 	setstatchanger STAT_SPEED, 1, FALSE
-	goto BattleScript_AbilityStatUp
+	call BattleScript_AbilityStatUp
+	return
 BattleScript_SapSipperActivates::
+	setstatchanger STAT_ATK, 1, FALSE
+	call BattleScript_AbilityStatUp
+	goto BattleScript_MoveEnd
 BattleScript_JustifiedActivates::
 	setstatchanger STAT_ATK, 1, FALSE
-	goto BattleScript_AbilityStatUp
+	call BattleScript_AbilityStatUp
+	return
 BattleScript_LightningRodActivates::
 BattleScript_StormDrainActivates::
 	setstatchanger STAT_SPATK, 1, FALSE
+	call BattleScript_AbilityStatUp
+	goto BattleScript_MoveEnd
 BattleScript_AbilityStatUp:
-	statbuffchange 0, BattleScript_MoveEnd
+	statbuffchange 0, BattleScript_AbilityStatUpReturn
 	setgraphicalstatchangevalues
 	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
 	printstring STRINGID_TARGETABILITYSTATRAISE
 	waitmessage B_WAIT_TIME_LONG
-	goto BattleScript_MoveEnd
+	return
 
 BattleScript_DefiantActivates::
 	setgraphicalstatchangevalues
 	call BattleScript_StatDown
 	setstatchanger STAT_ATK, 2, FALSE
-	statbuffchange 0, BattleScript_DefiantActivatesReturn
+	statbuffchange 0, BattleScript_AbilityStatUpReturn
 	setgraphicalstatchangevalues
 	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
 	printstring STRINGID_TARGETABILITYSTATRAISE
 	waitmessage B_WAIT_TIME_LONG
-BattleScript_DefiantActivatesReturn:
+BattleScript_AbilityStatUpReturn:
 	return
 
 BattleScript_PrintUproarOverTurns::
@@ -4187,6 +4196,7 @@ BattleScript_WeatherAbilityUpdate:
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
+	tryfaintmon BS_ATTACKER
 	end3
 
 BattleScript_SandstreamActivates::
@@ -4248,6 +4258,7 @@ BattleScript_IntimidateActivationAnimLoop::
 	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
 	printstring STRINGID_PKMNCUTSATTACKWITH
 	waitmessage B_WAIT_TIME_LONG
+	jumpifability BS_TARGET, ABILITY_RATTLED, BattleScript_IntimidateActivatesRattled
 BattleScript_IntimidateActivatesLoopIncrement:
 	addbyte gBattlerTarget, 1
 	goto BattleScript_IntimidateActivatesLoop
@@ -4258,6 +4269,9 @@ BattleScript_IntimidateAbilityFail::
 	pause B_WAIT_TIME_SHORT
 	printstring STRINGID_PREVENTEDFROMWORKING
 	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_IntimidateActivatesLoopIncrement
+BattleScript_IntimidateActivatesRattled:
+	call BattleScript_RattledActivates
 	goto BattleScript_IntimidateActivatesLoopIncrement
 
 BattleScript_DroughtActivates::
