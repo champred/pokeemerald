@@ -1148,8 +1148,10 @@ static void Cmd_accuracycheck(void)
     }
     else
     {
-        u8 type, moveAcc, holdEffect, param, acc, ability=gBattleMons[gBattlerAttacker].ability;
+        u8 type, moveAcc, holdEffect, param, ability=gBattleMons[gBattlerAttacker].ability;
         s8 buff;
+	s8 accStage=gBattleMons[gBattlerAttacker].statStages[STAT_ACC];
+	s8 evaStage=gBattleMons[gBattlerTarget].statStages[STAT_EVASION];
         u16 calc;
 
         if (move == ACC_CURR_MOVE)
@@ -1162,20 +1164,15 @@ static void Cmd_accuracycheck(void)
         if (AccuracyCalcHelper(move))
             return;
 
-        if (gBattleMons[gBattlerTarget].status2 & STATUS2_FORESIGHT || gStatuses3[gBattlerTarget] & STATUS3_MIRACLE_EYED
-            ||(ability==ABILITY_UNAWARE&&!IS_MOVE_STATUS(move)))
-        {
-            acc = gBattleMons[gBattlerAttacker].statStages[STAT_ACC];
-            buff = acc;
-        }
-        else
-        {
-            acc = gBattleMons[gBattlerAttacker].statStages[STAT_ACC];
-            buff = acc + DEFAULT_STAT_STAGE - gBattleMons[gBattlerTarget].statStages[STAT_EVASION];
-        }
+        if ((ability==ABILITY_UNAWARE&&!IS_MOVE_STATUS(move))||ability==ABILITY_KEEN_EYE||ability==ABILITY_ILLUMINATE)
+            evaStage = DEFAULT_STAT_STAGE;
         ability=gBattleMons[gBattlerTarget].ability;
         if(ability==ABILITY_UNAWARE&&!IS_MOVE_STATUS(move))
-            buff-=acc;
+            accStage = DEFAULT_STAT_STAGE;
+        if (gBattleMons[gBattlerTarget].status2 & STATUS2_FORESIGHT || gStatuses3[gBattlerTarget] & STATUS3_MIRACLE_EYED)
+            buff = accStage;
+        else
+            buff = accStage + DEFAULT_STAT_STAGE - evaStage;
         if (buff < MIN_STAT_STAGE)
             buff = MIN_STAT_STAGE;
         if (buff > MAX_STAT_STAGE)
@@ -7373,7 +7370,7 @@ static u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8 *BS_ptr)
             }
             return STAT_CHANGE_DIDNT_WORK;
         }
-        else if (ability == ABILITY_KEEN_EYE && !certain && statId == STAT_ACC)
+        else if ((ability == ABILITY_KEEN_EYE || ability == ABILITY_ILLUMINATE) && !certain && statId == STAT_ACC)
         {
 		ABILITY_BLOCKS;
         }

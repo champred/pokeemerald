@@ -3325,6 +3325,8 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         }
         else if(defender->ability!=ABILITY_UNAWARE)
             APPLY_STAT_MOD(damage, attacker, attack, STAT_ATK)
+        else
+            damage = attack;
 
         damage = damage * gBattleMovePower;
         damage *= (2 * attacker->level / 5 + 2);
@@ -3339,6 +3341,8 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         }
         else if(attacker->ability!=ABILITY_UNAWARE)
             APPLY_STAT_MOD(damageHelper, defender, defense, STAT_DEF)
+        else
+            damageHelper = defense;
 
         damage = damage / damageHelper;
         damage /= 50;
@@ -3382,6 +3386,8 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         }
         else if(defender->ability!=ABILITY_UNAWARE)
             APPLY_STAT_MOD(damage, attacker, spAttack, STAT_SPATK)
+        else
+            damage = spAttack;
 
         damage = damage * gBattleMovePower;
         damage *= (2 * attacker->level / 5 + 2);
@@ -3396,6 +3402,8 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         }
         else if(attacker->ability!=ABILITY_UNAWARE)
             APPLY_STAT_MOD(damageHelper, defender, spDefense, STAT_SPDEF)
+        else
+            damageHelper = spDefense;
 
         damage = (damage / damageHelper);
         damage /= 50;
