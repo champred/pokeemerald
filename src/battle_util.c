@@ -2639,11 +2639,13 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 case ABILITY_DRY_SKIN:
                     if (WEATHER_HAS_EFFECT && (gBattleWeather & (B_WEATHER_RAIN|B_WEATHER_SUN)))
                     {
+                        if(gBattleWeather&B_WEATHER_RAIN && gBattleMons[battler].maxHP == gBattleMons[battler].hp)
+                            break;
                         BattleScriptPushCursorAndCallback(BattleScript_DrySkinActivates);
                         gBattleMoveDamage = gBattleMons[battler].maxHP / 8;
                         if (gBattleMoveDamage == 0)
                             gBattleMoveDamage = 1;
-                        if(gBattleWeather&B_WEATHER_RAIN && gBattleMons[battler].maxHP > gBattleMons[battler].hp)
+                        if(gBattleWeather&B_WEATHER_RAIN)
                             gBattleMoveDamage *= -1;
                         effect++;
                     }
