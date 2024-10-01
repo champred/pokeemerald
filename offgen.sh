@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HACK="Moveset Expansion"
+HACK="ironMAX"
 CONFIG=com/dabomstew/pkrandom/config
 DIR=${GAME_VERSION:-`pwd`}
 

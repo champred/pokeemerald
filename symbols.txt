@@ -13,12 +13,6 @@ sBattlerAbilities$
 sStartMenuWindowId$
 gSpecialVar_ItemId$
 sMonSummaryScreen$
-gBattleMainFunc = \.$
-gBattleResults = \.$
-gMultiUsePlayerCursor = \.$
-gSaveBlock1Ptr = \.$
-gSaveBlock2Ptr = \.$
-gTasks = \.$
 BattleIntroDrawPartySummaryScreens$
 BattleIntroRecordMonsToDex$
 HandleTurnActionSelectionState$
@@ -68,6 +62,13 @@ BattleScript_MonMadeMoveUseless$
 BattleScript_FlashFireBoost$
 BattleScript_AbilityPreventsPhasingOut$
 BattleScript_AbilityNoStatLoss$
+BattleScript_AbilityCuredStatus$
+BattleScript_SteadfastActivates$
+BattleScript_SnowWarningActivates$
+BattleScript_DefiantActivates$
+BattleScript_WeakArmorActivates$
+BattleScript_JustifiedActivates$
+BattleScript_RattledActivates$
 BattleScript_BRNPrevention$
 BattleScript_PRLZPrevention$
 BattleScript_PSNPrevention$
