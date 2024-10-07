@@ -2820,7 +2820,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 if (!(gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
                  && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
                  && TARGET_TURN_DAMAGED
-                 && IS_MOVE_PHYSICAL(gBattleMoves[move].flags))
+                 && IS_MOVE_PHYSICAL(gBattleMoves[move].flags)
+                 && gBattleMons[battler].hp != 0)
                 {
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_WeakArmorActivates;
@@ -2831,7 +2832,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 if (!(gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
                  && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
                  && TARGET_TURN_DAMAGED
-                 && moveType==TYPE_DARK)
+                 && moveType==TYPE_DARK
+                 && gBattleMons[battler].hp != 0)
                 {
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_JustifiedActivates;
@@ -2842,7 +2844,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 if (!(gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
                  && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
                  && TARGET_TURN_DAMAGED
-                 && (moveType==TYPE_DARK||moveType==TYPE_BUG||moveType==TYPE_GHOST))
+                 && (moveType==TYPE_DARK||moveType==TYPE_BUG||moveType==TYPE_GHOST)
+                 && gBattleMons[battler].hp != 0)
                 {
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_RattledActivates;
