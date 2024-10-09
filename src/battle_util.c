@@ -2798,6 +2798,22 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 }
             }
             break;
+        case ABILITYEFFECT_DO_DAMAGE:
+            switch (gLastUsedAbility)
+            {
+            case ABILITY_STENCH:
+                if (!(gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
+                 && gBattleMons[gBattlerTarget].hp != 0
+                 && !gProtectStructs[gBattlerTarget].confusionSelfDmg
+                 && TARGET_TURN_DAMAGED
+                 && (Random() % 10) == 0)
+                {
+                    if (GetBattlerTurnOrderNum(gBattlerTarget) > gCurrentTurnActionNumber&&gBattleMons[gBattlerTarget].ability!=ABILITY_INNER_FOCUS)
+                        gBattleMons[gBattlerTarget].status2 |= STATUS2_FLINCHED;
+                    effect++;
+                }
+            }
+            break;
         case ABILITYEFFECT_ON_DAMAGE: // Contact abilities and Color Change
             switch (gLastUsedAbility)
             {
