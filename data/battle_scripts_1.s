@@ -3937,6 +3937,14 @@ BattleScript_MoveUsedFlinched::
 	waitmessage B_WAIT_TIME_LONG
 	jumpifability BS_TARGET, ABILITY_STEADFAST, BattleScript_SteadfastActivates
 	goto BattleScript_MoveEnd
+BattleScript_SteadfastActivates::
+	setstatchanger STAT_SPEED, 1, FALSE
+	statbuffchange 0, BattleScript_MoveEnd
+	setgraphicalstatchangevalues
+	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_ATTACKERABILITYSTATRAISE
+	waitmessage B_WAIT_TIME_LONG
+	goto BattleScript_MoveEnd
 
 BattleScript_WeakArmorActivates::
 	setstatchanger STAT_DEF, 1, TRUE
@@ -3947,7 +3955,6 @@ BattleScript_WeakArmorActivates::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_AbilitySpeedUp
 BattleScript_MotorDriveActivates::
-BattleScript_SteadfastActivates::
 	setstatchanger STAT_SPEED, 1, FALSE
 	call BattleScript_AbilityStatUp
 	goto BattleScript_MoveEnd
