@@ -3215,6 +3215,8 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
 
     if (attacker->ability == ABILITY_HUGE_POWER || attacker->ability == ABILITY_PURE_POWER)
         attack *= 2;
+    if (WEATHER_HAS_EFFECT2&&(gBattleWeather&B_WEATHER_SANDSTORM)&&IS_BATTLER_OF_TYPE(battlerIdDef,TYPE_ROCK))
+        spDefense = (150 * spDefense) / 100;
 
     if (ShouldGetStatBadgeBoost(FLAG_BADGE01_GET, battlerIdAtk))
         attack = (110 * attack) / 100;
