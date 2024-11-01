@@ -7447,13 +7447,18 @@ static u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8 *BS_ptr)
         return STAT_CHANGE_DIDNT_WORK;
 
     if(ability==ABILITY_DEFIANT&&GetBattlerSide(gActiveBattler)!=GetBattlerSide(gBattlerAttacker)&&statValue<0){
+        gBattleScripting.battler = gActiveBattler;
+        gLastUsedAbility = ability;
+        RecordAbilityBattle(gActiveBattler, gLastUsedAbility);
         if (flags == STAT_CHANGE_ALLOW_PTR)
         {
             BattleScriptPush(BS_ptr);
-            gBattleScripting.battler = gActiveBattler;
             gBattlescriptCurrInstr = BattleScript_DefiantActivates-6;
-            gLastUsedAbility = ability;
-            RecordAbilityBattle(gActiveBattler, gLastUsedAbility);
+        }
+        else
+        {
+            BattleScriptPush(gBattlescriptCurrInstr+1);
+            gBattlescriptCurrInstr = BattleScript_DefiantActivates+5;
         }
     }
     return STAT_CHANGE_WORKED;

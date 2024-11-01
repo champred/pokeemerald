@@ -3939,7 +3939,7 @@ BattleScript_MoveUsedFlinched::
 	goto BattleScript_MoveEnd
 BattleScript_SteadfastActivates::
 	setstatchanger STAT_SPEED, 1, FALSE
-	statbuffchange 0, BattleScript_MoveEnd
+	statbuffchange MOVE_EFFECT_AFFECTS_USER, BattleScript_MoveEnd
 	setgraphicalstatchangevalues
 	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
 	printstring STRINGID_ATTACKERABILITYSTATRAISE
@@ -3948,7 +3948,7 @@ BattleScript_SteadfastActivates::
 
 BattleScript_WeakArmorActivates::
 	setstatchanger STAT_DEF, 1, TRUE
-	statbuffchange 0, BattleScript_AbilitySpeedUp
+	statbuffchange MOVE_EFFECT_CERTAIN, BattleScript_AbilitySpeedUp
 	setgraphicalstatchangevalues
 	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
 	printstring STRINGID_TARGETABILITYSTATLOWER
