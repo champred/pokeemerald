@@ -119,6 +119,11 @@ static const u8 sJustifiedDescription[] = _("Dark hits raise Attack.");
 static const u8 sRattledDescription[] = _("Raises Speed when scared.");
 static const u8 sSapSipperDescription[] = _("Grass increases Attack.");
 static const u8 sSandForceDescription[] = _("Powers up in a sandstorm.");
+static const u8 sDownloadDescription[] = _("Adjusts power favorably.");
+static const u8 sFlowerGiftDescription[] = _("Allies power up in sunshine.");
+static const u8 sMoodyDescription[] = _("Stats change gradually.");
+static const u8 sPranksterDescription[] = _("Status moves go first.");
+static const u8 sVictoryStarDescription[] = _("Raises party accuracy.");
 
 const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
 {
@@ -242,6 +247,11 @@ const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
     [ABILITY_RATTLED] = _("Rattled"),
     [ABILITY_SAP_SIPPER] = _("Sap Sipper"),
     [ABILITY_SAND_FORCE] = _("Sand Force"),
+    [ABILITY_DOWNLOAD] = _("Download"),
+    [ABILITY_FLOWER_GIFT] = _("Flower Gift"),
+    [ABILITY_MOODY] = _("Moody"),
+    [ABILITY_PRANKSTER] = _("Prankster"),
+    [ABILITY_VICTORY_STAR] = _("Victory Star"),
 };
 
 const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
@@ -367,4 +377,9 @@ const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
     [ABILITY_RATTLED] = sRattledDescription,
     [ABILITY_SAP_SIPPER] = sSapSipperDescription,
     [ABILITY_SAND_FORCE] = sSandForceDescription,
+    [ABILITY_DOWNLOAD] = sDownloadDescription,
+    [ABILITY_FLOWER_GIFT] = sFlowerGiftDescription,
+    [ABILITY_MOODY] = sMoodyDescription,
+    [ABILITY_PRANKSTER] = sPranksterDescription,
+    [ABILITY_VICTORY_STAR] = sVictoryStarDescription,
 };

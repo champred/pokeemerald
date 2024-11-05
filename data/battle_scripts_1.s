@@ -3946,6 +3946,32 @@ BattleScript_SteadfastActivates::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
 
+BattleScript_DownloadRaisesAtk::
+	setstatchanger STAT_ATK, 1, FALSE
+	goto BattleScript_DownloadActivates
+BattleScript_DownloadRaisesSpa::
+	setstatchanger STAT_SPATK, 1, FALSE
+BattleScript_DownloadActivates:
+	copybyte gBattlerTarget, sBATTLER
+	call BattleScript_AbilityStatUp
+	end3
+
+BattleScript_MoodyActivates::
+	copybyte gBattlerTarget, sBATTLER
+	statbuffchange MOVE_EFFECT_CERTAIN, BattleScript_MoodyActivatesEnd
+	setgraphicalstatchangevalues
+	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_TARGETABILITYSTATLOWER
+	waitmessage B_WAIT_TIME_LONG
+	tryaccupressure BS_TARGET, BattleScript_MoodyActivatesEnd
+	statbuffchange MOVE_EFFECT_CERTAIN, BattleScript_MoodyActivatesEnd
+	setgraphicalstatchangevalues
+	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_TARGETABILITYSTATRAISE
+	waitmessage B_WAIT_TIME_LONG
+BattleScript_MoodyActivatesEnd:
+	end3
+
 BattleScript_WeakArmorActivates::
 	setstatchanger STAT_DEF, 1, TRUE
 	statbuffchange MOVE_EFFECT_CERTAIN, BattleScript_AbilitySpeedUp

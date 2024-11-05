@@ -1200,6 +1200,8 @@ static void Cmd_accuracycheck(void)
             calc = (calc * 130) / 100; // 1.3 compound eyes boost
         else if (ability == ABILITY_HUSTLE && IS_MOVE_PHYSICAL(gBattleMoves[move].flags))
             calc = (calc * 80) / 100; // 1.2 hustle loss
+        if (ABILITY_ON_ALLIED_FIELD(gBattlerAttacker,ABILITY_VICTORY_STAR))
+            calc = (calc * 110) / 100; // 1.1 victory star boost
 
         if (gBattleMons[gBattlerTarget].item == ITEM_ENIGMA_BERRY)
         {
@@ -6785,27 +6787,10 @@ static void Cmd_various(void)
 	SWAP(gBattleMons[gActiveBattler].attack, gBattleMons[gActiveBattler].defense, i);
 	break;
     case VARIOUS_ACUPRESSURE:
-	bits = 0;
-	for (i = STAT_ATK; i < NUM_BATTLE_STATS; i++)
-	{
-		if (gBattleMons[gActiveBattler].statStages[i] < MAX_STAT_STAGE)
-			bits |= gBitTable[i];
-	}
-	if (bits)
-	{
-		u32 statId;
-		do
-		{
-			statId = (Random() % (NUM_BATTLE_STATS - 1)) + 1;
-		} while (!(bits & gBitTable[statId]));
-
-		SET_STATCHANGER(statId, 2, FALSE);
+	if (ChangeRandomStat(gActiveBattler,2))
 		gBattlescriptCurrInstr += 7;
-	}
 	else
-	{
 		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
-	}
 	return;
     case VARIOUS_TRY_LAST_RESORT:
 	if (CanUseLastResort(gActiveBattler))

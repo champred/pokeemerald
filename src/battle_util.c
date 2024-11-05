@@ -2416,6 +2416,30 @@ u8 CastformDataTypeChange(u8 battler)
     return formChange;
 }
 
+bool8 ChangeRandomStat(u8 battler,s8 mod){
+        s32 i;
+        u32 bits = 0;
+        for (i = STAT_ATK; i < NUM_BATTLE_STATS; i++)
+        {
+                if ((mod>0&&gBattleMons[battler].statStages[i] < MAX_STAT_STAGE)
+		  ||(mod<0&&gBattleMons[battler].statStages[i] > MIN_STAT_STAGE))
+                        bits |= gBitTable[i];
+        }
+        if (bits)
+        {
+                u32 statId;
+                do
+                {
+                        statId = (Random() % (NUM_BATTLE_STATS - 1)) + 1;
+                } while (!(bits & gBitTable[statId]));
+
+                if(mod<0)SET_STATCHANGER(statId, (u8)(-mod), TRUE);
+                else SET_STATCHANGER(statId, (u8)mod, FALSE);
+                return TRUE;
+        }
+        return FALSE;
+}
+
 u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveArg)
 {
     u8 effect = 0;
@@ -2553,6 +2577,14 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                     effect++;
                 }
                 break;
+            case ABILITY_DOWNLOAD:
+                if(gBattleMons[BATTLE_OPPOSITE(battler)].defense<gBattleMons[BATTLE_OPPOSITE(battler)].spDefense)
+                    BattleScriptPushCursorAndCallback(BattleScript_DownloadRaisesAtk);
+                else
+                    BattleScriptPushCursorAndCallback(BattleScript_DownloadRaisesSpa);
+                gBattleScripting.battler = battler;
+                effect++;
+                break;
             case ABILITY_INTIMIDATE:
                 if (!(gSpecialStatuses[battler].intimidatedMon))
                 {
@@ -2683,6 +2715,13 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                         gBattleScripting.animArg1 = STAT_ANIM_PLUS1 + STAT_SPEED;
                         gBattleScripting.animArg2 = 0;
                         BattleScriptPushCursorAndCallback(BattleScript_SpeedBoostActivates);
+                        gBattleScripting.battler = battler;
+                        effect++;
+                    }
+                    break;
+                case ABILITY_MOODY:
+                    if(ChangeRandomStat(battler,-1)){
+                        BattleScriptPushCursorAndCallback(BattleScript_MoodyActivates);
                         gBattleScripting.battler = battler;
                         effect++;
                     }
