@@ -2371,13 +2371,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
             else
                 gActiveBattler = gBattlersCount;
 
-            if (gBattleMons[gEffectBattler].status1)
-                break;
-            if (gActiveBattler != gBattlersCount)
-                break;
-            if (gBattleMons[gEffectBattler].ability == ABILITY_VITAL_SPIRIT)
-                break;
-            if (gBattleMons[gEffectBattler].ability == ABILITY_INSOMNIA)
+            if (gBattleMons[gEffectBattler].status1||gActiveBattler != gBattlersCount||gBattleMons[gEffectBattler].ability == ABILITY_VITAL_SPIRIT||gBattleMons[gEffectBattler].ability == ABILITY_INSOMNIA)
                 break;
 
             CancelMultiTurnMoves(gEffectBattler);
@@ -2414,13 +2408,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_STATUS_HAD_NO_EFFECT;
                 RESET_RETURN
             }
-            if (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_POISON))
-                break;
-            if (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_STEEL))
-                break;
-            if (gBattleMons[gEffectBattler].status1)
-                break;
-            if (gBattleMons[gEffectBattler].ability == ABILITY_IMMUNITY)
+            if (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_POISON)||IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_STEEL)||gBattleMons[gEffectBattler].status1||gBattleMons[gEffectBattler].ability == ABILITY_IMMUNITY)
                 break;
 
             statusChanged = TRUE;
@@ -2455,11 +2443,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_STATUS_HAD_NO_EFFECT;
                 RESET_RETURN
             }
-            if (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_FIRE))
-                break;
-            if (gBattleMons[gEffectBattler].ability == ABILITY_WATER_VEIL)
-                break;
-            if (gBattleMons[gEffectBattler].status1)
+            if (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_FIRE)||gBattleMons[gEffectBattler].ability == ABILITY_WATER_VEIL||gBattleMons[gEffectBattler].status1)
                 break;
 
             statusChanged = TRUE;
@@ -2467,13 +2451,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
         case STATUS1_FREEZE:
             if (WEATHER_HAS_EFFECT && gBattleWeather & B_WEATHER_SUN)
                 noSunCanFreeze = FALSE;
-            if (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_ICE))
-                break;
-            if (gBattleMons[gEffectBattler].status1)
-                break;
-            if (noSunCanFreeze == FALSE)
-                break;
-            if (gBattleMons[gEffectBattler].ability == ABILITY_MAGMA_ARMOR)
+            if (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_ICE)||gBattleMons[gEffectBattler].status1||!noSunCanFreeze||gBattleMons[gEffectBattler].ability == ABILITY_MAGMA_ARMOR)
                 break;
 
             CancelMultiTurnMoves(gEffectBattler);
@@ -2504,7 +2482,17 @@ void SetMoveEffect(bool8 primary, u8 certain)
                 else
                     break;
             }
-            if (gBattleMons[gEffectBattler].status1)
+            if (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_ELECTRIC)
+                && (gHitMarker & HITMARKER_STATUS_ABILITY_EFFECT)
+                && (primary == TRUE || certain == MOVE_EFFECT_CERTAIN))
+            {
+                BattleScriptPush(gBattlescriptCurrInstr + 1);
+                gBattlescriptCurrInstr = BattleScript_PRLZPrevention;
+
+                gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_STATUS_HAD_NO_EFFECT;
+                RESET_RETURN
+            }
+            if (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_ELECTRIC)||gBattleMons[gEffectBattler].status1)
                 break;
 
             statusChanged = TRUE;
