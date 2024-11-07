@@ -2578,12 +2578,13 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                 }
                 break;
             case ABILITY_DOWNLOAD:
-                if(gBattleMons[BATTLE_OPPOSITE(battler)].defense<gBattleMons[BATTLE_OPPOSITE(battler)].spDefense)
-                    BattleScriptPushCursorAndCallback(BattleScript_DownloadRaisesAtk);
-                else
-                    BattleScriptPushCursorAndCallback(BattleScript_DownloadRaisesSpa);
-                gBattleScripting.battler = battler;
-                effect++;
+                if(gBattleMons[battler].statStages[STAT_ATK]==gBattleMons[battler].statStages[STAT_SPATK]){
+                    if(gBattleMons[BATTLE_OPPOSITE(battler)].defense<gBattleMons[BATTLE_OPPOSITE(battler)].spDefense)
+                        BattleScriptPushCursorAndCallback(BattleScript_DownloadRaisesAtk);
+                    else BattleScriptPushCursorAndCallback(BattleScript_DownloadRaisesSpa);
+                    gBattleScripting.battler = battler;
+                    effect++;
+                }
                 break;
             case ABILITY_INTIMIDATE:
                 if (!(gSpecialStatuses[battler].intimidatedMon))

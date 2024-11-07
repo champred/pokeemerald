@@ -3964,11 +3964,7 @@ BattleScript_MoodyActivates::
 	printstring STRINGID_TARGETABILITYSTATLOWER
 	waitmessage B_WAIT_TIME_LONG
 	tryaccupressure BS_TARGET, BattleScript_MoodyActivatesEnd
-	statbuffchange MOVE_EFFECT_CERTAIN, BattleScript_MoodyActivatesEnd
-	setgraphicalstatchangevalues
-	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
-	printstring STRINGID_TARGETABILITYSTATRAISE
-	waitmessage B_WAIT_TIME_LONG
+	call BattleScript_AbilityStatUp
 BattleScript_MoodyActivatesEnd:
 	end3
 
@@ -4008,18 +4004,14 @@ BattleScript_AbilityStatUp:
 	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
 	printstring STRINGID_TARGETABILITYSTATRAISE
 	waitmessage B_WAIT_TIME_LONG
+BattleScript_AbilityStatUpReturn:
 	return
 
 BattleScript_DefiantActivates::
 	setgraphicalstatchangevalues
 	call BattleScript_StatDown
 	setstatchanger STAT_ATK, 2, FALSE
-	statbuffchange 0, BattleScript_AbilityStatUpReturn
-	setgraphicalstatchangevalues
-	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
-	printstring STRINGID_TARGETABILITYSTATRAISE
-	waitmessage B_WAIT_TIME_LONG
-BattleScript_AbilityStatUpReturn:
+	call BattleScript_AbilityStatUp
 	return
 
 BattleScript_PrintUproarOverTurns::
@@ -4293,6 +4285,7 @@ BattleScript_IntimidateActivationAnimLoop::
 	waitmessage B_WAIT_TIME_LONG
 	jumpifability BS_TARGET, ABILITY_RATTLED, BattleScript_IntimidateActivatesRattled
 BattleScript_IntimidateActivatesLoopIncrement:
+BattleScript_IntimidateFail::
 	addbyte gBattlerTarget, 1
 	goto BattleScript_IntimidateActivatesLoop
 BattleScript_IntimidateActivatesReturn:
