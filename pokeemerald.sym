@@ -35792,6 +35792,7 @@
 082e9b93 g 00000000 BattleScript_IntimidateActivates
 082e9b9f g 00000000 BattleScript_IntimidateActivationAnimLoop
 082e9b9f l 00000000 BattleScript_IntimidateActivatesLoop
+082e9c05 g 00000000 BattleScript_IntimidateFail
 082e9c05 l 00000000 BattleScript_IntimidateActivatesLoopIncrement
 082e9c10 l 00000000 BattleScript_IntimidateActivatesReturn
 082e9c11 g 00000000 BattleScript_IntimidateAbilityFail
