@@ -4710,17 +4710,17 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 		.priority = 2,
 	},
 
-	[MOVE_PLUCK] =
+	[MOVE_INCINERATE] =
 	{
 		.effect = EFFECT_BUG_BITE,
 		.power = 60,
-		.type = TYPE_FLYING,
+		.type = TYPE_FIRE,
 		.accuracy = 100,
-		.pp = 20,
+		.pp = 15,
 		.secondaryEffectChance = 100,
-		.target = MOVE_TARGET_SELECTED,
+		.target = MOVE_TARGET_BOTH,
 		.priority = 0,
-		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_PHYSICAL,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_SPECIAL,
 	},
 
 
@@ -5693,17 +5693,17 @@ const struct BattleMove gBattleMoves[MOVES_COUNT] =
 		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_SPECIAL,
 	},
 
-	[MOVE_BUG_BITE] =
+	[MOVE_STRUGGLE_BUG] =
 	{
-		.effect = EFFECT_BUG_BITE,
-		.power = 60,
+		.effect = EFFECT_SPECIAL_ATTACK_DOWN_HIT,
+		.power = 50,
 		.type = TYPE_BUG,
 		.accuracy = 100,
 		.pp = 20,
 		.secondaryEffectChance = 100,
-		.target = MOVE_TARGET_SELECTED,
+		.target = MOVE_TARGET_BOTH,
 		.priority = 0,
-		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_PHYSICAL,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED | FLAG_SPECIAL,
 	},
 
 	[MOVE_CHARGE_BEAM] =

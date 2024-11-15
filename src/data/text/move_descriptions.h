@@ -1445,9 +1445,13 @@ static const u8 sFeintDescription[] = _(
     "An attack that hits foes\n"
     "using moves like Protect.");
 
-static const u8 sPluckDescription[] = _(
-    "Eats the foe's held Berry\n"
-    "gaining its effect.");
+static const u8 sIncinerateDescription[] = _(
+    "Burns up Berries\n"
+    "preventing their use.");
+
+static const u8 sStruggleBugDescription[] = _(
+    "Resisting, the user attacks\n"
+    "the foe. Lowers Sp. Atk.");
 
 static const u8 sAcupressureDescription[] = _(
     "The user sharply raises\n"
@@ -2324,7 +2328,7 @@ const u8 *const gMoveDescriptionPointers[MOVES_COUNT - 1] =
     [MOVE_HEALING_WISH - 1] = sHealingWishDescription,
     [MOVE_BRINE - 1] = sBrineDescription,
     [MOVE_FEINT - 1] = sFeintDescription,
-    [MOVE_PLUCK - 1] = sPluckDescription,
+    [MOVE_INCINERATE - 1] = sIncinerateDescription,
     [MOVE_ACUPRESSURE - 1] = sAcupressureDescription,
     [MOVE_METAL_BURST - 1] = sMetalBurstDescription,
     [MOVE_U_TURN - 1] = sUTurnDescription,
@@ -2399,7 +2403,7 @@ const u8 *const gMoveDescriptionPointers[MOVES_COUNT - 1] =
     [MOVE_GRASS_KNOT - 1] = sGrassKnotDescription,
     [MOVE_CHATTER - 1] = sChatterDescription,
     [MOVE_JUDGMENT - 1] = sJudgmentDescription,
-    [MOVE_BUG_BITE - 1] = sPluckDescription,
+    [MOVE_STRUGGLE_BUG - 1] = sStruggleBugDescription,
     [MOVE_CHARGE_BEAM - 1] = sChargeBeamDescription,
     [MOVE_WOOD_HAMMER - 1] = sWoodHammerDescription,
     [MOVE_AQUA_JET - 1] = sAquaJetDescription,
