@@ -319,6 +319,9 @@ BattleScript_EffectSleep::
 	jumpifstatus BS_TARGET, STATUS1_SLEEP, BattleScript_AlreadyAsleep
 	jumpifcantmakeasleep BattleScript_CantMakeAsleep
 	jumpifstatus BS_TARGET, STATUS1_ANY, BattleScript_ButItFailed
+	jumpifmove MOVE_SPORE, BattleScript_SporeSleepPowderCheck
+	jumpifmove MOVE_SLEEP_POWDER, BattleScript_SporeSleepPowderCheck
+BattleScript_EffectSleepAccCheck:
 	accuracycheck BattleScript_ButItFailed, ACC_CURR_MOVE
 	jumpifsideaffecting BS_TARGET, SIDE_STATUS_SAFEGUARD, BattleScript_SafeguardProtected
 	attackanimation
@@ -326,6 +329,9 @@ BattleScript_EffectSleep::
 	setmoveeffect MOVE_EFFECT_SLEEP
 	seteffectprimary
 	goto BattleScript_MoveEnd
+BattleScript_SporeSleepPowderCheck:
+	call BattleScript_PowderSporeCheck
+	goto BattleScript_EffectSleepAccCheck
 
 BattleScript_AlreadyAsleep::
 	setalreadystatusedmoveattempt BS_ATTACKER
@@ -1037,11 +1043,20 @@ BattleScript_EffectDefenseDown2::
 
 BattleScript_EffectSpeedDown2::
 	setstatchanger STAT_SPEED, 2, TRUE
+	jumpifmove MOVE_COTTON_SPORE, BattleScript_CottonSporeCheck
+	goto BattleScript_EffectStatDown
+BattleScript_CottonSporeCheck:
+	call BattleScript_PowderSporeCheck
 	goto BattleScript_EffectStatDown
 
 BattleScript_EffectSpecialDefenseDown2::
 	setstatchanger STAT_SPDEF, 2, TRUE
 	goto BattleScript_EffectStatDown
+
+BattleScript_PowderSporeCheck:
+	jumpifability BS_TARGET, ABILITY_OVERCOAT, BattleScript_PrintBankAbilityMadeIneffective
+	jumpiftype BS_TARGET, TYPE_GRASS, BattleScript_NotAffected
+	return
 
 BattleScript_EffectReflect::
 	attackcanceler
@@ -1066,6 +1081,8 @@ BattleScript_EffectPoison::
 	jumpiftype BS_TARGET, TYPE_POISON, BattleScript_NotAffected
 	jumpiftype BS_TARGET, TYPE_STEEL, BattleScript_NotAffected
 	jumpifstatus BS_TARGET, STATUS1_ANY, BattleScript_ButItFailed
+	jumpifmove MOVE_POISON_POWDER, BattleScript_PoisonPowderCheck
+BattleScript_EffectPoisonAccCheck:
 	accuracycheck BattleScript_ButItFailed, ACC_CURR_MOVE
 	jumpifsideaffecting BS_TARGET, SIDE_STATUS_SAFEGUARD, BattleScript_SafeguardProtected
 	attackanimation
@@ -1075,6 +1092,9 @@ BattleScript_EffectPoison::
 	resultmessage
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
+BattleScript_PoisonPowderCheck:
+	call BattleScript_PowderSporeCheck
+	goto BattleScript_EffectPoisonAccCheck
 
 BattleScript_EffectParalyze::
 	attackcanceler
@@ -1086,6 +1106,8 @@ BattleScript_EffectParalyze::
 	jumpifmovehadnoeffect BattleScript_ButItFailed
 	jumpifstatus BS_TARGET, STATUS1_PARALYSIS, BattleScript_AlreadyParalyzed
 	jumpifstatus BS_TARGET, STATUS1_ANY, BattleScript_ButItFailed
+	jumpifmove MOVE_STUN_SPORE, BattleScript_StunSporeCheck
+BattleScript_EffectParalyzeAccCheck:
 	accuracycheck BattleScript_ButItFailed, ACC_CURR_MOVE
 	jumpifsideaffecting BS_TARGET, SIDE_STATUS_SAFEGUARD, BattleScript_SafeguardProtected
 	attackanimation
@@ -1095,6 +1117,9 @@ BattleScript_EffectParalyze::
 	resultmessage
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
+BattleScript_StunSporeCheck:
+	call BattleScript_PowderSporeCheck
+	goto BattleScript_EffectParalyzeAccCheck
 
 BattleScript_AlreadyParalyzed::
 	setalreadystatusedmoveattempt BS_ATTACKER
