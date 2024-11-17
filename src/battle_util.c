@@ -1196,7 +1196,7 @@ u8 DoFieldEndTurnEffects(void)
                 s32 j;
                 for (j = i + 1; j < gBattlersCount; j++)
                 {
-                    if (GetWhoStrikesFirst(gBattlerByTurnOrder[i], gBattlerByTurnOrder[j], FALSE))
+                    if (GetWhoStrikesFirst(gBattlerByTurnOrder[i], gBattlerByTurnOrder[j], TRUE))
                         SwapTurnOrder(i, j);
                 }
             }
