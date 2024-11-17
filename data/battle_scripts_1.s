@@ -585,6 +585,8 @@ BattleScript_EffectEvasionDown::
 BattleScript_EffectStatDown::
 	attackcanceler
 	jumpifstatus2 BS_TARGET, STATUS2_SUBSTITUTE, BattleScript_ButItFailedAtkStringPpReduce
+	jumpifmove MOVE_COTTON_SPORE, BattleScript_CottonSporeCheck
+BattleScript_StatDownAccCheck:
 	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
 	attackstring
 	ppreduce
@@ -972,6 +974,7 @@ BattleScript_EffectRecoil::
 	call BattleScript_EffectHit_Ret
 	seteffectwithchance
 	jumpifnotmove MOVE_HEAD_SMASH, BattleScript_EffectRecoilDone
+	jumpifhasnohp BS_ATTACKER, BattleScript_EffectRecoilDone
 	call BattleScript_MoveEffectRecoil @2x recoil
 	goto BattleScript_EffectRecoilDone
 BattleScript_EffectStruggle:
@@ -1043,19 +1046,18 @@ BattleScript_EffectDefenseDown2::
 
 BattleScript_EffectSpeedDown2::
 	setstatchanger STAT_SPEED, 2, TRUE
-	jumpifmove MOVE_COTTON_SPORE, BattleScript_CottonSporeCheck
 	goto BattleScript_EffectStatDown
 BattleScript_CottonSporeCheck:
 	call BattleScript_PowderSporeCheck
-	goto BattleScript_EffectStatDown
+	goto BattleScript_StatDownAccCheck
 
 BattleScript_EffectSpecialDefenseDown2::
 	setstatchanger STAT_SPDEF, 2, TRUE
 	goto BattleScript_EffectStatDown
 
 BattleScript_PowderSporeCheck:
-	jumpifability BS_TARGET, ABILITY_OVERCOAT, BattleScript_PrintBankAbilityMadeIneffective
-	jumpiftype BS_TARGET, TYPE_GRASS, BattleScript_NotAffected
+	jumpifability BS_TARGET, ABILITY_OVERCOAT, BattleScript_AbilityMadeIneffective
+	jumpiftype BS_TARGET, TYPE_GRASS, BattleScript_PowderSporeNotAffected
 	return
 
 BattleScript_EffectReflect::
@@ -2197,6 +2199,10 @@ BattleScript_ButItFailed::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
 
+BattleScript_PowderSporeNotAffected:
+	jumpifnotmove MOVE_COTTON_SPORE, BattleScript_NotAffected
+	attackstring
+	ppreduce
 BattleScript_NotAffected::
 	pause B_WAIT_TIME_SHORT
 	orbyte gMoveResultFlags, MOVE_RESULT_DOESNT_AFFECT_FOE
@@ -2613,6 +2619,11 @@ BattleScript_EffectYawn::
 	printstring STRINGID_PKMNWASMADEDROWSY
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
+BattleScript_AbilityMadeIneffective:
+	jumpifnotmove MOVE_COTTON_SPORE, BattleScript_PrintBankAbilityMadeIneffective
+BattleScript_AbilityMadeIneffective2:
+	attackstring
+	ppreduce
 BattleScript_PrintBankAbilityMadeIneffective::
 	copybyte sBATTLER, sBATTLER_WITH_ABILITY
 BattleScript_PrintAbilityMadeIneffective::
@@ -5106,21 +5117,9 @@ BattleScript_EffectGastroAcid:
 BattleScript_EffectCaptivate:
 	setstatchanger STAT_SPATK, 2, TRUE
 	attackcanceler
-	jumpifability BS_TARGET, ABILITY_OBLIVIOUS, BattleScript_ButItFailedAtkStringPpReduce
-	jumpifoppositegenders BattleScript_CaptivateCheckAcc
+	jumpifability BS_TARGET, ABILITY_OBLIVIOUS, BattleScript_AbilityMadeIneffective2
+	jumpifoppositegenders BattleScript_StatDownAccCheck
 	goto BattleScript_ButItFailedAtkStringPpReduce
-BattleScript_CaptivateCheckAcc:
-	accuracycheck BattleScript_PrintMoveMissed, ACC_CURR_MOVE
-	goto BattleScript_StatDownFromAttackString
-
-BattleScript_StatDownFromAttackString:
-	attackstring
-	ppreduce
-	statbuffchange STAT_CHANGE_ALLOW_PTR, BattleScript_StatDownEnd
-	jumpifbyte CMP_LESS_THAN, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_DECREASE, BattleScript_StatDownDoAnim
-	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_FELL_EMPTY, BattleScript_StatDownEnd
-	pause B_WAIT_TIME_SHORT
-	goto BattleScript_StatDownPrintString
 
 BattleScript_EffectDefog:
 	setstatchanger STAT_EVASION, 1, TRUE

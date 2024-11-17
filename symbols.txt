@@ -25,6 +25,7 @@ gSpeciesInfo$
 sTMHMMoves$
 \bgTrainers$
 gTrainerClassNames$
+gLevelUpLearnsets$
 BattleScript_RanAwayUsingMonAbility$
 BattleScript_TryLearnMoveLoop$
 BattleScript_LearnMoveReturn$
