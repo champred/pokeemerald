@@ -447,7 +447,7 @@ bool8 TryRunFromBattle(u8 battler)
             effect++;
         }
     }
-    else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_TRAINER_HILL) && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    else if (IS_BATTLER_OF_TYPE(battler,TYPE_GHOST))
     {
         effect++;
     }
@@ -525,7 +525,7 @@ void HandleAction_Run(void)
         }
         else
         {
-            if (gBattleMons[gBattlerAttacker].status2 & (STATUS2_WRAPPED | STATUS2_ESCAPE_PREVENTION))
+            if (gBattleMons[gBattlerAttacker].status2 & (STATUS2_WRAPPED | STATUS2_ESCAPE_PREVENTION)&&!IS_BATTLER_OF_TYPE(gBattlerAttacker,TYPE_GHOST))
             {
                 gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_ATTACKER_CANT_ESCAPE;
                 gBattlescriptCurrInstr = BattleScript_PrintFailedToRunString;

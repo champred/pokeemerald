@@ -4003,11 +4003,7 @@ u8 IsRunningFromBattleImpossible(void)
 
     gPotentialItemEffectBattler = gActiveBattler;
 
-    if (holdEffect == HOLD_EFFECT_CAN_ALWAYS_RUN)
-        return BATTLE_RUN_SUCCESS;
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
-        return BATTLE_RUN_SUCCESS;
-    if (gBattleMons[gActiveBattler].ability == ABILITY_RUN_AWAY)
+    if (holdEffect == HOLD_EFFECT_CAN_ALWAYS_RUN||gBattleTypeFlags & BATTLE_TYPE_LINK||gBattleMons[gActiveBattler].ability == ABILITY_RUN_AWAY||IS_BATTLER_OF_TYPE(gActiveBattler,TYPE_GHOST))
         return BATTLE_RUN_SUCCESS;
 
     side = GetBattlerSide(gActiveBattler);
@@ -4211,9 +4207,7 @@ void HandleTurnActionSelectionState(void)
                     break;
                 case B_ACTION_SWITCH:
                     *(gBattleStruct->battlerPartyIndexes + gActiveBattler) = gBattlerPartyIndexes[gActiveBattler];
-                    if (gBattleMons[gActiveBattler].status2 & (STATUS2_WRAPPED | STATUS2_ESCAPE_PREVENTION)
-                        || gBattleTypeFlags & BATTLE_TYPE_ARENA
-                        || gStatuses3[gActiveBattler] & STATUS3_ROOTED)
+                    if (ESCAPE_PREVENTED)
                     {
                         BtlController_EmitChoosePokemon(BUFFER_A, PARTY_ACTION_CANT_SWITCH, PARTY_SIZE, ABILITY_NONE, gBattleStruct->battlerPartyOrders[gActiveBattler]);
                     }

@@ -766,7 +766,12 @@ BattleScript_EffectToxic::
 	jumpifstatus BS_TARGET, STATUS1_ANY, BattleScript_ButItFailed
 	jumpiftype BS_TARGET, TYPE_POISON, BattleScript_NotAffected
 	jumpiftype BS_TARGET, TYPE_STEEL, BattleScript_NotAffected
+	jumpiftype BS_ATTACKER, TYPE_POISON, BattleScript_ToxicSureHit
 	accuracycheck BattleScript_ButItFailed, ACC_CURR_MOVE
+	goto BattleScript_ToxicHits
+BattleScript_ToxicSureHit:
+	accuracycheck BattleScript_ButItFailed, NO_ACC_CALC
+BattleScript_ToxicHits:
 	jumpifsideaffecting BS_TARGET, SIDE_STATUS_SAFEGUARD, BattleScript_SafeguardProtected
 	attackanimation
 	waitanimation
@@ -1558,6 +1563,7 @@ BattleScript_EffectMeanLook::
 	accuracycheck BattleScript_ButItFailed, NO_ACC_CALC
 	jumpifstatus2 BS_TARGET, STATUS2_ESCAPE_PREVENTION, BattleScript_ButItFailed
 	jumpifstatus2 BS_TARGET, STATUS2_SUBSTITUTE, BattleScript_ButItFailed
+	jumpiftype BS_TARGET, TYPE_GHOST, BattleScript_NotAffected
 	attackanimation
 	waitanimation
 	setmoveeffect MOVE_EFFECT_PREVENT_ESCAPE
