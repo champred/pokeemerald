@@ -3218,6 +3218,8 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     if (WEATHER_HAS_EFFECT2){
         if((gBattleWeather&B_WEATHER_SANDSTORM)&&IS_BATTLER_OF_TYPE(battlerIdDef,TYPE_ROCK))
             spDefense = (150 * spDefense) / 100;
+        else if((gBattleWeather&B_WEATHER_HAIL)&&IS_BATTLER_OF_TYPE(battlerIdDef,TYPE_ICE))
+            defense = (150 * defense) / 100;
         else if(gBattleWeather&B_WEATHER_SUN){
             if(ABILITY_ON_ALLIED_FIELD(battlerIdAtk,ABILITY_FLOWER_GIFT))
                 attack = (150 * attack) / 100;

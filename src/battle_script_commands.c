@@ -7788,6 +7788,7 @@ static void Cmd_setlightscreen(void)
     gBattlescriptCurrInstr++;
 }
 
+#define SHEER_COLD_IMMUNITY (gCurrentMove==MOVE_SHEER_COLD&&IS_BATTLER_OF_TYPE(gBattlerTarget,TYPE_ICE))
 static void Cmd_tryKO(void)
 {
     u8 holdEffect, param;
@@ -7820,28 +7821,15 @@ static void Cmd_tryKO(void)
     }
     else
     {
-        u16 chance;
-        if (!(gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS))
-        {
-            chance = gBattleMoves[gCurrentMove].accuracy + (gBattleMons[gBattlerAttacker].level - gBattleMons[gBattlerTarget].level);
-            if (Random() % 100 + 1 < chance && gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level)
-                chance = TRUE;
-            else
-                chance = FALSE;
+        bool16 chance=FALSE;
+        if(gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level){
+                if (!(gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS)||gDisableStructs[gBattlerTarget].battlerWithSureHit == BATTLE_PARTNER(gBattlerAttacker))
+                    chance = (Random() % 100 + 1) < (gBattleMoves[gCurrentMove].accuracy + (gBattleMons[gBattlerAttacker].level - gBattleMons[gBattlerTarget].level));
+                else if (gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
+                    chance = TRUE;
         }
-        else if (gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker
-                 && gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level)
-        {
-            chance = TRUE;
-        }
-        else
-        {
-            chance = gBattleMoves[gCurrentMove].accuracy + (gBattleMons[gBattlerAttacker].level - gBattleMons[gBattlerTarget].level);
-            if (Random() % 100 + 1 < chance && gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level)
-                chance = TRUE;
-            else
-                chance = FALSE;
-        }
+        if(SHEER_COLD_IMMUNITY)
+                chance=FALSE;
         if (chance)
         {
             if (gProtectStructs[gBattlerTarget].endured)
@@ -7865,10 +7853,10 @@ static void Cmd_tryKO(void)
         else
         {
             gMoveResultFlags |= MOVE_RESULT_MISSED;
-            if (gBattleMons[gBattlerAttacker].level >= gBattleMons[gBattlerTarget].level)
-                gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_KO_MISS;
-            else
+            if (gBattleMons[gBattlerAttacker].level < gBattleMons[gBattlerTarget].level||SHEER_COLD_IMMUNITY)
                 gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_KO_UNAFFECTED;
+            else
+                gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_KO_MISS;
             gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
         }
     }
