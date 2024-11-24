@@ -460,8 +460,8 @@ STATIC_ASSERT(sizeof(((struct BattleStruct *)0)->palaceFlags) * 8 >= MAX_BATTLER
         typeArg = gBattleMoves[move].type;                            \
 }
 
-#define IS_MOVE_PHYSICAL(flags)(flags&FLAG_PHYSICAL)&&!(flags&FLAG_SPECIAL)
-#define IS_MOVE_SPECIAL(flags)(flags&FLAG_SPECIAL)&&!(flags&FLAG_PHYSICAL)
+#define IS_MOVE_PHYSICAL(flags)((flags&FLAG_PHYSICAL)&&!(flags&FLAG_SPECIAL))
+#define IS_MOVE_SPECIAL(flags)((flags&FLAG_SPECIAL)&&!(flags&FLAG_PHYSICAL))
 #define IS_MOVE_STATUS(move)(gBattleMoves[move].flags>=FLAG_STATUS)
 
 #define TARGET_TURN_DAMAGED ((gSpecialStatuses[gBattlerTarget].physicalDmg != 0 || gSpecialStatuses[gBattlerTarget].specialDmg != 0))

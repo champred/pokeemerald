@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ phys-spec-split ]
+    branches: [ expansion ]
   pull_request:
 
 jobs:
