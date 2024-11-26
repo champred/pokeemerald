@@ -3371,14 +3371,6 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
             else
                 damage /= 2;
         }
-
-        // Moves hitting both targets do half damage in double battles
-        if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && bm.target == MOVE_TARGET_BOTH && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)
-            damage /= 2;
-
-        // Moves always do at least 1 damage.
-        if (damage == 0)
-            damage = 1;
     }
 
     if (type == TYPE_MYSTERY)
@@ -3428,10 +3420,6 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
             else
                 damage /= 2;
         }
-
-        // Moves hitting both targets do half damage in double battles
-        if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && bm.target == MOVE_TARGET_BOTH && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)
-            damage /= 2;
     }
     // Are effects of weather negated with cloud nine or air lock
     if (WEATHER_HAS_EFFECT2)
@@ -3482,6 +3470,13 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     // Flash fire triggered
     if ((gBattleResources->flags->flags[battlerIdAtk] & RESOURCE_FLAG_FLASH_FIRE) && type == TYPE_FIRE)
         damage = (15 * damage) / 10;
+
+    // Moves hitting both targets do 75% damage in double battles
+    if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && bm.target == MOVE_TARGET_BOTH
+    && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)damage = (damage*3)/4;
+
+    // Moves always do at least 1 damage.
+    if (damage == 0)damage = 1;
     return damage + 2;
 }
 
