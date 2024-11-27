@@ -1084,10 +1084,14 @@ static bool8 JumpIfMoveAffectedByProtect(u16 move)
     return affected;
 }
 
+#define NO_GUARD_PRESENT (gBattleMons[gBattlerAttacker].ability==ABILITY_NO_GUARD\
+                         ||gBattleMons[gBattlerTarget].ability==ABILITY_NO_GUARD)
+#define HAS_SURE_HIT (gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS\
+                     && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
 static bool8 AccuracyCalcHelper(u16 move)
 {
     struct BattleMove bm=gBattleMoves[move];
-    if (gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
+    if (HAS_SURE_HIT||NO_GUARD_PRESENT)
     {
         JumpIfMoveFailed(7, move);
         return TRUE;
@@ -1140,9 +1144,10 @@ static void Cmd_accuracycheck(void)
 
     if (move == NO_ACC_CALC || move == NO_ACC_CALC_CHECK_LOCK_ON)
     {
-        if (gStatuses3[gBattlerTarget] & STATUS3_ALWAYS_HITS && move == NO_ACC_CALC_CHECK_LOCK_ON && gDisableStructs[gBattlerTarget].battlerWithSureHit == gBattlerAttacker)
+        if ((HAS_SURE_HIT && move == NO_ACC_CALC_CHECK_LOCK_ON) || NO_GUARD_PRESENT)
             gBattlescriptCurrInstr += 7;
-        else if (gStatuses3[gBattlerTarget] & (STATUS3_ON_AIR | STATUS3_UNDERGROUND | STATUS3_UNDERWATER)||PRANKSTER_IMMUNITY(gBattleMons[gBattlerAttacker].ability,gCurrentMove))
+        else if (gStatuses3[gBattlerTarget] & (STATUS3_ON_AIR | STATUS3_UNDERGROUND | STATUS3_UNDERWATER)
+		||PRANKSTER_IMMUNITY(gBattleMons[gBattlerAttacker].ability,gCurrentMove))
             gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
         else if (!JumpIfMoveAffectedByProtect(0))
             gBattlescriptCurrInstr += 7;
@@ -1190,12 +1195,10 @@ static void Cmd_accuracycheck(void)
         calc = sAccuracyStageRatios[buff].dividend * moveAcc;
         calc /= sAccuracyStageRatios[buff].divisor;
 
-        if (WEATHER_HAS_EFFECT){
-            if (ability == ABILITY_SAND_VEIL && gBattleWeather & B_WEATHER_SANDSTORM)
-                calc = (calc * 80) / 100; // 1.2 sand veil loss
-            else if (ability == ABILITY_SNOW_CLOAK && gBattleWeather & B_WEATHER_HAIL)
-                calc = (calc * 4) / 5; // 1.2 snow cloak loss
-        }
+        if (WEATHER_HAS_EFFECT
+            && ((ability == ABILITY_SAND_VEIL && gBattleWeather & B_WEATHER_SANDSTORM)
+            || (ability == ABILITY_SNOW_CLOAK && gBattleWeather & B_WEATHER_HAIL)))
+                calc = (calc * 4) / 5; // 1.2 sand veil/snow cloak loss
         ability=gBattleMons[gBattlerAttacker].ability;
         if (ability == ABILITY_COMPOUND_EYES)
             calc = (calc * 130) / 100; // 1.3 compound eyes boost
@@ -1223,9 +1226,7 @@ static void Cmd_accuracycheck(void)
             calc = (calc * (100 - param)) / 100;
 
         // final calculation
-        if (gBattleMons[gBattlerAttacker].ability!=ABILITY_NO_GUARD&&
-            gBattleMons[gBattlerTarget].ability!=ABILITY_NO_GUARD&&
-            (Random() % 100 + 1) > calc)
+        if ((Random() % 100 + 1) > calc)
         {
             gMoveResultFlags |= MOVE_RESULT_MISSED;
             if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE
