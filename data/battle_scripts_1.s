@@ -3977,7 +3977,7 @@ BattleScript_MoveUsedIsParalyzed::
 BattleScript_MoveUsedFlinched::
 	printstring STRINGID_PKMNFLINCHED
 	waitmessage B_WAIT_TIME_LONG
-	jumpifability BS_TARGET, ABILITY_STEADFAST, BattleScript_SteadfastActivates
+	jumpifability BS_ATTACKER, ABILITY_STEADFAST, BattleScript_SteadfastActivates
 	goto BattleScript_MoveEnd
 BattleScript_SteadfastActivates::
 	setstatchanger STAT_SPEED, 1, FALSE
