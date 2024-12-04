@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HACK="Moveset Expansion"
+HACK="MAX"
 CONFIG=com/dabomstew/pkrandom/config
 DIR=${GAME_VERSION:-`pwd`}
 

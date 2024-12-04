@@ -472,7 +472,7 @@ static void RecordLastUsedMoveByTarget(void)
     USED(i) = gLastMoves[gBattlerTarget];
 }
 
-bool32 CanUseLastResort(u8 battlerId)
+bool8 CanUseLastResort(u8 battlerId)
 {
 	s32 i;
 	u32 knownMovesCount = 0, usedMovesCount = 0;

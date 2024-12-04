@@ -472,6 +472,11 @@ extern struct BattleStruct *gBattleStruct;
         typeArg = gBattleMoves[move].type;                            \
 }
 
+#define IS_MOVE_PHYSICAL(flags)((flags&FLAG_PHYSICAL)&&!(flags&FLAG_SPECIAL))
+#define IS_MOVE_SPECIAL(flags)((flags&FLAG_SPECIAL)&&!(flags&FLAG_PHYSICAL))
+#define IS_MOVE_STATUS(move)(gBattleMoves[move].flags>=FLAG_STATUS)
+#define ESCAPE_PREVENTED ((gBattleMons[gActiveBattler].status2 & (STATUS2_WRAPPED | STATUS2_ESCAPE_PREVENTION)\
+                         || gStatuses3[gActiveBattler] & STATUS3_ROOTED) && !IS_BATTLER_OF_TYPE(gActiveBattler,TYPE_GHOST))
 #define IS_TYPE_PHYSICAL(moveType)(moveType < TYPE_MYSTERY)
 #define IS_TYPE_SPECIAL(moveType)(moveType > TYPE_MYSTERY)
 

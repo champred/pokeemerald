@@ -463,6 +463,7 @@ int main(int argc, char ** argv)
     print("ItemEntrySize=%d\n", Fr_gItems->st_size / ITEMS_COUNT);
     print("ItemCount=%d\n", ITEMS_COUNT - 1);
     print("MoveCount=%d\n", MOVES_COUNT - 1);
+    print("AbilityCount=%d\n", ABILITIES_COUNT - 1);
     config_sym("MoveDescriptions", "gMoveDescriptionPointers");
     Elf32_Sym * Fr_gMoveNames = GetSymbolByName("gMoveNames");
     print("MoveNameLength=%d\n", Fr_gMoveNames->st_size / MOVES_COUNT);
@@ -505,7 +506,7 @@ int main(int argc, char ** argv)
     config_sym("TypeEffectivenessOffset", "gTypeEffectiveness");
     print("DeoxysStatPrefix=7F002301FFFF\n"); // hardcoded
     // These may need some fixing to support dynamic offsets.
-    print("StaticPokemonSupport=1\n");
+    print("StaticPokemonSupport=0\n");
     for (int i = 0; i < len(gStaticPokemon); i++) {
         print("StaticPokemon{}={Species=[");
         for (int j = 0; j < 5; j++) {
@@ -525,7 +526,7 @@ int main(int argc, char ** argv)
             print("%s\n", gStaticPokemon[i][j].comment);
         }
     }
-    for (int i = 0; i < len(gRoamingPokemon); i++) {
+    /*for (int i = 0; i < len(gRoamingPokemon); i++) {
         print("RoamingPokemon{}={Species=[");
         for (int j = 0; j < 5; j++) {
             if (gRoamingPokemon[i][j].speciesLabel == NULL) break;
@@ -569,7 +570,7 @@ int main(int argc, char ** argv)
           ((sym_get("PokemonTower_6F_EventScript_MarowakGhost") + 0x1c) & 0x1FFFFFF));
     print("GhostMarowakGenderOffset=0x%X\n", (sym_get("gEmptyDataMarowak_Start") + 0x4) & 0x1FFFFFF);
     print("GhostMarowakOffset=25\n"); // hardcoded
-
+*/
     for (int i = 0; i < len(gTMTexts); i++) {
         print("TMText[]=[%d,%d,%d,%d,0x%02X,%s]\n", gTMTexts[i].tmno, gTMTexts[i].mapgp, gTMTexts[i].mapno, gTMTexts[i].scriptno, gTMTexts[i].offset, gTMTexts[i].text);
     }

@@ -31,11 +31,13 @@
 #define ABILITYEFFECT_COUNT_BATTLER_SIDE         17
 #define ABILITYEFFECT_COUNT_ON_FIELD             18
 #define ABILITYEFFECT_CHECK_ON_FIELD             19
+#define ABILITYEFFECT_DO_DAMAGE                  20
 #define ABILITYEFFECT_MUD_SPORT                  253
 #define ABILITYEFFECT_WATER_SPORT                254
 #define ABILITYEFFECT_SWITCH_IN_WEATHER          255
 
 #define ABILITY_ON_OPPOSING_FIELD(battlerId, abilityId)(AbilityBattleEffects(ABILITYEFFECT_CHECK_OTHER_SIDE, battlerId, abilityId, 0, 0))
+#define ABILITY_ON_ALLIED_FIELD(battlerId, abilityId)(AbilityBattleEffects(ABILITYEFFECT_CHECK_BATTLER_SIDE, battlerId, abilityId, 0, 0))
 #define ABILITY_ON_FIELD(abilityId)(AbilityBattleEffects(ABILITYEFFECT_CHECK_ON_FIELD, 0, abilityId, 0, 0))
 #define ABILITY_ON_FIELD2(abilityId)(AbilityBattleEffects(ABILITYEFFECT_FIELD_SPORT, 0, abilityId, 0, 0))
 

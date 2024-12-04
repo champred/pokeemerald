@@ -408,8 +408,13 @@
 #define STRINGID_BUGBITE                              407
 #define STRINGID_CLOAKEDINAFREEZINGLIGHT              408
 #define STRINGID_SPIKESDISAPPEAREDFROMTEAM            409
-
-#define BATTLESTRINGS_COUNT     410
+#define STRINGID_TARGETABILITYSTATRAISE     410
+#define STRINGID_TARGETABILITYSTATLOWER     411
+#define STRINGID_SOLARPOWERHPDROP           412
+#define STRINGID_ICEBODYHPGAIN              413
+#define STRINGID_SNOWWARNINGHAIL            414
+#define STRINGID_ATTACKERABILITYSTATRAISE   415
+#define BATTLESTRINGS_COUNT     416
 
 // This is the string id that gBattleStringsTable starts with.
 // String ids before this (e.g. STRINGID_INTROMSG) are not in the table,

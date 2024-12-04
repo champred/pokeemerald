@@ -2371,6 +2371,15 @@ static void DeleteFirstMoveAndGiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 mo
     SetBoxMonData(boxMon, MON_DATA_PP_BONUSES, &ppBonuses);
 }
 
+#define PUNCHING_MOVES_END 0xffff
+static const u16 sPunchingMoves[]={
+        MOVE_BULLET_PUNCH,MOVE_COMET_PUNCH,MOVE_DIZZY_PUNCH,
+        MOVE_DRAIN_PUNCH,MOVE_DYNAMIC_PUNCH,MOVE_FIRE_PUNCH,
+        MOVE_FOCUS_PUNCH,MOVE_HAMMER_ARM,MOVE_ICE_PUNCH,
+        MOVE_MACH_PUNCH,MOVE_MEGA_PUNCH,MOVE_SHADOW_PUNCH,
+        MOVE_SKY_UPPERCUT,MOVE_THUNDER_PUNCH,PUNCHING_MOVES_END
+};
+
 #define APPLY_STAT_MOD(var, mon, stat, statIndex)                                   \
 {                                                                                   \
     (var) = (stat) * (gStatStageRatios)[(mon)->statStages[(statIndex)]][0];         \
@@ -2490,6 +2499,18 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
 
     if (attacker->ability == ABILITY_HUGE_POWER || attacker->ability == ABILITY_PURE_POWER)
         attack *= 2;
+    if (WEATHER_HAS_EFFECT2){
+        if((gBattleWeather&B_WEATHER_SANDSTORM)&&IS_BATTLER_OF_TYPE(battlerIdDef,TYPE_ROCK))
+            spDefense = (150 * spDefense) / 100;
+        else if((gBattleWeather&B_WEATHER_HAIL)&&IS_BATTLER_OF_TYPE(battlerIdDef,TYPE_ICE))
+            defense = (150 * defense) / 100;
+        else if(gBattleWeather&B_WEATHER_SUN){
+            if(ABILITY_ON_ALLIED_FIELD(battlerIdAtk,ABILITY_FLOWER_GIFT))
+                attack = (150 * attack) / 100;
+            else if(ABILITY_ON_ALLIED_FIELD(battlerIdDef,ABILITY_FLOWER_GIFT))
+                spDefense = (150 * spDefense) / 100;
+        }
+    }
 
     if (ShouldGetStatBadgeBoost(FLAG_BADGE01_GET, battlerIdAtk))
         attack = (110 * attack) / 100;
@@ -2532,7 +2553,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     if (attackerHoldEffect == HOLD_EFFECT_THICK_CLUB && (attacker->species == SPECIES_CUBONE || attacker->species == SPECIES_MAROWAK))
         attack *= 2;
     if (defender->ability == ABILITY_THICK_FAT && (type == TYPE_FIRE || type == TYPE_ICE))
-        spAttack /= 2;
+        gBattleMovePower /= 2;
     if (attacker->ability == ABILITY_HUSTLE)
         attack = (150 * attack) / 100;
     if (attacker->ability == ABILITY_PLUS && ABILITY_ON_FIELD2(ABILITY_MINUS))
@@ -2555,6 +2576,30 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         gBattleMovePower = (150 * gBattleMovePower) / 100;
     if (type == TYPE_BUG && attacker->ability == ABILITY_SWARM && attacker->hp <= (attacker->maxHP / 3))
         gBattleMovePower = (150 * gBattleMovePower) / 100;
+    if(attacker->ability==ABILITY_RIVALRY){
+        u8 atkGen=GetGenderFromSpeciesAndPersonality(attacker->species,attacker->personality);
+        u8 defGen=GetGenderFromSpeciesAndPersonality(defender->species,defender->personality);
+        if((atkGen==MON_MALE&&defGen==MON_MALE)||(atkGen==MON_FEMALE&&defGen==MON_FEMALE))
+            gBattleMovePower=(125*gBattleMovePower)/100;
+        else if((atkGen==MON_MALE&&defGen==MON_FEMALE)||(atkGen==MON_FEMALE&&defGen==MON_MALE))
+            gBattleMovePower=(75*gBattleMovePower)/100;
+    }
+    if(attacker->ability==ABILITY_IRON_FIST){
+        for(i=0;sPunchingMoves[i]!=PUNCHING_MOVES_END;i++){
+            if(move==sPunchingMoves[i]){
+                gBattleMovePower=(120*gBattleMovePower)/100;
+                break;
+            }
+        }
+    }
+    if(attacker->ability==ABILITY_TECHNICIAN&&gBattleMovePower<=60)
+        gBattleMovePower=(150*gBattleMovePower)/100;
+    if(attacker->ability==ABILITY_RECKLESS&&
+            (bm.effect==EFFECT_RECOIL||bm.effect==EFFECT_RECOIL_IF_MISS||bm.effect==EFFECT_DOUBLE_EDGE)
+            &&move!=MOVE_STRUGGLE)
+        gBattleMovePower=(120*gBattleMovePower)/100;
+    if(attacker->ability==ABILITY_ANALYTIC&&GetBattlerTurnOrderNum(battlerIdAtk)==gBattlersCount-1)
+        gBattleMovePower=(130*gBattleMovePower)/100;
 
     // Self-destruct / Explosion cut defense in half
     if (gBattleMoves[gCurrentMove].effect == EFFECT_EXPLOSION)
@@ -2562,16 +2607,20 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
 
     if (IS_MOVE_PHYSICAL(bm.flags))
     {
+        if(attacker->ability==ABILITY_TOXIC_BOOST&&(attacker->status1&STATUS1_PSN_ANY))
+            gBattleMovePower=(150*gBattleMovePower)/100;
         if (gCritMultiplier == 2)
         {
             // Critical hit, if attacker has lost attack stat stages then ignore stat drop
-            if (attacker->statStages[STAT_ATK] > DEFAULT_STAT_STAGE)
+            if (attacker->statStages[STAT_ATK] > DEFAULT_STAT_STAGE&&defender->ability!=ABILITY_UNAWARE)
                 APPLY_STAT_MOD(damage, attacker, attack, STAT_ATK)
             else
                 damage = attack;
         }
-        else
+        else if(defender->ability!=ABILITY_UNAWARE)
             APPLY_STAT_MOD(damage, attacker, attack, STAT_ATK)
+        else
+            damage = attack;
 
         damage = damage * gBattleMovePower;
         damage *= (2 * attacker->level / 5 + 2);
@@ -2579,13 +2628,15 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         if (gCritMultiplier == 2)
         {
             // Critical hit, if defender has gained defense stat stages then ignore stat increase
-            if (defender->statStages[STAT_DEF] < DEFAULT_STAT_STAGE)
+            if (defender->statStages[STAT_DEF] < DEFAULT_STAT_STAGE&&attacker->ability!=ABILITY_UNAWARE)
                 APPLY_STAT_MOD(damageHelper, defender, defense, STAT_DEF)
             else
                 damageHelper = defense;
         }
-        else
+        else if(attacker->ability!=ABILITY_UNAWARE)
             APPLY_STAT_MOD(damageHelper, defender, defense, STAT_DEF)
+        else
+            damageHelper = defense;
 
         damage = damage / damageHelper;
         damage /= 50;
@@ -2595,21 +2646,13 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
             damage /= 2;
 
         // Apply Reflect
-        if ((sideStatus & SIDE_STATUS_REFLECT) && gCritMultiplier == 1)
+        if ((sideStatus & SIDE_STATUS_REFLECT) && gCritMultiplier == 1 && attacker->ability != ABILITY_INFILTRATOR)
         {
             if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)
                 damage = 2 * (damage / 3);
             else
                 damage /= 2;
         }
-
-        // Moves hitting both targets do half damage in double battles
-        if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && bm.target == MOVE_TARGET_BOTH && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)
-            damage /= 2;
-
-        // Moves always do at least 1 damage.
-        if (damage == 0)
-            damage = 1;
     }
 
     if (type == TYPE_MYSTERY)
@@ -2617,16 +2660,20 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
 
     if (IS_MOVE_SPECIAL(bm.flags))
     {
+        if(attacker->ability==ABILITY_FLARE_BOOST&&(attacker->status1&STATUS1_BURN))
+            gBattleMovePower=(150*gBattleMovePower)/100;
         if (gCritMultiplier == 2)
         {
             // Critical hit, if attacker has lost sp. attack stat stages then ignore stat drop
-            if (attacker->statStages[STAT_SPATK] > DEFAULT_STAT_STAGE)
+            if (attacker->statStages[STAT_SPATK] > DEFAULT_STAT_STAGE&&defender->ability!=ABILITY_UNAWARE)
                 APPLY_STAT_MOD(damage, attacker, spAttack, STAT_SPATK)
             else
                 damage = spAttack;
         }
-        else
+        else if(defender->ability!=ABILITY_UNAWARE)
             APPLY_STAT_MOD(damage, attacker, spAttack, STAT_SPATK)
+        else
+            damage = spAttack;
 
         damage = damage * gBattleMovePower;
         damage *= (2 * attacker->level / 5 + 2);
@@ -2634,73 +2681,84 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
         if (gCritMultiplier == 2)
         {
             // Critical hit, if defender has gained sp. defense stat stages then ignore stat increase
-            if (defender->statStages[STAT_SPDEF] < DEFAULT_STAT_STAGE)
+            if (defender->statStages[STAT_SPDEF] < DEFAULT_STAT_STAGE&&attacker->ability!=ABILITY_UNAWARE)
                 APPLY_STAT_MOD(damageHelper, defender, spDefense, STAT_SPDEF)
             else
                 damageHelper = spDefense;
         }
-        else
+        else if(attacker->ability!=ABILITY_UNAWARE)
             APPLY_STAT_MOD(damageHelper, defender, spDefense, STAT_SPDEF)
+        else
+            damageHelper = spDefense;
 
         damage = (damage / damageHelper);
         damage /= 50;
 
         // Apply Lightscreen
-        if ((sideStatus & SIDE_STATUS_LIGHTSCREEN) && gCritMultiplier == 1)
+        if ((sideStatus & SIDE_STATUS_LIGHTSCREEN) && gCritMultiplier == 1 && attacker->ability != ABILITY_INFILTRATOR)
         {
             if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)
                 damage = 2 * (damage / 3);
             else
                 damage /= 2;
         }
-
-        // Moves hitting both targets do half damage in double battles
-        if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && bm.target == MOVE_TARGET_BOTH && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)
-            damage /= 2;
-
-        // Are effects of weather negated with cloud nine or air lock
-        if (WEATHER_HAS_EFFECT2)
+    }
+    // Are effects of weather negated with cloud nine or air lock
+    if (WEATHER_HAS_EFFECT2)
+    {
+        // Rain weakens Fire, boosts Water
+        if (gBattleWeather & B_WEATHER_RAIN)
         {
-            // Rain weakens Fire, boosts Water
-            if (gBattleWeather & B_WEATHER_RAIN_TEMPORARY)
+            switch (type)
             {
-                switch (type)
-                {
-                case TYPE_FIRE:
-                    damage /= 2;
-                    break;
-                case TYPE_WATER:
-                    damage = (15 * damage) / 10;
-                    break;
-                }
-            }
-
-            // Any weather except sun weakens solar beam
-            if ((gBattleWeather & (B_WEATHER_RAIN | B_WEATHER_SANDSTORM | B_WEATHER_HAIL_TEMPORARY)) && gCurrentMove == MOVE_SOLAR_BEAM)
+            case TYPE_FIRE:
                 damage /= 2;
-
-            // Sun boosts Fire, weakens Water
-            if (gBattleWeather & B_WEATHER_SUN)
-            {
-                switch (type)
-                {
-                case TYPE_FIRE:
-                    damage = (15 * damage) / 10;
-                    break;
-                case TYPE_WATER:
-                    damage /= 2;
-                    break;
-                }
+                break;
+            case TYPE_WATER:
+                damage = (15 * damage) / 10;
+                break;
             }
         }
 
-        // Flash fire triggered
-        if ((gBattleResources->flags->flags[battlerIdAtk] & RESOURCE_FLAG_FLASH_FIRE) && type == TYPE_FIRE)
-            damage = (15 * damage) / 10;
+        // Any weather except sun weakens solar beam
+        if ((gBattleWeather & (B_WEATHER_RAIN | B_WEATHER_SANDSTORM | B_WEATHER_HAIL)) && gCurrentMove == MOVE_SOLAR_BEAM)
+            damage /= 2;
+
+        // Sun boosts Fire, weakens Water
+        if (gBattleWeather & B_WEATHER_SUN)
+        {
+            switch (type)
+            {
+            case TYPE_FIRE:
+                damage = (15 * damage) / 10;
+                break;
+            case TYPE_WATER:
+                damage /= 2;
+                break;
+            }
+            if(attacker->ability==ABILITY_SOLAR_POWER)
+                damage = (15 * damage) / 10;
+        }
+        if((gBattleWeather&B_WEATHER_SANDSTORM)&&attacker->ability==ABILITY_SAND_FORCE){
+            switch(type){
+                case TYPE_ROCK:
+                case TYPE_GROUND:
+                case TYPE_STEEL:
+                    damage=(13*damage)/10;
+            }
+        }
     }
-#ifdef NOP
-NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;NOP;
-#endif
+
+    // Flash fire triggered
+    if ((gBattleResources->flags->flags[battlerIdAtk] & RESOURCE_FLAG_FLASH_FIRE) && type == TYPE_FIRE)
+        damage = (15 * damage) / 10;
+
+    // Moves hitting both targets do 75% damage in double battles
+    if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE) && bm.target == MOVE_TARGET_BOTH
+    && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) == 2)damage = (damage*3)/4;
+
+    // Moves always do at least 1 damage.
+    if (damage == 0)damage = 1;
     return damage + 2;
 }
 

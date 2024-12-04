@@ -18,9 +18,9 @@ void BattleCreateYesNoCursorAt(void);
 void BufferMoveToLearnIntoBattleTextBuff2(void);
 void HandleBattleWindow(u8 xStart, u8 yStart, u8 xEnd, u8 yEnd, u8 flags);
 bool8 UproarWakeUpCheck(u8 battlerId);
-bool32 CanUseLastResort(u8 battlerId);
-u16 LastUsedMove(const u16*);
-
+bool8 CanUseLastResort(u8 battlerId);
+bool8 ChangeRandomStat(u8 battlerId,s8 modifier);
+u16 LastUsedMove(const u16* moves);
 extern void (* const gBattleScriptingCommandsTable[])(void);
 
 #endif // GUARD_BATTLE_SCRIPT_COMMANDS_H
