@@ -1119,14 +1119,12 @@ static void Cmd_accuracycheck(void)
             || (ability == ABILITY_SNOW_CLOAK && gBattleWeather & B_WEATHER_HAIL)))
                 calc = (calc * 4) / 5; // 1.2 sand veil/snow cloak loss
         ability=gBattleMons[gBattlerAttacker].ability;
-        if (ability == ABILITY_COMPOUND_EYES)
-            calc = (calc * 130) / 100; // 1.3 compound eyes boost
-        else if (ability == ABILITY_HUSTLE && IS_MOVE_PHYSICAL(gBattleMoves[move].flags))
+        if (ability == ABILITY_COMPOUND_EYES||ABILITY_ON_ALLIED_FIELD(gBattlerAttacker,ABILITY_VICTORY_STAR))
+            calc = (calc * 130) / 100; // 1.3 compound eyes/victory star boost
+        if (ability == ABILITY_HUSTLE && IS_MOVE_PHYSICAL(gBattleMoves[move].flags))
             calc = (calc * 80) / 100; // 1.2 hustle loss
         else if (PRANKSTER_IMMUNITY(ability,move))
             calc = 0; // 0 prankster loss
-        if (ABILITY_ON_ALLIED_FIELD(gBattlerAttacker,ABILITY_VICTORY_STAR))
-            calc = (calc * 110) / 100; // 1.1 victory star boost
 
         if (gBattleMons[gBattlerTarget].item == ITEM_ENIGMA_BERRY)
         {
