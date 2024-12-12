@@ -20,12 +20,12 @@ static u8 CreateMonIconSprite(const struct MonIconSpriteTemplate * template, s16
 static void DestroyMonIconInternal(struct Sprite *sprite);
 
 const u16 gMonIconPalettes[][16] = {
-    INCBIN_U16("graphics/pokemon/icon_palettes/icon_palette_0.gbapal"),
-    INCBIN_U16("graphics/pokemon/icon_palettes/icon_palette_1.gbapal"),
-    INCBIN_U16("graphics/pokemon/icon_palettes/icon_palette_2.gbapal"),
-    INCBIN_U16("graphics/pokemon/icon_palettes/pal3.pal"),
-    INCBIN_U16("graphics/pokemon/icon_palettes/pal4.pal"),
-    INCBIN_U16("graphics/pokemon/icon_palettes/pal5.pal")
+    INCBIN_U16("graphics/pokemon/icon_palettes/pal0.gbapal"),
+    INCBIN_U16("graphics/pokemon/icon_palettes/pal1.gbapal"),
+    INCBIN_U16("graphics/pokemon/icon_palettes/pal2.gbapal"),
+    INCBIN_U16("graphics/pokemon/icon_palettes/pal3.gbapal"),
+    INCBIN_U16("graphics/pokemon/icon_palettes/pal4.gbapal"),
+    INCBIN_U16("graphics/pokemon/icon_palettes/pal5.gbapal")
 };
 
 const u8 *const gMonIconTable[] = {
@@ -1147,7 +1147,7 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_BRONZOR] = 0,
     [SPECIES_BRONZONG] = 0,
     [SPECIES_BONSLY] = 1,
-    [SPECIES_MIMEJR] = 0,
+    [SPECIES_MIME_JR] = 0,
     [SPECIES_HAPPINY] = 0,
     [SPECIES_CHATOT] = 0,
     [SPECIES_SPIRITOMB] = 5,
@@ -1331,7 +1331,7 @@ const u8 gMonIconPaletteIndices[] =
     [SPECIES_HYDREIGON] = 2,
     [SPECIES_LARVESTA] = 0,
     [SPECIES_VOLCARONA] = 0,
-    [SPECIES_UNOWN_A ... SPECIES_UNOWN_QMARK] = 0,
+    [SPECIES_UNOWN_B ... SPECIES_UNOWN_QMARK] = 0,
     [SPECIES_EGG] = 1,
 };
 

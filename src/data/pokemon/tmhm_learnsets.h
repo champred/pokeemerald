@@ -9384,5 +9384,5 @@ static const u32 sTMHMLearnsets[][2] =
                                         | TMHM(TM48_SKILL_SWAP)
                                         | TMHM(TM49_SNATCH)
                                         | TMHM(HM05_FLASH)),
-
+    [SPECIES_TURTWIG ... SPECIES_EGG] = TMHM_LEARNSET(0)
 };
