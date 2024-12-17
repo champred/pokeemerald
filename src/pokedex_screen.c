@@ -1368,14 +1368,63 @@ static void DexScreen_CreateCharacteristicListMenu(void)
     CopyWindowToVram(1, COPYWIN_GFX);
 }
 
+#define WEIGHT(num) gPokedexEntries[num].weight
+#define HEIGHT(num) gPokedexEntries[num].height
+static u16 GetPosInDex(s32 i, u16 *dex, u8 mode, u8 *used) {
+    s32 j;
+    u16 min, val;
+
+    switch (mode) {
+    case DEX_ORDER_LIGHTEST:
+        min = NATIONAL_DEX_GROUDON;
+        break;
+    case DEX_ORDER_SMALLEST:
+        min = NATIONAL_DEX_WAILORD;
+        break;
+    }
+    for (j = 1; j <= NATIONAL_DEX_COUNT; j++) {
+        if (used[j - 1]) continue;
+        switch (mode) {
+        case DEX_ORDER_LIGHTEST:
+            val = WEIGHT(j);
+            if (val < WEIGHT(min) && val >= WEIGHT(dex[i - 1]))
+                min = j;
+            break;
+        case DEX_ORDER_SMALLEST:
+            val = HEIGHT(j);
+            if (val < HEIGHT(min) && val >= HEIGHT(dex[i - 1]))
+                min = j;
+            break;
+        }
+    }
+    dex[i] = min;
+    used[min - 1] = 1;
+    return min;
+}
+#undef WEIGHT
+#undef HEIGHT
+
+static void OrderDexByType(u16 *dex) {
+    s32 i, j, last = 0;
+
+    for (i = TYPE_NORMAL; i <= TYPE_DARK; i++) {
+        for (j = 1; j < NUM_SPECIES; j++) {
+            if (gSpeciesInfo[j].types[0] == i)
+                dex[last++] = j;
+        }
+    }
+}
+
 static u16 DexScreen_CountMonsInOrderedList(u8 orderIdx)
 {
-    s32 max_n = IsNationalPokedexEnabled() ? NATIONAL_DEX_COUNT : KANTO_DEX_COUNT;
+    s32 max_n = NATIONAL_DEX_COUNT;
     u16 ndex_num;
     u16 ret = NATIONAL_DEX_NONE;
     s32 i;
     bool8 caught;
     bool8 seen;
+    u16 *ordered = NULL;
+    u8 *used = NULL;
 
     switch (orderIdx)
     {
@@ -1416,9 +1465,11 @@ static u16 DexScreen_CountMonsInOrderedList(u8 orderIdx)
         }
         break;
     case DEX_ORDER_TYPE:
+        ordered = calloc(NUM_SPECIES, sizeof(u16));
+        OrderDexByType(ordered);
         for (i = 0; i < NUM_SPECIES - 1; i++)
         {
-            ndex_num = SpeciesToNationalPokedexNum(gPokedexOrder_Type[i]);
+            ndex_num = SpeciesToNationalPokedexNum(ordered[i]);
             if (ndex_num <= max_n)
             {
                 seen = DexScreen_GetSetPokedexFlag(ndex_num, FLAG_GET_SEEN, FALSE);
@@ -1433,26 +1484,13 @@ static u16 DexScreen_CountMonsInOrderedList(u8 orderIdx)
         }
         break;
     case DEX_ORDER_LIGHTEST:
-        for (i = 0; i < NATIONAL_DEX_COUNT; i++)
-        {
-            ndex_num = gPokedexOrder_Weight[i];
-            if (ndex_num <= max_n)
-            {
-                seen = DexScreen_GetSetPokedexFlag(ndex_num, FLAG_GET_SEEN, FALSE);
-                caught = DexScreen_GetSetPokedexFlag(ndex_num, FLAG_GET_CAUGHT, FALSE);
-                if (caught)
-                {
-                    sPokedexScreenData->listItems[ret].label = gSpeciesNames[NationalPokedexNumToSpecies(ndex_num)];
-                    sPokedexScreenData->listItems[ret].index = (caught << 17) + (seen << 16) + NationalPokedexNumToSpecies(ndex_num);
-                    ret++;
-                }
-            }
-        }
-        break;
     case DEX_ORDER_SMALLEST:
-        for (i = 0; i < NATIONAL_DEX_COUNT; i++)
+        used = calloc(max_n, sizeof(u8));
+        ordered = calloc(max_n + 1, sizeof(u16));
+        ordered[0] = NATIONAL_DEX_NONE;
+        for (i = 1; i <= NATIONAL_DEX_COUNT; i++)
         {
-            ndex_num = gPokedexOrder_Height[i];
+            ndex_num = GetPosInDex(i, ordered, orderIdx, used);
             if (ndex_num <= max_n)
             {
                 seen = DexScreen_GetSetPokedexFlag(ndex_num, FLAG_GET_SEEN, FALSE);
@@ -1485,6 +1523,8 @@ static u16 DexScreen_CountMonsInOrderedList(u8 orderIdx)
         }
         break;
     }
+    TRY_FREE_AND_SET_NULL(ordered);
+    TRY_FREE_AND_SET_NULL(used);
     return ret;
 }
 
