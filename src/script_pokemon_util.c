@@ -10,6 +10,7 @@
 #include "script_pokemon_util.h"
 #include "constants/items.h"
 #include "constants/pokemon.h"
+#include "random.h"
 
 static void CB2_ReturnFromChooseHalfParty(void);
 static void CB2_ReturnFromChooseBattleTowerParty(void);
@@ -25,7 +26,7 @@ void HealPlayerParty(void)
     for(i = 0; i < gPlayerPartyCount; i++)
     {
         if(IsMapTypeOutdoors(GetCurrentMapType())&&GetAilmentFromStatus(GetMonData(&gPlayerParty[i], MON_DATA_STATUS)) == AILMENT_PSN)continue;
-	maxHP = GetMonData(&gPlayerParty[i], MON_DATA_MAX_HP);
+        maxHP = GetMonData(&gPlayerParty[i], MON_DATA_MAX_HP);
         arg[0] = maxHP;
         arg[1] = maxHP >> 8;
         SetMonData(&gPlayerParty[i], MON_DATA_HP, arg);
@@ -45,6 +46,59 @@ void HealPlayerParty(void)
         arg[3] = 0;
         SetMonData(&gPlayerParty[i], MON_DATA_STATUS, arg);
     }
+}
+
+static void ChangeMonSpecies(u16 species) {
+    struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
+    u32 level = GetMonData(mon, MON_DATA_LEVEL);
+    u32 ivs = GetMonData(mon, MON_DATA_IVS);
+    u32 personality = GetMonData(mon, MON_DATA_PERSONALITY);
+    u16 moves[4] = {};
+    s32 i;
+    for (i = 0; i < MAX_MON_MOVES; i++)
+        moves[i] = (u16) GetMonData(mon, MON_DATA_MOVE1 + i);
+    CreateMonWithIVsPersonality(mon, species, (u8) level, ivs, personality);
+    for (i = 0; i < MAX_MON_MOVES; i++)
+        SetMonMoveSlot(mon, moves[i], i);
+    gSpecialVar_0x8009 = species;
+}
+
+#define BST(info) (info->baseHP + info->baseAttack + info->baseDefense\
+                 + info->baseSpeed + info->baseSpAttack + info->baseSpDefense)
+static void PickRandomEvo(u16 *species, u16 *evos) {
+    s32 i, last = 0;
+    const struct SpeciesInfo *src = &gSpeciesInfo[*species], *rep;
+    u8 type = src->types[0];
+    u16 srcBST = BST(src), repBST;
+    u16 lowerBST = (90 * srcBST) / 100;
+    u16 upperBST = (110 * srcBST) / 100;
+
+    for (i = 1; i < NUM_SPECIES; i++) {
+        rep = &gSpeciesInfo[i];
+        repBST = BST(rep);
+        if ((rep->types[0] == type || rep->types[1] == type) && repBST > lowerBST && repBST < upperBST)
+            evos[last++] = i;
+    }
+    do {
+        i = Random() % last;
+    } while (!evos[i] || *species == evos[i]);//force change
+    *species = evos[i];
+}
+
+void UseIceRock(void) {
+    u16 species = SPECIES_GLACEON;
+    u16 *evos = calloc(60, sizeof(u16));
+    PickRandomEvo(&species, evos);
+    free(evos);
+    ChangeMonSpecies(species);
+}
+
+void UseMossRock(void) {
+    u16 species = SPECIES_LEAFEON;
+    u16 *evos = calloc(130, sizeof(u16));
+    PickRandomEvo(&species, evos);
+    free(evos);
+    ChangeMonSpecies(species);
 }
 
 u8 ScriptGiveMon(u16 species, u8 level, u16 item, u32 unused1, u32 unused2, u8 unused3)
