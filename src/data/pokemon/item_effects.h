@@ -292,6 +292,34 @@ static const u8 sItemEffect_LeafStone[6] = {
     [4] = ITEM4_EVO_STONE,
 };
 
+static const u8 sItemEffect_KingsRock[6] = {
+    [4] = ITEM4_EVO_STONE,
+};
+
+static const u8 sItemEffect_DeepSeaTooth[6] = {
+    [4] = ITEM4_EVO_STONE,
+};
+
+static const u8 sItemEffect_DeepSeaScale[6] = {
+    [4] = ITEM4_EVO_STONE,
+};
+
+static const u8 sItemEffect_MetalCoat[6] = {
+    [4] = ITEM4_EVO_STONE,
+};
+
+static const u8 sItemEffect_DragonScale[6] = {
+    [4] = ITEM4_EVO_STONE,
+};
+
+static const u8 sItemEffect_HardStone[6] = {
+    [4] = ITEM4_EVO_STONE,
+};
+
+static const u8 sItemEffect_Upgrade[6] = {
+    [4] = ITEM4_EVO_STONE,
+};
+
 static const u8 sItemEffect_CheriBerry[6] = {
     [3] = ITEM3_PARALYSIS,
 };
@@ -335,7 +363,7 @@ static const u8 sItemEffect_SitrusBerry[7] = {
     [6] = 30, // Amount of HP to recover
 };
 
-const u8 *const gItemEffectTable[] =
+const u8 *const gItemEffectTable[ITEMS_COUNT - ITEM_POTION] =
 {
     [ITEM_POTION - ITEM_POTION]        = sItemEffect_Potion,
     [ITEM_ANTIDOTE - ITEM_POTION]      = sItemEffect_Antidote,
@@ -400,5 +428,11 @@ const u8 *const gItemEffectTable[] =
     [ITEM_PERSIM_BERRY - ITEM_POTION]  = sItemEffect_PersimBerry,
     [ITEM_LUM_BERRY - ITEM_POTION]     = sItemEffect_LumBerry,
     [ITEM_SITRUS_BERRY - ITEM_POTION]  = sItemEffect_SitrusBerry,
-    [LAST_BERRY_INDEX - ITEM_POTION]   = NULL,
+    [ITEM_KINGS_ROCK - ITEM_POTION]    = sItemEffect_KingsRock,
+    [ITEM_DEEP_SEA_SCALE - ITEM_POTION]= sItemEffect_DeepSeaScale,
+    [ITEM_DEEP_SEA_TOOTH - ITEM_POTION]= sItemEffect_DeepSeaTooth,
+    [ITEM_METAL_COAT - ITEM_POTION]    = sItemEffect_MetalCoat,
+    [ITEM_DRAGON_SCALE - ITEM_POTION]  = sItemEffect_DragonScale,
+    [ITEM_HARD_STONE - ITEM_POTION]    = sItemEffect_HardStone,
+    [ITEM_UP_GRADE - ITEM_POTION]      = sItemEffect_Upgrade,
 };
