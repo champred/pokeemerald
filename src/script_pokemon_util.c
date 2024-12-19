@@ -65,6 +65,9 @@ static void ChangeMonSpecies(u16 species, u8 limit) {
     for (i = 0; i < MAX_MON_MOVES; i++)
         SetMonMoveSlot(mon, moves[i], i);
     gSpecialVar_0x8009 = species;
+    species = SpeciesToNationalPokedexNum(species);
+    GetSetPokedexFlag(species, FLAG_SET_SEEN);
+    GetSetPokedexFlag(species, FLAG_SET_CAUGHT);
 }
 
 #define BST(info) (info->baseHP + info->baseAttack + info->baseDefense\

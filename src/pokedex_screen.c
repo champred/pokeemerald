@@ -1417,7 +1417,7 @@ static void OrderDexByType(u16 *dex) {
 
 static u16 DexScreen_CountMonsInOrderedList(u8 orderIdx)
 {
-    s32 max_n = NATIONAL_DEX_COUNT;
+    s32 max_n = IsNationalPokedexEnabled() ? NATIONAL_DEX_COUNT : KANTO_DEX_COUNT;
     u16 ndex_num;
     u16 ret = NATIONAL_DEX_NONE;
     s32 i;
