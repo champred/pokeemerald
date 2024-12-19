@@ -2939,7 +2939,7 @@
       "registrability": 0,
       "pocket": "POCKET_ITEMS",
       "type": "ITEM_TYPE_BAG_MENU",
-      "fieldUseFunc": "FieldUseFunc_EvoItem",
+      "fieldUseFunc": "FieldUseFunc_OakStopsYou",
       "battleUsage": 0,
       "battleUseFunc": "NULL",
       "secondaryId": 0
@@ -3467,7 +3467,7 @@
       "registrability": 0,
       "pocket": "POCKET_ITEMS",
       "type": "ITEM_TYPE_BAG_MENU",
-      "fieldUseFunc": "FieldUseFunc_EvoItem",
+      "fieldUseFunc": "FieldUseFunc_OakStopsYou",
       "battleUsage": 0,
       "battleUseFunc": "NULL",
       "secondaryId": 0

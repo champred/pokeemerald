@@ -48,13 +48,17 @@ void HealPlayerParty(void)
     }
 }
 
-static void ChangeMonSpecies(u16 species) {
+static void ChangeMonSpecies(u16 species, u8 limit) {
     struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
     u32 level = GetMonData(mon, MON_DATA_LEVEL);
     u32 ivs = GetMonData(mon, MON_DATA_IVS);
     u32 personality = GetMonData(mon, MON_DATA_PERSONALITY);
     u16 moves[4] = {};
     s32 i;
+    if (level < limit) {//evolution failed
+        gSpecialVar_0x8009 = SPECIES_NONE;
+        return;
+    }
     for (i = 0; i < MAX_MON_MOVES; i++)
         moves[i] = (u16) GetMonData(mon, MON_DATA_MOVE1 + i);
     CreateMonWithIVsPersonality(mon, species, (u8) level, ivs, personality);
@@ -65,18 +69,16 @@ static void ChangeMonSpecies(u16 species) {
 
 #define BST(info) (info->baseHP + info->baseAttack + info->baseDefense\
                  + info->baseSpeed + info->baseSpAttack + info->baseSpDefense)
+#define IS_TYPE(type)(rep->types[0] == type || rep->types[1] == type)
 static void PickRandomEvo(u16 *species, u16 *evos) {
     s32 i, last = 0;
     const struct SpeciesInfo *src = &gSpeciesInfo[*species], *rep;
-    u8 type = src->types[0];
-    u16 srcBST = BST(src), repBST;
-    u16 lowerBST = (90 * srcBST) / 100;
-    u16 upperBST = (110 * srcBST) / 100;
-
+    u8 types[] = {src->types[0], src->types[1]};
+    u16 srcBST = (90 * BST(src)) / 100, repBST;
     for (i = 1; i < NUM_SPECIES; i++) {
         rep = &gSpeciesInfo[i];
         repBST = BST(rep);
-        if ((rep->types[0] == type || rep->types[1] == type) && repBST > lowerBST && repBST < upperBST)
+        if ((IS_TYPE(types[0]) || IS_TYPE(types[1])) && repBST > srcBST && repBST < 580)
             evos[last++] = i;
     }
     do {
@@ -85,12 +87,60 @@ static void PickRandomEvo(u16 *species, u16 *evos) {
     *species = evos[i];
 }
 
+void EvolveMon(void) {
+    u16 species = gSpecialVar_Result;
+    u16 *evos = NULL;
+    switch (species) {
+        case SPECIES_LICKITUNG:
+            species = SPECIES_LICKILICKY;
+            evos = calloc(140, sizeof(u16));
+            break;
+        case SPECIES_TANGELA:
+            species = SPECIES_TANGROWTH;
+            evos = calloc(130, sizeof(u16));
+            break;
+        case SPECIES_AIPOM:
+            species = SPECIES_AMBIPOM;
+            evos = calloc(140, sizeof(u16));
+            break;
+        case SPECIES_YANMA:
+            species = SPECIES_YANMEGA;
+            evos = calloc(200, sizeof(u16));
+            break;
+        case SPECIES_PILOSWINE:
+            species = SPECIES_MAMOSWINE;
+            evos = calloc(140, sizeof(u16));
+            break;
+        case SPECIES_GLIGAR:
+            species = SPECIES_GLISCOR;
+            evos = calloc(190, sizeof(u16));
+            break;
+        case SPECIES_SNEASEL:
+            species = SPECIES_WEAVILE;
+            evos = calloc(140, sizeof(u16));
+            break;
+        case SPECIES_PORYGON2:
+            species = SPECIES_PORYGON_Z;
+            evos = calloc(140, sizeof(u16));
+            break;
+        case SPECIES_DUSCLOPS:
+            species = SPECIES_DUSKNOIR;
+            evos = calloc(70, sizeof(u16));
+            break;
+        default:
+            return;
+    }
+    PickRandomEvo(&species, evos);
+    free(evos);
+    ChangeMonSpecies(species, 10);
+}
+
 void UseIceRock(void) {
     u16 species = SPECIES_GLACEON;
     u16 *evos = calloc(60, sizeof(u16));
     PickRandomEvo(&species, evos);
     free(evos);
-    ChangeMonSpecies(species);
+    ChangeMonSpecies(species, 0);
 }
 
 void UseMossRock(void) {
@@ -98,7 +148,7 @@ void UseMossRock(void) {
     u16 *evos = calloc(130, sizeof(u16));
     PickRandomEvo(&species, evos);
     free(evos);
-    ChangeMonSpecies(species);
+    ChangeMonSpecies(species, 0);
 }
 
 u8 ScriptGiveMon(u16 species, u8 level, u16 item, u32 unused1, u32 unused2, u8 unused3)

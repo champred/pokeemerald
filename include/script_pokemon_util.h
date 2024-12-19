@@ -9,5 +9,6 @@ void ReducePlayerPartyToThree(void);
 void CreateScriptedWildMon(u16 species, u8 level, u16 item);
 void UseMossRock(void);
 void UseIceRock(void);
+void EvolveMon(void);
 
 #endif //GUARD_SCRIPT_POKEMON_UTIL_H
