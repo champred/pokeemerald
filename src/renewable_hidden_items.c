@@ -536,12 +536,14 @@ static const struct RenewableHiddenItemData sRenewableHiddenItems[] = {
 void SetAllRenewableItemFlags(void)
 {
     u8 i, j;
-
+    const u8 *rare, *uncommon, *common;
     for (i = 0; i < ARRAY_COUNT(sRenewableHiddenItems); i++)
     {
-        const u8 * rare = sRenewableHiddenItems[i].rare;
-        const u8 * uncommon = sRenewableHiddenItems[i].uncommon;
-        const u8 * common = sRenewableHiddenItems[i].common;
+        if (sRenewableHiddenItems[i].mapNum != MAP_NUM(MT_MOON_B1F))
+            continue;
+        rare = sRenewableHiddenItems[i].rare;
+        uncommon = sRenewableHiddenItems[i].uncommon;
+        common = sRenewableHiddenItems[i].common;
         for (j = 0; j < MAX_HIDDEN_ITEMS_PER_GROUP; j++)
         {
             if (rare[j] != NO_ITEM)
