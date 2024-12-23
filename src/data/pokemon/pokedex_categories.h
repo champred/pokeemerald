@@ -983,6 +983,7 @@ static const struct PokedexCategoryPage sDexCategory_RarePkmn[] = {
     DEX_CATEGORY(RarePkmn_Page6),
     DEX_CATEGORY(RarePkmn_Page7),
     DEX_CATEGORY(RarePkmn_Page8),
+    DEX_CATEGORY(DummyPage)
 };
 
 struct {

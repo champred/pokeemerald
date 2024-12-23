@@ -92,6 +92,7 @@ struct PokedexCategoryPage
 };
 
 EWRAM_DATA static struct PokedexScreenData * sPokedexScreenData = NULL;
+EWRAM_DATA static u16 sDexCategory_DummyPage[] = {0};
 
 static void Task_PokedexScreen(u8 taskId);
 static void DexScreen_InitGfxForTopMenu(void);
@@ -3323,6 +3324,11 @@ static u8 DexScreen_LookUpCategoryBySpecies(u16 species)
             }
         }
     }
+    //dummy fallback
+    sPokedexScreenData->category = i-1;
+    sPokedexScreenData->pageNum = j-1;
+    sPokedexScreenData->categoryCursorPosInPage = 0;
+    sDexCategory_DummyPage[0] = species;
     return TRUE;
 }
 
