@@ -3920,6 +3920,15 @@ BattleScript_SteadfastActivates::
 	waitmessage B_WAIT_TIME_LONG
 	goto BattleScript_MoveEnd
 
+BattleScript_MoxieActivates::
+	setstatchanger STAT_ATK, 1, FALSE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER, BattleScript_AbilityStatUpReturn
+	setgraphicalstatchangevalues
+	playanimation BS_ATTACKER, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
+	printstring STRINGID_ATTACKERABILITYSTATRAISE
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_DownloadRaisesAtk::
 	setstatchanger STAT_ATK, 1, FALSE
 	goto BattleScript_DownloadActivates
@@ -3984,6 +3993,7 @@ BattleScript_AbilityStatUpReturn:
 BattleScript_DefiantActivates::
 	setgraphicalstatchangevalues
 	call BattleScript_StatDown
+BattleScript_AngerPointActivates::
 	setstatchanger STAT_ATK, 2, FALSE
 	call BattleScript_AbilityStatUp
 	return

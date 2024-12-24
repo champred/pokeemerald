@@ -2075,10 +2075,23 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                  && gBattleMons[gBattlerTarget].hp != 0
                  && !gProtectStructs[gBattlerTarget].confusionSelfDmg
                  && TARGET_TURN_DAMAGED
-                 && (Random() % 10) == 0)
+                 && (Random() % 10) == 0
+                 && GetBattlerTurnOrderNum(gBattlerTarget) > gCurrentTurnActionNumber
+                 && gBattleMons[gBattlerTarget].ability!=ABILITY_INNER_FOCUS)
                 {
-                    if (GetBattlerTurnOrderNum(gBattlerTarget) > gCurrentTurnActionNumber&&gBattleMons[gBattlerTarget].ability!=ABILITY_INNER_FOCUS)
-                        gBattleMons[gBattlerTarget].status2 |= STATUS2_FLINCHED;
+                    gBattleMons[gBattlerTarget].status2 |= STATUS2_FLINCHED;
+                    effect++;
+                }
+                break;
+            case ABILITY_MOXIE:
+                if (!(gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
+                 && gBattleMons[gBattlerTarget].hp <= 0
+                 && !gProtectStructs[gBattlerTarget].confusionSelfDmg
+                 && TARGET_TURN_DAMAGED
+                 && (Random() & 1))
+                {
+                    BattleScriptPushCursor();
+                    gBattlescriptCurrInstr = BattleScript_MoxieActivates;
                     effect++;
                 }
             }
@@ -2137,6 +2150,18 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                     effect++;
                 }
                 break;
+            case ABILITY_ANGER_POINT:
+                if (!(gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
+                 && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
+                 && TARGET_TURN_DAMAGED
+                 && gCritMultiplier >= 2
+                 && gBattleMons[battler].hp != 0)
+                {
+                    BattleScriptPushCursor();
+                    gBattlescriptCurrInstr = BattleScript_AngerPointActivates;
+                    effect++;
+                }
+                break;
             case ABILITY_ROUGH_SKIN:
                 if (!(gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
                  && gBattleMons[gBattlerAttacker].hp != 0
@@ -2145,6 +2170,24 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                  && (gBattleMoves[move].flags & FLAG_MAKES_CONTACT))
                 {
                     gBattleMoveDamage = gBattleMons[gBattlerAttacker].maxHP / 16;
+                    if (gBattleMoveDamage == 0)
+                        gBattleMoveDamage = 1;
+                    BattleScriptPushCursor();
+                    gBattlescriptCurrInstr = BattleScript_RoughSkinActivates;
+                    effect++;
+                }
+                break;
+            case ABILITY_AFTERMATH:
+                if (!(gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
+                 && gBattleMons[gBattlerAttacker].hp != 0
+                 && gBattleMons[gBattlerTarget].hp <= 0
+                 && !gProtectStructs[gBattlerAttacker].confusionSelfDmg
+                 && TARGET_TURN_DAMAGED
+                 && (gBattleMoves[move].flags & FLAG_MAKES_CONTACT)
+                 && !ABILITY_ON_FIELD(ABILITY_DAMP)
+                 && (Random() & 1))
+                {
+                    gBattleMoveDamage = gBattleMons[gBattlerAttacker].maxHP / 4;
                     if (gBattleMoveDamage == 0)
                         gBattleMoveDamage = 1;
                     BattleScriptPushCursor();

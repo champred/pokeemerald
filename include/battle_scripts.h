@@ -249,6 +249,8 @@ extern const u8 BattleScript_RattledActivates[];
 extern const u8 BattleScript_DownloadRaisesAtk[];
 extern const u8 BattleScript_DownloadRaisesSpa[];
 extern const u8 BattleScript_MoodyActivates[];
+extern const u8 BattleScript_AngerPointActivates[];
+extern const u8 BattleScript_MoxieActivates[];
 
 extern const u8 *const gBattleScriptsForMoveEffects[];
 extern const u8 *const gBattlescriptsForBallThrow[];

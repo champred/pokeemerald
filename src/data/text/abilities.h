@@ -124,6 +124,9 @@ static const u8 sFlowerGiftDescription[] = _("Allies power up in sunshine.");
 static const u8 sMoodyDescription[] = _("Stats change gradually.");
 static const u8 sPranksterDescription[] = _("Status moves go first.");
 static const u8 sVictoryStarDescription[] = _("Raises party accuracy.");
+static const u8 sAngerPointDescription[] = _("Critical hits raise Attack.");
+static const u8 sAftermathDescription[] = _("Fainting damages the foe.");
+static const u8 sMoxieDescription[] = _("KOs raise Attack.");
 
 const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
 {
@@ -252,6 +255,9 @@ const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1] =
     [ABILITY_MOODY] = _("Moody"),
     [ABILITY_PRANKSTER] = _("Prankster"),
     [ABILITY_VICTORY_STAR] = _("Victory Star"),
+    [ABILITY_ANGER_POINT] = _("Anger Point"),
+    [ABILITY_AFTERMATH] = _("Aftermath"),
+    [ABILITY_MOXIE] = _("Moxie"),
 };
 
 const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
@@ -382,4 +388,7 @@ const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT] =
     [ABILITY_MOODY] = sMoodyDescription,
     [ABILITY_PRANKSTER] = sPranksterDescription,
     [ABILITY_VICTORY_STAR] = sVictoryStarDescription,
+    [ABILITY_ANGER_POINT] = sAngerPointDescription,
+    [ABILITY_AFTERMATH] = sAftermathDescription,
+    [ABILITY_MOXIE] = sMoxieDescription,
 };
