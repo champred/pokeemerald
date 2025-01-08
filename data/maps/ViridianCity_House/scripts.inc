@@ -17,6 +17,7 @@ ViridianCity_House_EventScript_EvoMon::
 	lock
 	goto_if_ge VAR_0x8004, PARTY_SIZE, EventScript_ReleaseEnd
 	specialvar VAR_RESULT, GetPartyMonSpecies
+#if GAME_GENERATION>=4
 	goto_if_eq VAR_RESULT, SPECIES_LICKITUNG, ViridianCity_House_EventScript_EvoWorks
 	goto_if_eq VAR_RESULT, SPECIES_TANGELA, ViridianCity_House_EventScript_EvoWorks
 	goto_if_eq VAR_RESULT, SPECIES_AIPOM, ViridianCity_House_EventScript_EvoWorks
@@ -26,6 +27,7 @@ ViridianCity_House_EventScript_EvoMon::
 	goto_if_eq VAR_RESULT, SPECIES_SNEASEL, ViridianCity_House_EventScript_EvoWorks
 	goto_if_eq VAR_RESULT, SPECIES_PORYGON2, ViridianCity_House_EventScript_EvoWorks
 	goto_if_eq VAR_RESULT, SPECIES_DUSCLOPS, ViridianCity_House_EventScript_EvoWorks
+#endif
 	msgbox ViridianCity_House_Text_EvoFailed, MSGBOX_NPC
 	release
 	end

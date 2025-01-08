@@ -5030,7 +5030,7 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 337,
         .trainerOffset = 2,
     },
-    //gen4
+#if GAME_GENERATION>=4
     [NATIONAL_DEX_TURTWIG] =
     {
         .categoryName = _("TINY LEAF"),
@@ -6239,7 +6239,99 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 256,
         .trainerOffset = 0,
     },
-    //gen5
+    
+    [NATIONAL_DEX_DIALGA] =
+    {
+        .categoryName = _("TEMPORAL"),
+        .height = 54,
+        .weight = 6830,
+        .description = gDialgaPokedexText,
+        .unusedDescription = gDialgaPokedexTextUnused,
+        .pokemonScale = 256,
+        .pokemonOffset = 0,
+        .trainerScale = 721,
+        .trainerOffset = 19,
+    },
+
+    [NATIONAL_DEX_PALKIA] =
+    {
+        .categoryName = _("SPATIAL"),
+        .height = 42,
+        .weight = 3360,
+        .description = gPalkiaPokedexText,
+        .unusedDescription = gPalkiaPokedexTextUnused,
+        .pokemonScale = 256,
+        .pokemonOffset = 0,
+        .trainerScale = 650,
+        .trainerOffset = 16,
+    },
+
+    [NATIONAL_DEX_HEATRAN] =
+    {
+        .categoryName = _("LAVA DOME"),
+        .height = 17,
+        .weight = 4300,
+        .description = gHeatranPokedexText,
+        .unusedDescription = gHeatranPokedexTextUnused,
+        .pokemonScale = 259,
+        .pokemonOffset = 1,
+        .trainerScale = 290,
+        .trainerOffset = 1,
+    },
+    
+    [NATIONAL_DEX_GIRATINA] =
+    {
+        .categoryName = _("RENEGADE"),
+        .height = 69,
+        .weight = 6500,
+        .description = gGiratinaPokedexText,
+        .unusedDescription = gGiratinaPokedexTextUnused,
+        .pokemonScale = 256,
+        .pokemonOffset = 0,
+        .trainerScale = 614,
+        .trainerOffset = 13,
+    },
+
+    [NATIONAL_DEX_CRESSELIA] =
+    {
+        .categoryName = _("LUNAR"),
+        .height = 15,
+        .weight = 856,
+        .description = gCresseliaPokedexText,
+        .unusedDescription = gCresseliaPokedexTextUnused,
+        .pokemonScale = 268,
+        .pokemonOffset = 2,
+        .trainerScale = 271,
+        .trainerOffset = 0,
+    },
+    
+    [NATIONAL_DEX_MANAPHY] =
+    {
+        .categoryName = _("SEAFARING"),
+        .height = 3,
+        .weight = 14,
+        .description = gManaphyPokedexText,
+        .unusedDescription = gManaphyPokedexTextUnused,
+        .pokemonScale = 530,
+        .pokemonOffset = 13,
+        .trainerScale = 256,
+        .trainerOffset = 0,
+    },
+
+    [NATIONAL_DEX_DARKRAI] =
+    {
+        .categoryName = _("PITCH BLACK"),
+        .height = 15,
+        .weight = 505,
+        .description = gDarkraiPokedexText,
+        .unusedDescription = gDarkraiPokedexTextUnused,
+        .pokemonScale = 268,
+        .pokemonOffset = 2,
+        .trainerScale = 271,
+        .trainerOffset = 0,
+    },
+#endif
+#if GAME_GENERATION>=5
     [NATIONAL_DEX_SNIVY] =
     {
         .categoryName = _("GRASS SNAKE"),
@@ -8098,4 +8190,96 @@ const struct PokedexEntry gPokedexEntries[] =
         .trainerScale = 296,
         .trainerOffset = 1,
     },
+    
+    [NATIONAL_DEX_VICTINI] =
+    {
+        .categoryName = _("VICTORY"),
+        .height = 4,
+        .weight = 40,
+        .description = gVictiniPokedexText,
+        .unusedDescription = gVictiniPokedexTextUnused,
+        .pokemonScale = 491,
+        .pokemonOffset = 16,
+        .trainerScale = 256,
+        .trainerOffset = 0,
+    },
+    
+    [NATIONAL_DEX_COBALION] =
+    {
+        .categoryName = _("IRON WILL"),
+        .height = 21,
+        .weight = 2500,
+        .description = gCobalionPokedexText,
+        .unusedDescription = gCobalionPokedexTextUnused,
+        .pokemonScale = 256,
+        .pokemonOffset = 0,
+        .trainerScale = 365,
+        .trainerOffset = 7,
+    },
+
+    [NATIONAL_DEX_TERRAKION] =
+    {
+        .categoryName = _("CAVERN"),
+        .height = 19,
+        .weight = 2600,
+        .description = gTerrakionPokedexText,
+        .unusedDescription = gTerrakionPokedexTextUnused,
+        .pokemonScale = 256,
+        .pokemonOffset = 1,
+        .trainerScale = 336,
+        .trainerOffset = 4,
+    },
+
+    [NATIONAL_DEX_VIRIZION] =
+    {
+        .categoryName = _("GRASSLAND"),
+        .height = 20,
+        .weight = 2000,
+        .description = gVirizionPokedexText,
+        .unusedDescription = gVirizionPokedexTextUnused,
+        .pokemonScale = 261,
+        .pokemonOffset = 1,
+        .trainerScale = 344,
+        .trainerOffset = 4,
+    },
+    
+    [NATIONAL_DEX_RESHIRAM] =
+    {
+        .categoryName = _("VAST WHITE"),
+        .height = 32,
+        .weight = 3300,
+        .description = gReshiramPokedexText,
+        .unusedDescription = gReshiramPokedexTextUnused,
+        .pokemonScale = 256,
+        .pokemonOffset = 0,
+        .trainerScale = 445,
+        .trainerOffset = 8,
+    },
+
+    [NATIONAL_DEX_ZEKROM] =
+    {
+        .categoryName = _("DEEP BLACK"),
+        .height = 29,
+        .weight = 3450,
+        .description = gZekromPokedexText,
+        .unusedDescription = gZekromPokedexTextUnused,
+        .pokemonScale = 275,
+        .pokemonOffset = 2,
+        .trainerScale = 412,
+        .trainerOffset = 10,
+    },
+    
+    [NATIONAL_DEX_KELDEO] =
+    {
+        .categoryName = _("COLT"),
+        .height = 14,
+        .weight = 485,
+        .description = gKeldeoPokedexText,
+        .unusedDescription = gKeldeoPokedexTextUnused,
+        .pokemonScale = 265,
+        .pokemonOffset = 2,
+        .trainerScale = 262,
+        .trainerOffset = 0,
+    },
+#endif
 };

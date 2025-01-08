@@ -2060,6 +2060,7 @@ const struct MonCoords gMonBackPicCoords[] =
         .size = MON_COORDS_SIZE(32, 56),
         .y_offset = 7,
     },
+#if GAME_GENERATION>=4
     [SPECIES_TURTWIG] =
     {
         .size = MON_COORDS_SIZE(48, 32),
@@ -2525,6 +2526,43 @@ const struct MonCoords gMonBackPicCoords[] =
         .size = MON_COORDS_SIZE(56, 56),
         .y_offset = 5,
     },
+    [SPECIES_DIALGA] =
+    {
+        .size = MON_COORDS_SIZE(64, 64),
+        .y_offset = 0,
+    },
+    [SPECIES_PALKIA] =
+    {
+        .size = MON_COORDS_SIZE(64, 64),
+        .y_offset = 6,
+    },
+    [SPECIES_HEATRAN] =
+    {
+        .size = MON_COORDS_SIZE(64, 40),
+        .y_offset = 13,
+    },
+    [SPECIES_GIRATINA] =
+    {
+        .size = MON_COORDS_SIZE(64, 56),
+        .y_offset = 4,
+    },
+    [SPECIES_CRESSELIA] =
+    {
+        .size = MON_COORDS_SIZE(56, 64),
+        .y_offset = 0,
+    },
+    [SPECIES_MANAPHY] =
+    {
+        .size = MON_COORDS_SIZE(64, 56),
+        .y_offset = 10,
+    },
+    [SPECIES_DARKRAI] =
+    {
+        .size = MON_COORDS_SIZE(64, 64),
+        .y_offset = 0,
+    },
+#endif
+#if GAME_GENERATION>=5
     [SPECIES_SNIVY] =
     {
         .size = MON_COORDS_SIZE(56, 48),
@@ -3240,6 +3278,42 @@ const struct MonCoords gMonBackPicCoords[] =
         .size = MON_COORDS_SIZE(64, 64),
         .y_offset = 3,
     },
+    [SPECIES_VICTINI] =
+    {
+        .size = MON_COORDS_SIZE(40, 64),
+        .y_offset = 7,
+    },
+    [SPECIES_COBALION] =
+    {
+        .size = MON_COORDS_SIZE(48, 64),
+        .y_offset = 6,
+    },
+    [SPECIES_TERRAKION] =
+    {
+        .size = MON_COORDS_SIZE(64, 48),
+        .y_offset = 8,
+    },
+    [SPECIES_VIRIZION] =
+    {
+        .size = MON_COORDS_SIZE(64, 56),
+        .y_offset = 8,
+    },
+    [SPECIES_RESHIRAM] =
+    {
+        .size = MON_COORDS_SIZE(64, 64),
+        .y_offset = 7,
+    },
+    [SPECIES_ZEKROM] =
+    {
+        .size = MON_COORDS_SIZE(64, 64),
+        .y_offset = 3,
+    },
+    [SPECIES_KELDEO] =
+    {
+        .size = MON_COORDS_SIZE(64, 64),
+        .y_offset = 3,
+    },
+#endif
     [SPECIES_EGG] =
     {
         .size = MON_COORDS_SIZE(24, 48),

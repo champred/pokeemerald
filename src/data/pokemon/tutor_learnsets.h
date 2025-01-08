@@ -2810,5 +2810,5 @@ static const u16 sTutorLearnsets[] =
                        | TUTOR(MOVE_MIMIC)
                        | TUTOR(MOVE_DREAM_EATER)
                        | TUTOR(MOVE_SUBSTITUTE),
-    [SPECIES_TURTWIG ... SPECIES_EGG] = 0
+    [HOENN_SPECIES_END+1 ... SPECIES_EGG] = 0
 };

@@ -412,6 +412,7 @@ const struct CompressedSpriteSheet gMonBackPicTable[] =
     SPECIES_SPRITE(JIRACHI, gMonBackPic_Jirachi),
     SPECIES_SPRITE(DEOXYS, gMonBackPic_Deoxys),
     SPECIES_SPRITE(CHIMECHO, gMonBackPic_Chimecho),
+#if GAME_GENERATION>=4
     SPECIES_SPRITE(TURTWIG, gMonBackPic_Turtwig),
     SPECIES_SPRITE(GROTLE, gMonBackPic_Grotle),
     SPECIES_SPRITE(TORTERRA, gMonBackPic_Torterra),
@@ -505,6 +506,15 @@ const struct CompressedSpriteSheet gMonBackPicTable[] =
     SPECIES_SPRITE(DUSKNOIR, gMonBackPic_Dusknoir),
     SPECIES_SPRITE(FROSLASS, gMonBackPic_Froslass),
     SPECIES_SPRITE(ROTOM, gMonBackPic_Rotom),
+    SPECIES_SPRITE(DIALGA, gMonBackPic_Dialga),
+    SPECIES_SPRITE(PALKIA, gMonBackPic_Palkia),
+    SPECIES_SPRITE(HEATRAN, gMonBackPic_Heatran),
+    SPECIES_SPRITE(GIRATINA, gMonBackPic_Giratina),
+    SPECIES_SPRITE(CRESSELIA, gMonBackPic_Cresselia),
+    SPECIES_SPRITE(MANAPHY, gMonBackPic_Manaphy),
+    SPECIES_SPRITE(DARKRAI, gMonBackPic_Darkrai),
+#endif
+#if GAME_GENERATION>=5
     SPECIES_SPRITE(SNIVY, gMonBackPic_Snivy),
     SPECIES_SPRITE(SERVINE, gMonBackPic_Servine),
     SPECIES_SPRITE(SERPERIOR, gMonBackPic_Serperior),
@@ -648,6 +658,14 @@ const struct CompressedSpriteSheet gMonBackPicTable[] =
     SPECIES_SPRITE(HYDREIGON, gMonBackPic_Hydreigon),
     SPECIES_SPRITE(LARVESTA, gMonBackPic_Larvesta),
     SPECIES_SPRITE(VOLCARONA, gMonBackPic_Volcarona),
+    SPECIES_SPRITE(VICTINI, gMonBackPic_Victini),
+    SPECIES_SPRITE(COBALION, gMonBackPic_Cobalion),
+    SPECIES_SPRITE(TERRAKION, gMonBackPic_Terrakion),
+    SPECIES_SPRITE(VIRIZION, gMonBackPic_Virizion),
+    SPECIES_SPRITE(RESHIRAM, gMonBackPic_Reshiram),
+    SPECIES_SPRITE(ZEKROM, gMonBackPic_Zekrom),
+    SPECIES_SPRITE(KELDEO, gMonBackPic_Keldeo),
+#endif
     SPECIES_SPRITE(EGG, gMonFrontPic_Egg),
     SPECIES_SPRITE(UNOWN_B, gMonBackPic_UnownB),
     SPECIES_SPRITE(UNOWN_C, gMonBackPic_UnownC),

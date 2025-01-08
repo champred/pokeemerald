@@ -130,7 +130,7 @@ extern u8 gStringVar4[];
 #define DEX_FLAGS_NO ROUND_BITS_TO_BYTES(NUM_SPECIES)
 #define NUM_FLAG_BYTES ROUND_BITS_TO_BYTES(FLAGS_COUNT)
 #define NUM_ADDITIONAL_PHRASE_BYTES ROUND_BITS_TO_BYTES(NUM_ADDITIONAL_PHRASES)
-#define NUM_ADDITIONAL_DEX_BYTES ROUND_BITS_TO_BYTES(NUM_SPECIES-SPECIES_TURTWIG)
+#define NUM_ADDITIONAL_DEX_BYTES ROUND_BITS_TO_BYTES(NUM_SPECIES-(HOENN_SPECIES_END+1))
 // This produces an error at compile-time if expr is zero.
 // It looks like file.c:line: size of array `id' is negative
 #define STATIC_ASSERT(expr, id) typedef char id[(expr) ? 1 : -1];
