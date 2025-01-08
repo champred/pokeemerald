@@ -43,6 +43,7 @@ ViridianForest_EventScript_RockWorks::
 	goto_if_eq VAR_TEMP_1, ICE_ROCK, ViridianForest_EventScript_IceRock
 	goto_if_eq VAR_TEMP_1, MOSS_ROCK, ViridianForest_EventScript_MossRock
 #endif
+	msgbox ViridianForest_Text_RockFailed, MSGBOX_DEFAULT
 	release
 	end
 

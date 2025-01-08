@@ -1286,3 +1286,4 @@ gCryTable_Reverse::
 	cry_reverse Cry_Zekrom
 	cry_reverse Cry_Keldeo
 #endif
+

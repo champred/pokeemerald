@@ -43,7 +43,11 @@ jobs:
         working-directory: ./agbcc
 
       - name: Build ROM
-        run: make -j${nproc} all syms firered_gen4 firered_gen5
+        env:
+          MAKEFLAGS: -j${nproc}
+        run: |
+          make all syms
+          make firered_gen4 firered_gen5
 
       - name: Move symfiles
         if: ${{ github.event_name == 'push' }}
