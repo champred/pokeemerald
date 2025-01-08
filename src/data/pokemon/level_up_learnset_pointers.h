@@ -412,6 +412,7 @@ const u16 *const gLevelUpLearnsets[NUM_SPECIES] =
     [SPECIES_JIRACHI] = sJirachiLevelUpLearnset,
     [SPECIES_DEOXYS] = sDeoxysLevelUpLearnset,
     [SPECIES_CHIMECHO] = sChimechoLevelUpLearnset,
+#if GAME_GENERATION>=4
     [SPECIES_TURTWIG] = sTurtwigLevelUpLearnset,
     [SPECIES_GROTLE] = sGrotleLevelUpLearnset,
     [SPECIES_TORTERRA] = sTorterraLevelUpLearnset,
@@ -505,6 +506,15 @@ const u16 *const gLevelUpLearnsets[NUM_SPECIES] =
     [SPECIES_DUSKNOIR] = sDusknoirLevelUpLearnset,
     [SPECIES_FROSLASS] = sFroslassLevelUpLearnset,
     [SPECIES_ROTOM] = sRotomLevelUpLearnset,
+    [SPECIES_DIALGA] = sDialgaLevelUpLearnset,
+    [SPECIES_PALKIA] = sPalkiaLevelUpLearnset,
+    [SPECIES_HEATRAN] = sHeatranLevelUpLearnset,
+    [SPECIES_GIRATINA] = sGiratinaLevelUpLearnset,
+    [SPECIES_CRESSELIA] = sCresseliaLevelUpLearnset,
+    [SPECIES_MANAPHY] = sManaphyLevelUpLearnset,
+    [SPECIES_DARKRAI] = sDarkraiLevelUpLearnset,
+#endif
+#if GAME_GENERATION>=5
     [SPECIES_SNIVY] = sSnivyLevelUpLearnset,
     [SPECIES_SERVINE] = sServineLevelUpLearnset,
     [SPECIES_SERPERIOR] = sSerperiorLevelUpLearnset,
@@ -648,4 +658,12 @@ const u16 *const gLevelUpLearnsets[NUM_SPECIES] =
     [SPECIES_HYDREIGON] = sHydreigonLevelUpLearnset,
     [SPECIES_LARVESTA] = sLarvestaLevelUpLearnset,
     [SPECIES_VOLCARONA] = sVolcaronaLevelUpLearnset,
+    [SPECIES_VICTINI] = sVictiniLevelUpLearnset,
+    [SPECIES_COBALION] = sCobalionLevelUpLearnset,
+    [SPECIES_TERRAKION] = sTerrakionLevelUpLearnset,
+    [SPECIES_VIRIZION] = sVirizionLevelUpLearnset,
+    [SPECIES_RESHIRAM] = sReshiramLevelUpLearnset,
+    [SPECIES_ZEKROM] = sZekromLevelUpLearnset,
+    [SPECIES_KELDEO] = sKeldeoLevelUpLearnset,
+#endif
 };

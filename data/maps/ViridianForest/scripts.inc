@@ -39,8 +39,10 @@ ViridianForest_EventScript_UseRock::
 	end
 
 ViridianForest_EventScript_RockWorks::
+#if GAME_GENERATION>=4
 	goto_if_eq VAR_TEMP_1, ICE_ROCK, ViridianForest_EventScript_IceRock
 	goto_if_eq VAR_TEMP_1, MOSS_ROCK, ViridianForest_EventScript_MossRock
+#endif
 	release
 	end
 

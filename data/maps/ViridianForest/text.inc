@@ -103,3 +103,6 @@ ViridianForest_Text_LeavingViridianForest::
 
 ViridianForest_Text_MissingEevee::
     .string "That's not an EEVEE!$"
+
+ViridianForest_Text_RockFailed::
+    .string "The rock didn't work!$"

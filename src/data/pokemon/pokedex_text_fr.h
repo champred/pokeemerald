@@ -3463,6 +3463,70 @@ const u8 gRotomPokedexText[] = _(
 
 const u8 gRotomPokedexTextUnused[] = _("");
 
+const u8 gDialgaPokedexText[] = _(
+    "A Pokémon spoken of in legend.\n"
+    "It completely controls the flow of time.\n"
+    "It uses its power to travel at will\n"
+    "through the past and future.");
+
+const u8 gDialgaPokedexTextUnused[] = _("");
+
+const u8 gPalkiaPokedexText[] = _(
+    "Palkia has the ability to distort space.\n"
+    "Its total control over the boundaries of\n"
+    "space enable it to transport itself to\n"
+    "faraway places and other dimensions.");
+
+const u8 gPalkiaPokedexTextUnused[] = _("");
+
+const u8 gHeatranPokedexText[] = _(
+    "Boiling blood, like magma, circulates\n"
+    "through its body. It dwells in volcanic\n"
+    "caves, using its cross-shaped feet\n"
+    "to crawl on ceilings and walls.");
+
+const u8 gHeatranPokedexTextUnused[] = _("");
+
+const u8 gGiratinaPokedexText[] = _(
+    "Giratina loses its legs upon changing into\n"
+    "this form. It's believed it hails from a\n"
+    "world where the heavens and the earth\n"
+    "are as one.");
+
+const u8 gGiratinaPokedexTextUnused[] = _("");
+
+const u8 gCresseliaPokedexText[] = _(
+    "Those who sleep holding one of\n"
+    "Cresselia's feathers are assured of\n"
+    "joyful dreams. It is said to represent\n"
+    "the crescent moon.");
+
+const u8 gCresseliaPokedexTextUnused[] = _("");
+
+const u8 gManaphyPokedexText[] = _(
+    "Water makes up 80 percent of its body.\n"
+    "It starts its life with a wondrous power\n"
+    "that permits it to bond with any kind\n"
+    "of Pokémon.");
+
+const u8 gManaphyPokedexTextUnused[] = _("");
+
+const u8 gDarkraiPokedexText[] = _(
+    "It chases people and Pokémon from its\n"
+    "territory by causing them to experience\n"
+    "deep, nightmarish slumbers. However,\n"
+    "it means no harm.");
+
+const u8 gVictiniPokedexText[] = _(
+    "This Pokémon brings victory.\n"
+            "It is said that Trainers with Victini\n"
+            "always win, regardless of the type\n"
+            "of encounter."); 
+
+const u8 gVictiniPokedexTextUnused[] = _("");
+
+const u8 gDarkraiPokedexTextUnused[] = _("");
+
 const u8 gSnivyPokedexText[] = _(
     "It is very intelligent and calm.\n"
     "Being exposed to lots of sunlight makes\n"
@@ -4606,3 +4670,51 @@ const u8 gVolcaronaPokedexText[] = _(
     "replacement for the sun.");
 
 const u8 gVolcaronaPokedexTextUnused[] = _("");
+
+const u8 gCobalionPokedexText[] = _(
+    "It has a body and heart of steel. This\n"
+    "legendary Pokémon battled against humans\n"
+    "to protect Pokémon. Its personality\n"
+    "is calm and composed.");
+
+const u8 gCobalionPokedexTextUnused[] = _("");
+
+const u8 gTerrakionPokedexText[] = _(
+   "Spoken of in legend, this Pokémon used\n"
+   "its phenomenal power to destroy a castle\n"
+   "in its effort to protect Pokémon that had\n"
+   "lost their homes in a war among humans."); 
+
+const u8 gTerrakionPokedexTextUnused[] = _("");
+
+const u8 gVirizionPokedexText[] = _(
+    "Its head sprouts horns as sharp as blades.\n"
+    "Legends say this Pokémon used\n"
+    "whirlwind-like movements to confound\n"
+    "and swiftly cut its opponents.");
+
+const u8 gVirizionPokedexTextUnused[] = _("");
+
+const u8 gReshiramPokedexText[] = _(
+    "This Pokémon appears in legends. It\n"
+    "sends flames into the air from its tail,\n"
+    "burning up everything around it. It helps\n"
+    "those who want to build a world of truth.");
+
+const u8 gReshiramPokedexTextUnused[] = _("");
+
+const u8 gZekromPokedexText[] = _(
+    "This legendary Pokémon can scorch the\n"
+    "world with lightning. It has a generator\n"
+    "that creates electricity in its tail. It\n"
+    "assists those with strong ideals.");
+
+const u8 gZekromPokedexTextUnused[] = _("");
+
+const u8 gKeldeoPokedexText[] = _(
+    "When it is resolute, its body fills with\n"
+    "power and it becomes swifter. It crosses\n"
+    "the world, running over the surfaces of\n"
+    "oceans and rivers.");
+
+const u8 gKeldeoPokedexTextUnused[] = _("");

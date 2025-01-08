@@ -2228,6 +2228,38 @@ Cry_Rotom::
 	.incbin "sound/direct_sound_samples/cries/rotom.bin"
 
 	.align 2
+Cry_Dialga::
+	.incbin "sound/direct_sound_samples/cries/dialga.bin"
+
+	.align 2
+Cry_Palkia::
+	.incbin "sound/direct_sound_samples/cries/palkia.bin"
+
+	.align 2
+Cry_Heatran::
+	.incbin "sound/direct_sound_samples/cries/heatran.bin"
+
+	.align 2
+Cry_Giratina::
+	.incbin "sound/direct_sound_samples/cries/giratina.bin"
+
+	.align 2
+Cry_Cresselia::
+	.incbin "sound/direct_sound_samples/cries/cresselia.bin"
+
+	.align 2
+Cry_Manaphy::
+	.incbin "sound/direct_sound_samples/cries/manaphy.bin"
+
+	.align 2
+Cry_Darkrai::
+	.incbin "sound/direct_sound_samples/cries/darkrai.bin"
+
+	.align 2
+Cry_Victini::
+	.incbin "sound/direct_sound_samples/cries/victini.bin"
+
+	.align 2
 Cry_Snivy::
 	.incbin "sound/direct_sound_samples/cries/snivy.bin"
 
@@ -2799,6 +2831,30 @@ Cry_Larvesta::
 Cry_Volcarona::
 	.incbin "sound/direct_sound_samples/cries/volcarona.bin"
 
+	.align 2
+Cry_Cobalion::
+	.incbin "sound/direct_sound_samples/cries/cobalion.bin" 
+
+	.align 2
+Cry_Terrakion::
+	.incbin "sound/direct_sound_samples/cries/terrakion.bin"
+
+	.align 2
+Cry_Virizion::
+	.incbin "sound/direct_sound_samples/cries/virizion.bin"
+
+	.align 2
+Cry_Reshiram::
+	.incbin "sound/direct_sound_samples/cries/reshiram.bin"
+
+	.align 2
+Cry_Zekrom::
+	.incbin "sound/direct_sound_samples/cries/zekrom.bin" 
+
+	.align 2
+Cry_Keldeo::
+	.incbin "sound/direct_sound_samples/cries/keldeo.bin"
+	
 	.align 2
 DirectSoundWaveData_register_noise::
 	.incbin "sound/direct_sound_samples/register_noise.bin"

@@ -3,6 +3,7 @@
 GAME_VERSION  ?= FIRERED
 GAME_REVISION ?= 0
 GAME_LANGUAGE ?= ENGLISH
+GEN           ?= 0
 MODERN        ?= 0
 COMPARE       ?= 0
 
@@ -32,6 +33,14 @@ ifeq ($(GAME_REVISION),1)
 BUILD_NAME  := $(BUILD_NAME)_rev1
 else
 $(error unknown revision $(GAME_REVISION))
+endif
+endif
+
+ifeq ($(GEN),4)
+BUILD_NAME := $(BUILD_NAME)_gen4
+else
+ifeq ($(GEN),5)
+BUILD_NAME := $(BUILD_NAME)_gen5
 endif
 endif
 

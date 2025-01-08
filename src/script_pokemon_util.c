@@ -94,6 +94,7 @@ void EvolveMon(void) {
     u16 species = gSpecialVar_Result;
     u16 *evos = NULL;
     switch (species) {
+#if GAME_GENERATION>=4
         case SPECIES_LICKITUNG:
             species = SPECIES_LICKILICKY;
             evos = calloc(140, sizeof(u16));
@@ -130,6 +131,7 @@ void EvolveMon(void) {
             species = SPECIES_DUSKNOIR;
             evos = calloc(70, sizeof(u16));
             break;
+#endif
         default:
             return;
     }
@@ -139,16 +141,24 @@ void EvolveMon(void) {
 }
 
 void UseIceRock(void) {
-    u16 species = SPECIES_GLACEON;
-    u16 *evos = calloc(60, sizeof(u16));
+    u16 species, *evos = calloc(60, sizeof(u16));
+#if GAME_GENERATION>=4
+    species = SPECIES_GLACEON;
+#else
+    return;
+#endif
     PickRandomEvo(&species, evos);
     free(evos);
     ChangeMonSpecies(species, 0);
 }
 
 void UseMossRock(void) {
-    u16 species = SPECIES_LEAFEON;
-    u16 *evos = calloc(130, sizeof(u16));
+    u16 species, *evos = calloc(130, sizeof(u16));
+#if GAME_GENERATION>=4
+    species = SPECIES_LEAFEON;
+#else
+    return;
+#endif
     PickRandomEvo(&species, evos);
     free(evos);
     ChangeMonSpecies(species, 0);
