@@ -1,5 +1,6 @@
 CC := gcc
 CFLAGS := -g -Og -Wall -iquote ../../include
+CPPFLAGS := -DGAME_GENERATION=$(GEN)
 SRCS := inigen.c elf.c util.c
 HEADERS := \
 	global.h \
@@ -23,7 +24,7 @@ all: inigen
 	@:
 
 inigen: $(SRCS) $(HEADERS)
-	$(CC) $(CFLAGS) $(SRCS) -o $@ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(SRCS) -o $@ $(LDFLAGS)
 
 clean:
 	$(RM) inigen inigen.exe
