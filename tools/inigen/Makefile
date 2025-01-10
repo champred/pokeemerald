@@ -1,3 +1,4 @@
+GEN ?= 3
 CC := gcc
 CFLAGS := -g -Og -Wall -iquote ../../include
 CPPFLAGS := -DGAME_GENERATION=$(GEN)

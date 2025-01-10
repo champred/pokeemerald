@@ -3,7 +3,7 @@
 GAME_VERSION  ?= FIRERED
 GAME_REVISION ?= 0
 GAME_LANGUAGE ?= ENGLISH
-GEN           ?= 0
+GEN           ?= 3
 MODERN        ?= 0
 COMPARE       ?= 0
 

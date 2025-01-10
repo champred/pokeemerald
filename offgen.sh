@@ -1,7 +1,7 @@
 #!/bin/bash
 
 HACK="MAX"
-CONFIG=com/dabomstew/pkrandom/config
+#CONFIG=com/dabomstew/pkrandom/config
 DIR=${GAME_VERSION:-`pwd`}
 
 case ${DIR,,} in
@@ -20,18 +20,18 @@ HACK="Emerald $HACK"
 esac
 
 rm -rf dist
-mkdir -p dist/$CONFIG
+mkdir dist
+cp upr.jar dist
 for target in $(ls $TARGET | cut --delimiter='.' -f1 | uniq); do
     DIR=$(echo $target | cut --delimiter='_' -f2-)
     mkdir dist/$DIR
     export GEN=$(echo -n $target | tail -c1)
     if [[ $GEN -ge 4 ]]; then
-        HACK="$HACK+$GEN.Dex"
+        HACK="$HACK (Gen $GEN)"
     fi
     grep -f symbols.txt $target.map | tr -s ' ' | cut --delimiter=' ' -f2-3 > dist/$DIR/offsets.txt
     make -BC tools/inigen
-    tools/inigen/inigen $target.elf dist/$CONFIG/custom_offsets.ini --code $CODE --name "$HACK"
-    jar uf upr.jar -C dist $CONFIG/custom_offsets.ini
-    cp upr.jar dist/$DIR
+    tools/inigen/inigen $target.elf dist/$DIR/custom_offsets.ini --code $CODE --name "$HACK"
+    #jar uf upr.jar -C dist $CONFIG/custom_offsets.ini
     cat dist/$DIR/offsets.txt | node -r fs -p "JSON.stringify(fs.readFileSync(0,'utf8').split(/\s+/).slice(0,-1).reduce((acc,val,ind,arr)=>acc[val]?acc:Object.assign(acc,{[arr[ind+1]]:Number(val)}),{}));" > dist/$DIR/offsets$SUFFIX.json
 done
