@@ -482,13 +482,6 @@ gCryTable::
 	cry Cry_Dusknoir
 	cry Cry_Froslass
 	cry Cry_Rotom
-	cry Cry_Dialga
-	cry Cry_Palkia
-	cry Cry_Heatran
-	cry Cry_Giratina
-	cry Cry_Cresselia
-	cry Cry_Manaphy
-	cry Cry_Darkrai
 #endif
 #if GAME_GENERATION>=5
 	cry Cry_Snivy
@@ -634,6 +627,17 @@ gCryTable::
 	cry Cry_Hydreigon
 	cry Cry_Larvesta
 	cry Cry_Volcarona
+#endif
+#if GAME_GENERATION>=4
+	cry Cry_Dialga
+	cry Cry_Palkia
+	cry Cry_Heatran
+	cry Cry_Giratina
+	cry Cry_Cresselia
+	cry Cry_Manaphy
+	cry Cry_Darkrai
+#endif
+#if GAME_GENERATION>=5
 	cry Cry_Victini
 	cry Cry_Cobalion
 	cry Cry_Terrakion
@@ -1126,13 +1130,6 @@ gCryTable_Reverse::
 	cry_reverse Cry_Dusknoir
 	cry_reverse Cry_Froslass
 	cry_reverse Cry_Rotom
-	cry_reverse Cry_Dialga
-	cry_reverse Cry_Palkia
-	cry_reverse Cry_Heatran
-	cry_reverse Cry_Giratina
-	cry_reverse Cry_Cresselia
-	cry_reverse Cry_Manaphy
-	cry_reverse Cry_Darkrai
 #endif
 #if GAME_GENERATION>=5
 	cry_reverse Cry_Snivy
@@ -1278,6 +1275,17 @@ gCryTable_Reverse::
 	cry_reverse Cry_Hydreigon
 	cry_reverse Cry_Larvesta
 	cry_reverse Cry_Volcarona
+#endif
+#if GAME_GENERATION>=4
+	cry_reverse Cry_Dialga
+	cry_reverse Cry_Palkia
+	cry_reverse Cry_Heatran
+	cry_reverse Cry_Giratina
+	cry_reverse Cry_Cresselia
+	cry_reverse Cry_Manaphy
+	cry_reverse Cry_Darkrai
+#endif
+#if GAME_GENERATION>=5
 	cry_reverse Cry_Victini
 	cry_reverse Cry_Cobalion
 	cry_reverse Cry_Terrakion
@@ -1286,4 +1294,3 @@ gCryTable_Reverse::
 	cry_reverse Cry_Zekrom
 	cry_reverse Cry_Keldeo
 #endif
-

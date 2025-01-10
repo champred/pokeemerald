@@ -5591,6 +5591,9 @@ u16 SpeciesToCryId(u16 species)
     if (species <= SPECIES_OLD_UNOWN_Z - 1)
         return SPECIES_UNOWN - 1;
 
+    if (species >= HOENN_SPECIES_END)
+        return CRY_CHIMECHO+(species-HOENN_SPECIES_END)+1;
+
     return sHoennSpeciesIdToCryId[species - ((SPECIES_OLD_UNOWN_Z + 1) - 1)];
 }
 
