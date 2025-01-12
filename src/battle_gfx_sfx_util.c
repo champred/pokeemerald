@@ -316,6 +316,24 @@ bool8 IsBattleSEPlaying(u8 battlerId)
     }
 }
 
+#define PLANT_CLOAK 0
+#define SANDY_CLOAK 1
+#define TRASH_CLOAK 2
+
+struct MonForme {
+    u8 form:3;
+    u8 type:5;
+};
+
+static const struct MonForme sTerrainToCloak[] = {
+    [BATTLE_TERRAIN_GRASS ... BATTLE_TERRAIN_LONG_GRASS] = {PLANT_CLOAK, TYPE_GRASS},
+    [BATTLE_TERRAIN_SAND] = {SANDY_CLOAK, TYPE_GROUND},
+    [BATTLE_TERRAIN_UNDERWATER ... BATTLE_TERRAIN_MOUNTAIN] = {PLANT_CLOAK, TYPE_GRASS},
+    [BATTLE_TERRAIN_CAVE] = {SANDY_CLOAK, TYPE_GROUND},
+    [BATTLE_TERRAIN_BUILDING] = {TRASH_CLOAK, TYPE_STEEL},
+    [BATTLE_TERRAIN_PLAIN] = {PLANT_CLOAK, TYPE_GRASS},
+};
+
 void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
 {
     u32 monsPersonality, currentPersonality, otId;
@@ -357,6 +375,16 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
         LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
     }
+#if GAME_GENERATION>=4
+    if (species == SPECIES_WORMADAM && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    {
+        gBattleMonForms[battlerId] = sTerrainToCloak[gBattleTerrain].form;
+        gBattleMons[battlerId].type2 = sTerrainToCloak[gBattleTerrain].type;
+        paletteOffset = OBJ_PLTT_ID(battlerId);
+        LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
+        LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
+    }
+#endif
     // transform's pink color
     if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies != SPECIES_NONE)
     {

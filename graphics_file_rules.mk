@@ -61,6 +61,17 @@ $(CASTFORMGFXDIR)/shiny.gbapal: $(CASTFORMGFXDIR)/normal/shiny.gbapal \
 									$(CASTFORMGFXDIR)/snowy/shiny.gbapal
 	@cat $^ >$@
 
+WORMADAMGFXDIR := graphics/pokemon/wormadam
+$(WORMADAMGFXDIR)/front.4bpp: $(WORMADAMGFXDIR)/plant_cloak/front.4bpp \
+											$(WORMADAMGFXDIR)/sandy_cloak/front.4bpp \
+											$(WORMADAMGFXDIR)/trash_cloak/front.4bpp
+	@cat $^ >$@
+
+$(WORMADAMGFXDIR)/normal.gbapal: $(WORMADAMGFXDIR)/plant_cloak/normal.gbapal \
+									 $(WORMADAMGFXDIR)/sandy_cloak/normal.gbapal \
+									 $(WORMADAMGFXDIR)/trash_cloak/normal.gbapal
+	@cat $^ >$@
+
 $(FONTGFXDIR)/latin_small.latfont: $(FONTGFXDIR)/latin_small.png
 	$(GFX) $< $@
 
