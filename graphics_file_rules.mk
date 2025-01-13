@@ -72,6 +72,31 @@ $(WORMADAMGFXDIR)/normal.gbapal: $(WORMADAMGFXDIR)/plant_cloak/normal.gbapal \
 									 $(WORMADAMGFXDIR)/trash_cloak/normal.gbapal
 	@cat $^ >$@
 
+ROTOMGFXDIR := graphics/pokemon/rotom
+$(ROTOMGFXDIR)/front.4bpp: $(ROTOMGFXDIR)/normal/front.4bpp \
+											$(ROTOMGFXDIR)/heat/front.4bpp \
+											$(ROTOMGFXDIR)/frost/front.4bpp \
+											$(ROTOMGFXDIR)/mow/front.4bpp
+	@cat $^ >$@
+
+$(ROTOMGFXDIR)/back.4bpp: $(ROTOMGFXDIR)/normal/back.4bpp \
+											$(ROTOMGFXDIR)/heat/back.4bpp \
+											$(ROTOMGFXDIR)/frost/back.4bpp \
+											$(ROTOMGFXDIR)/mow/back.4bpp
+	@cat $^ >$@
+
+$(ROTOMGFXDIR)/normal.gbapal: $(ROTOMGFXDIR)/normal/normal.gbapal \
+									 $(ROTOMGFXDIR)/heat/normal.gbapal \
+									 $(ROTOMGFXDIR)/frost/normal.gbapal \
+									 $(ROTOMGFXDIR)/mow/normal.gbapal
+	@cat $^ >$@
+
+$(ROTOMGFXDIR)/shiny.gbapal: $(ROTOMGFXDIR)/normal/shiny.gbapal \
+									 $(ROTOMGFXDIR)/heat/shiny.gbapal \
+									 $(ROTOMGFXDIR)/frost/shiny.gbapal \
+									 $(ROTOMGFXDIR)/mow/shiny.gbapal
+	@cat $^ >$@
+
 $(FONTGFXDIR)/latin_small.latfont: $(FONTGFXDIR)/latin_small.png
 	$(GFX) $< $@
 

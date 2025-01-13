@@ -8,6 +8,7 @@
 #include "sprite.h"
 #include "data.h"
 #include "util.h"
+#include "random.h"
 #include "party_menu.h"
 #include "battle.h"
 #include "battle_main.h"
@@ -315,10 +316,17 @@ bool8 IsBattleSEPlaying(u8 battlerId)
         return TRUE;
     }
 }
-
+//wormadam formes
 #define PLANT_CLOAK 0
 #define SANDY_CLOAK 1
 #define TRASH_CLOAK 2
+//rotom formes
+#define NORMAL_ROTOM 0
+#define HEAT_ROTOM 1
+#define WASH_ROTOM 2
+#define FROST_ROTOM 3
+#define FAN_ROTOM 4
+#define MOW_ROTOM 5
 
 struct MonForme {
     u8 form:3;
@@ -332,6 +340,15 @@ static const struct MonForme sTerrainToCloak[] = {
     [BATTLE_TERRAIN_CAVE] = {SANDY_CLOAK, TYPE_GROUND},
     [BATTLE_TERRAIN_BUILDING] = {TRASH_CLOAK, TYPE_STEEL},
     [BATTLE_TERRAIN_PLAIN] = {PLANT_CLOAK, TYPE_GRASS},
+};
+#define ROTOM_APPLIANCE(app, type) {app##_ROTOM, TYPE_##type}
+static const struct MonForme sRotomAppliances[] = {
+    ROTOM_APPLIANCE(NORMAL, GHOST),
+    ROTOM_APPLIANCE(HEAT, FIRE),
+    //ROTOM_APPLIANCE(WASH, WATER),
+    ROTOM_APPLIANCE(FROST, ICE),
+    //ROTOM_APPLIANCE(FAN, FLYING),
+    ROTOM_APPLIANCE(MOW, GRASS),
 };
 
 void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
@@ -380,6 +397,15 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     {
         gBattleMonForms[battlerId] = sTerrainToCloak[gBattleTerrain].form;
         gBattleMons[battlerId].type2 = sTerrainToCloak[gBattleTerrain].type;
+        paletteOffset = OBJ_PLTT_ID(battlerId);
+        LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
+        LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
+    }
+    if (species == SPECIES_ROTOM && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    {
+        u16 index = Random() % 4;
+        gBattleMonForms[battlerId] = index;
+        gBattleMons[battlerId].type2 = sRotomAppliances[index].type;
         paletteOffset = OBJ_PLTT_ID(battlerId);
         LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
