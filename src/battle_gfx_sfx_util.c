@@ -401,9 +401,13 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
         LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
     }
-    if (species == SPECIES_ROTOM && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    if (species == SPECIES_ROTOM)
     {
-        u16 index = Random() % 4;
+        u16 index;
+        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+            index = Random() % 4;
+        else
+            index = monsPersonality % 4;
         gBattleMonForms[battlerId] = index;
         gBattleMons[battlerId].type2 = sRotomAppliances[index].type;
         paletteOffset = OBJ_PLTT_ID(battlerId);
@@ -441,12 +445,7 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     }
     otId = GetMonData(mon, MON_DATA_OT_ID);
     position = GetBattlerPosition(battlerId);
-    if (ShouldIgnoreDeoxysForm(DEOXYS_CHECK_BATTLE_SPRITE, battlerId) == TRUE || gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies != SPECIES_NONE)
-        HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonBackPicTable[species],
-                                                  gMonSpritesGfxPtr->sprites[position],
-                                                  species, currentPersonality);
-    else
-        HandleLoadSpecialPokePic(&gMonBackPicTable[species],
+    HandleLoadSpecialPokePic(&gMonBackPicTable[species],
                                 gMonSpritesGfxPtr->sprites[position],
                                 species, currentPersonality);
     paletteOffset = OBJ_PLTT_ID(battlerId);
@@ -465,6 +464,17 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
         LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
     }
+#if GAME_GENERATION>=4
+    if (species == SPECIES_ROTOM)
+    {
+        u16 index = monsPersonality % 4;
+        gBattleMonForms[battlerId] = index;
+        gBattleMons[battlerId].type2 = sRotomAppliances[index].type;
+        paletteOffset = OBJ_PLTT_ID(battlerId);
+        LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
+        LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
+    }
+#endif
     // transform's pink color
     if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies != SPECIES_NONE)
     {

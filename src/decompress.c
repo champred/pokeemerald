@@ -79,7 +79,18 @@ void HandleLoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *des
         isFrontPic = FALSE; // backPic
     LoadSpecialPokePic(src, dest, species, personality, isFrontPic);
 }
-
+#if GAME_GENERATION>=4
+static const u32 sNormalRotomBackPic[] = INCBIN_U32("graphics/pokemon/rotom/normal/back.4bpp.lz");
+static const u32 sHeatRotomBackPic[] = INCBIN_U32("graphics/pokemon/rotom/heat/back.4bpp.lz");
+static const u32 sFrostRotomBackPic[] = INCBIN_U32("graphics/pokemon/rotom/frost/back.4bpp.lz");
+static const u32 sMowRotomBackPic[] = INCBIN_U32("graphics/pokemon/rotom/mow/back.4bpp.lz");
+static const struct CompressedSpriteSheet sRotomBackPicTable[] = {
+    {sNormalRotomBackPic, MON_PIC_SIZE, SPECIES_ROTOM},
+    {sHeatRotomBackPic, MON_PIC_SIZE, SPECIES_ROTOM},
+    {sFrostRotomBackPic, MON_PIC_SIZE, SPECIES_ROTOM},
+    {sMowRotomBackPic, MON_PIC_SIZE, SPECIES_ROTOM},
+};
+#endif
 void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic)
 {
     if (species == SPECIES_UNOWN)
@@ -96,6 +107,10 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
         else
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
     }
+#if GAME_GENERATION>=4
+    else if (species == SPECIES_ROTOM && !isFrontPic)
+        LZ77UnCompWram(sRotomBackPicTable[personality%4].data, dest);
+#endif
     else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
     else
