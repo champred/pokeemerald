@@ -393,15 +393,23 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
     }
 #if GAME_GENERATION>=4
-    if (species == SPECIES_WORMADAM && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    else if ((species == SPECIES_WORMADAM || species == SPECIES_BURMY) && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
     {
         gBattleMonForms[battlerId] = sTerrainToCloak[gBattleTerrain].form;
-        gBattleMons[battlerId].type2 = sTerrainToCloak[gBattleTerrain].type;
+        if (species == SPECIES_WORMADAM)
+            gBattleMons[battlerId].type2 = sTerrainToCloak[gBattleTerrain].type;
         paletteOffset = OBJ_PLTT_ID(battlerId);
         LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
     }
-    if (species == SPECIES_ROTOM)
+    else if ((species == SPECIES_GASTRODON || species == SPECIES_SHELLOS) && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    {
+        gBattleMonForms[battlerId] = Random() & 1;
+        paletteOffset = OBJ_PLTT_ID(battlerId);
+        LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
+        LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
+    }
+    else if (species == SPECIES_ROTOM)
     {
         u16 index;
         if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
@@ -413,6 +421,24 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
         paletteOffset = OBJ_PLTT_ID(battlerId);
         LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
+    }
+#endif
+#if GAME_GENERATION>=5
+    else if (species == SPECIES_BASCULIN && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    {
+        gBattleMonForms[battlerId] = Random() & 1;
+        paletteOffset = OBJ_PLTT_ID(battlerId);
+        LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
+        LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
+    }
+    else if ((species == SPECIES_SAWSBUCK || species == SPECIES_DEERLING) && gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+    {
+        u16 index = Random() % 4;
+        if (species == SPECIES_SAWSBUCK)
+            gBattleMonForms[battlerId] = index;
+        paletteOffset = OBJ_PLTT_ID(battlerId);
+        LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
+        LoadPalette(gBattleStruct->castformPalette[index], paletteOffset, PLTT_SIZE_4BPP);
     }
 #endif
     // transform's pink color
@@ -465,14 +491,13 @@ void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
     }
 #if GAME_GENERATION>=4
-    if (species == SPECIES_ROTOM)
+    else if (species == SPECIES_ROTOM)
     {
         u16 index = monsPersonality % 4;
-        gBattleMonForms[battlerId] = index;
         gBattleMons[battlerId].type2 = sRotomAppliances[index].type;
         paletteOffset = OBJ_PLTT_ID(battlerId);
         LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[0]);
-        LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, PLTT_SIZE_4BPP);
+        LoadPalette(gBattleStruct->castformPalette[index], paletteOffset, PLTT_SIZE_4BPP);
     }
 #endif
     // transform's pink color

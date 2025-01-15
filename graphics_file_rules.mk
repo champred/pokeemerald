@@ -72,6 +72,35 @@ $(WORMADAMGFXDIR)/normal.gbapal: $(WORMADAMGFXDIR)/plant_cloak/normal.gbapal \
 									 $(WORMADAMGFXDIR)/trash_cloak/normal.gbapal
 	@cat $^ >$@
 
+BURMYGFXDIR := graphics/pokemon/burmy
+$(BURMYGFXDIR)/front.4bpp: $(BURMYGFXDIR)/plant_cloak/front.4bpp \
+									$(BURMYGFXDIR)/sandy_cloak/front.4bpp \
+									$(BURMYGFXDIR)/trash_cloak/front.4bpp
+	@cat $^ >$@
+
+$(BURMYGFXDIR)/normal.gbapal: $(BURMYGFXDIR)/plant_cloak/normal.gbapal \
+									$(BURMYGFXDIR)/sandy_cloak/normal.gbapal \
+									$(BURMYGFXDIR)/trash_cloak/normal.gbapal
+	@cat $^ >$@
+
+GASTRODONGFXDIR := graphics/pokemon/gastrodon
+$(GASTRODONGFXDIR)/front.4bpp: $(GASTRODONGFXDIR)/west_sea/front.4bpp \
+								$(GASTRODONGFXDIR)/east_sea/front.4bpp
+	@cat $^ >$@
+
+$(GASTRODONGFXDIR)/normal.gbapal: $(GASTRODONGFXDIR)/west_sea/normal.gbapal \
+									$(GASTRODONGFXDIR)/east_sea/normal.gbapal
+	@cat $^ >$@
+
+SHELLOSGFXDIR := graphics/pokemon/shellos
+$(SHELLOSGFXDIR)/front.4bpp: $(SHELLOSGFXDIR)/west_sea/front.4bpp \
+								$(SHELLOSGFXDIR)/east_sea/front.4bpp
+	@cat $^ >$@
+
+$(SHELLOSGFXDIR)/normal.gbapal: $(SHELLOSGFXDIR)/west_sea/normal.gbapal \
+								$(SHELLOSGFXDIR)/east_sea/normal.gbapal
+	@cat $^ >$@
+
 ROTOMGFXDIR := graphics/pokemon/rotom
 $(ROTOMGFXDIR)/front.4bpp: $(ROTOMGFXDIR)/normal/front.4bpp \
 											$(ROTOMGFXDIR)/heat/front.4bpp \
@@ -95,6 +124,35 @@ $(ROTOMGFXDIR)/shiny.gbapal: $(ROTOMGFXDIR)/normal/shiny.gbapal \
 									 $(ROTOMGFXDIR)/heat/shiny.gbapal \
 									 $(ROTOMGFXDIR)/frost/shiny.gbapal \
 									 $(ROTOMGFXDIR)/mow/shiny.gbapal
+	@cat $^ >$@
+
+SAWSBUCKGFXDIR := graphics/pokemon/sawsbuck
+$(SAWSBUCKGFXDIR)/front.4bpp: $(SAWSBUCKGFXDIR)/spring/front.4bpp \
+											$(SAWSBUCKGFXDIR)/summer/front.4bpp \
+											$(SAWSBUCKGFXDIR)/autumn/front.4bpp \
+											$(SAWSBUCKGFXDIR)/winter/front.4bpp
+	@cat $^ >$@
+
+$(SAWSBUCKGFXDIR)/normal.gbapal: $(SAWSBUCKGFXDIR)/spring/normal.gbapal \
+											$(SAWSBUCKGFXDIR)/summer/normal.gbapal \
+											$(SAWSBUCKGFXDIR)/autumn/normal.gbapal \
+											$(SAWSBUCKGFXDIR)/winter/normal.gbapal
+	@cat $^ >$@
+
+DEERLINGGFXDIR := graphics/pokemon/deerling
+$(DEERLINGGFXDIR)/normal.gbapal: $(DEERLINGGFXDIR)/spring/normal.gbapal \
+											$(DEERLINGGFXDIR)/summer/normal.gbapal \
+											$(DEERLINGGFXDIR)/autumn/normal.gbapal \
+											$(DEERLINGGFXDIR)/winter/normal.gbapal
+	@cat $^ >$@
+
+BASCULINGFXDIR := graphics/pokemon/basculin
+$(BASCULINGFXDIR)/front.4bpp: $(BASCULINGFXDIR)/red_striped/front.4bpp \
+								$(BASCULINGFXDIR)/blue_striped/front.4bpp
+	@cat $^ >$@
+
+$(BASCULINGFXDIR)/normal.gbapal: $(BASCULINGFXDIR)/red_striped/normal.gbapal \
+								$(BASCULINGFXDIR)/blue_striped/normal.gbapal
 	@cat $^ >$@
 
 $(FONTGFXDIR)/latin_small.latfont: $(FONTGFXDIR)/latin_small.png
