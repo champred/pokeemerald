@@ -8,7 +8,7 @@ jobs:
   jar:
     uses: champred/UPR-Android/.github/workflows/jar.yml@master
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       GAME_VERSION: FIRERED
       GAME_LANGUAGE: ENGLISH
