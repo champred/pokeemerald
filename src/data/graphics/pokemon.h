@@ -2831,7 +2831,7 @@ const u8 gMonIcon_UnownExclamationMark[] = INCBIN_U8("graphics/pokemon/unown/exc
 const u32 gMonFrontPic_UnownQuestionMark[] = INCBIN_U32("graphics/pokemon/unown/question_mark/front.4bpp.lz");
 const u32 gMonBackPic_UnownQuestionMark[] = INCBIN_U32("graphics/pokemon/unown/question_mark/back.4bpp.lz");
 const u8 gMonIcon_UnownQuestionMark[] = INCBIN_U8("graphics/pokemon/unown/question_mark/icon.4bpp");
-
+#if GAME_GENERATION>=4
 const u32 gMonFrontPic_Turtwig[] = INCBIN_U32("graphics/pokemon/turtwig/front.4bpp.lz");
 const u32 gMonPalette_Turtwig[] = INCBIN_U32("graphics/pokemon/turtwig/normal.gbapal.lz");
 const u32 gMonBackPic_Turtwig[] = INCBIN_U32("graphics/pokemon/turtwig/back.4bpp.lz");
@@ -3389,7 +3389,8 @@ const u32 gMonPalette_Rotom[] = INCBIN_U32("graphics/pokemon/rotom/normal.gbapal
 const u32 gMonBackPic_Rotom[] = INCBIN_U32("graphics/pokemon/rotom/back.4bpp.lz");
 const u32 gMonShinyPalette_Rotom[] = INCBIN_U32("graphics/pokemon/rotom/shiny.gbapal.lz");
 const u8 gMonIcon_Rotom[] = INCBIN_U8("graphics/pokemon/rotom/icon.4bpp");
-
+#endif
+#if GAME_GENERATION>=5
 const u32 gMonFrontPic_Snivy[] = INCBIN_U32("graphics/pokemon/snivy/front.4bpp.lz");
 const u32 gMonPalette_Snivy[] = INCBIN_U32("graphics/pokemon/snivy/normal.gbapal.lz");
 const u32 gMonBackPic_Snivy[] = INCBIN_U32("graphics/pokemon/snivy/back.4bpp.lz");
@@ -4247,7 +4248,8 @@ const u32 gMonPalette_Volcarona[] = INCBIN_U32("graphics/pokemon/volcarona/norma
 const u32 gMonBackPic_Volcarona[] = INCBIN_U32("graphics/pokemon/volcarona/back.4bpp.lz");
 const u32 gMonShinyPalette_Volcarona[] = INCBIN_U32("graphics/pokemon/volcarona/shiny.gbapal.lz");
 const u8 gMonIcon_Volcarona[] = INCBIN_U8("graphics/pokemon/volcarona/icon.4bpp");
-
+#endif
+#if GAME_GENERATION>=4
 const u32 gMonFrontPic_Dialga[] = INCBIN_U32("graphics/pokemon/dialga/front.4bpp.lz");
 const u32 gMonPalette_Dialga[] = INCBIN_U32("graphics/pokemon/dialga/normal.gbapal.lz");
 const u32 gMonBackPic_Dialga[] = INCBIN_U32("graphics/pokemon/dialga/back.4bpp.lz");
@@ -4296,7 +4298,8 @@ const u32 gMonBackPic_Darkrai[] = INCBIN_U32("graphics/pokemon/darkrai/back.4bpp
 const u32 gMonShinyPalette_Darkrai[] = INCBIN_U32("graphics/pokemon/darkrai/shiny.gbapal.lz");
 const u8 gMonIcon_Darkrai[] = INCBIN_U8("graphics/pokemon/darkrai/icon.4bpp");
 const u8 gMonFootprint_Darkrai[] = INCBIN_U8("graphics/pokemon/darkrai/footprint.1bpp");
-
+#endif
+#if GAME_GENERATION>=5
 const u32 gMonFrontPic_Victini[] = INCBIN_U32("graphics/pokemon/victini/front.4bpp.lz");
 const u32 gMonPalette_Victini[] = INCBIN_U32("graphics/pokemon/victini/normal.gbapal.lz");
 const u32 gMonBackPic_Victini[] = INCBIN_U32("graphics/pokemon/victini/back.4bpp.lz");
@@ -4345,3 +4348,4 @@ const u32 gMonBackPic_Keldeo[] = INCBIN_U32("graphics/pokemon/keldeo/back.4bpp.l
 const u32 gMonShinyPalette_Keldeo[] = INCBIN_U32("graphics/pokemon/keldeo/shiny.gbapal.lz");
 const u8 gMonIcon_Keldeo[] = INCBIN_U8("graphics/pokemon/keldeo/icon.4bpp");
 const u8 gMonFootprint_Keldeo[] = INCBIN_U8("graphics/pokemon/keldeo/footprint.1bpp");
+#endif
