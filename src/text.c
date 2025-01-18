@@ -633,7 +633,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
     u16 currChar;
     s32 width;
     s32 widthHelper;
-
+    s32 i;
     switch (textPrinter->state)
     {
     case RENDER_STATE_HANDLE_CHAR:
@@ -655,7 +655,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
             textPrinter->delayCounter = 1;
         else
             textPrinter->delayCounter = textPrinter->textSpeed;
-
+        for (i = 0; i < 8; i++) {
         currChar = *textPrinter->printerTemplate.currentChar;
         textPrinter->printerTemplate.currentChar++;
 
@@ -814,7 +814,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
         case EOS:
             return RENDER_FINISH;
         }
-
+        
         switch (subStruct->glyphId)
         {
         case FONT_SMALL:
@@ -855,6 +855,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.currentX += (gGlyphInfo.width + textPrinter->printerTemplate.letterSpacing);
             else
                 textPrinter->printerTemplate.currentX += gGlyphInfo.width;
+        }
         }
         return RENDER_PRINT;
     case RENDER_STATE_WAIT:
