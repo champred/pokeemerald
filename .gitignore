@@ -40,6 +40,7 @@
 Thumbs.db
 build/
 dist/
+run/
 cmake-build-*
 ld_script_ruby.txt
 ld_script_sapphire.txt
@@ -63,4 +64,4 @@ prefabs.json
 *.js
 *.sym
 *.ini
-upr.jar
+*.jar
