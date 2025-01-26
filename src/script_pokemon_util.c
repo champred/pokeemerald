@@ -25,7 +25,9 @@ void HealPlayerParty(void)
     // restore HP.
     for(i = 0; i < gPlayerPartyCount; i++)
     {
-        if(IsMapTypeOutdoors(GetCurrentMapType())&&GetAilmentFromStatus(GetMonData(&gPlayerParty[i], MON_DATA_STATUS)) == AILMENT_PSN)continue;
+        if(IsMapTypeOutdoors(GetCurrentMapType())
+          &&GetAilmentFromStatus(GetMonData(&gPlayerParty[i],
+            MON_DATA_STATUS)) == AILMENT_PSN) continue;
         maxHP = GetMonData(&gPlayerParty[i], MON_DATA_MAX_HP);
         arg[0] = maxHP;
         arg[1] = maxHP >> 8;
@@ -50,18 +52,20 @@ void HealPlayerParty(void)
 
 static void ChangeMonSpecies(u16 species, u8 limit) {
     struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
-    u32 level = GetMonData(mon, MON_DATA_LEVEL);
-    u32 ivs = GetMonData(mon, MON_DATA_IVS);
-    u32 personality = GetMonData(mon, MON_DATA_PERSONALITY);
+    u32 lvl = GetMonData(mon, MON_DATA_LEVEL),
+        ivs = GetMonData(mon, MON_DATA_IVS),
+        pid = GetMonData(mon, MON_DATA_PERSONALITY),
+        exp = GetMonData(mon, MON_DATA_EXP);
     u16 moves[4] = {};
     s32 i;
-    if (level < limit) {//evolution failed
+    if (lvl < limit) {//evolution failed
         gSpecialVar_0x8009 = SPECIES_NONE;
         return;
     }
     for (i = 0; i < MAX_MON_MOVES; i++)
         moves[i] = (u16) GetMonData(mon, MON_DATA_MOVE1 + i);
-    CreateMonWithIVsPersonality(mon, species, (u8) level, ivs, personality);
+    CreateMonWithIVsPersonality(mon, species, (u8) lvl, ivs, pid);
+    SetMonData(mon, MON_DATA_EXP, &exp);
     for (i = 0; i < MAX_MON_MOVES; i++)
         SetMonMoveSlot(mon, moves[i], i);
     gSpecialVar_0x8009 = species;
@@ -141,27 +145,25 @@ void EvolveMon(void) {
 }
 
 void UseIceRock(void) {
-    u16 species, *evos = calloc(60, sizeof(u16));
+    u16 species, *evos;
 #if GAME_GENERATION>=4
     species = SPECIES_GLACEON;
-#else
-    return;
-#endif
+    evos = calloc(60, sizeof(u16));
     PickRandomEvo(&species, evos);
     free(evos);
     ChangeMonSpecies(species, 0);
+#endif
 }
 
 void UseMossRock(void) {
-    u16 species, *evos = calloc(130, sizeof(u16));
+    u16 species, *evos;
 #if GAME_GENERATION>=4
     species = SPECIES_LEAFEON;
-#else
-    return;
-#endif
+    evos = calloc(130, sizeof(u16));
     PickRandomEvo(&species, evos);
     free(evos);
     ChangeMonSpecies(species, 0);
+#endif
 }
 
 u8 ScriptGiveMon(u16 species, u8 level, u16 item, u32 unused1, u32 unused2, u8 unused3)
