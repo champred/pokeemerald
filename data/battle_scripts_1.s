@@ -2457,7 +2457,10 @@ BattleScript_EffectCharge::
 	waitanimation
 	printstring STRINGID_PKMNCHARGINGPOWER
 	waitmessage B_WAIT_TIME_LONG
-	goto BattleScript_MoveEnd
+	setstatchanger STAT_SPDEF, 1, FALSE
+	statbuffchange MOVE_EFFECT_AFFECTS_USER | STAT_CHANGE_ALLOW_PTR, BattleScript_MoveEnd
+	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_INCREASE, BattleScript_StatUpPrintString
+	goto BattleScript_StatUpDoAnim
 
 BattleScript_EffectTaunt::
 	attackcanceler
