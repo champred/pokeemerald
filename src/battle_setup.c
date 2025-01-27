@@ -26,6 +26,7 @@
 #include "battle.h"
 #include "battle_transition.h"
 #include "battle_controllers.h"
+#include "random.h"
 #include "constants/battle_setup.h"
 #include "constants/items.h"
 #include "constants/maps.h"
@@ -316,6 +317,15 @@ void StartScriptedWildBattle(void)
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }
 
+static u16 GetRandomFemaleSpecies(void){
+	u16 species, last = NUM_SPECIES - 1;
+    do {
+        species = (Random() % last) + 1;
+    } while((species > SPECIES_CELEBI && species < SPECIES_TREECKO)
+            || gSpeciesInfo[species].genderRatio == MON_MALE);
+	return species;
+}
+
 void StartMarowakBattle(void)
 {
     LockPlayerFieldControls();
@@ -323,7 +333,7 @@ void StartMarowakBattle(void)
     if (CheckBagHasItem(ITEM_SILPH_SCOPE, 1))
     {
         gBattleTypeFlags = BATTLE_TYPE_GHOST | BATTLE_TYPE_GHOST_UNVEILED;
-        CreateMonWithGenderNatureLetter(gEnemyParty, SPECIES_MAROWAK, 30, 31, MON_FEMALE, NATURE_SERIOUS, 0);
+        CreateMonWithGenderNatureLetter(&gEnemyParty[0], GetRandomFemaleSpecies(), 30, 31, MON_FEMALE, NATURE_SERIOUS, 0);
     }
     else
     {
