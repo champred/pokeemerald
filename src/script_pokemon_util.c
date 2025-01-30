@@ -10,8 +10,9 @@
 #include "script_pokemon_util.h"
 #include "constants/items.h"
 #include "constants/pokemon.h"
-#include "random.h"
 
+extern const struct Evolution gEvolutionTable[NUM_SPECIES][EVOS_PER_MON];
+static s32 PickEvoPool(u16,u16*);
 static void CB2_ReturnFromChooseHalfParty(void);
 static void CB2_ReturnFromChooseBattleTowerParty(void);
 
@@ -50,18 +51,22 @@ void HealPlayerParty(void)
     }
 }
 
-static void ChangeMonSpecies(u16 species, u8 limit) {
+static void ChangeMonSpecies(u16 *evos, u16 species, u8 limit) {
     struct Pokemon *mon = &gPlayerParty[gSpecialVar_0x8004];
     u32 lvl = GetMonData(mon, MON_DATA_LEVEL),
         ivs = GetMonData(mon, MON_DATA_IVS),
         pid = GetMonData(mon, MON_DATA_PERSONALITY),
         exp = GetMonData(mon, MON_DATA_EXP);
-    u16 moves[4] = {};
+    u16 moves[MAX_MON_MOVES];
     s32 i;
     if (lvl < limit) {//evolution failed
         gSpecialVar_0x8009 = SPECIES_NONE;
         return;
     }
+    limit = (u8) PickEvoPool(species, evos);
+    if (limit)
+        species = evos[pid % limit];
+    free(evos);
     for (i = 0; i < MAX_MON_MOVES; i++)
         moves[i] = (u16) GetMonData(mon, MON_DATA_MOVE1 + i);
     CreateMonWithIVsPersonality(mon, species, (u8) lvl, ivs, pid);
@@ -74,24 +79,33 @@ static void ChangeMonSpecies(u16 species, u8 limit) {
     GetSetPokedexFlag(species, FLAG_SET_CAUGHT);
 }
 
-#define BST(info) (info->baseHP + info->baseAttack + info->baseDefense\
-                 + info->baseSpeed + info->baseSpAttack + info->baseSpDefense)
+static bool16 EvoInUse(u16 species) {
+    s32 i, j;
+    for (i = 1; i < NUM_SPECIES; i++) {
+        for (j = 0; j < EVOS_PER_MON; j++) {
+            if (gEvolutionTable[i][j].targetSpecies == species)
+                return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+#define BST(info)(info->baseHP + info->baseAttack + info->baseDefense\
+                + info->baseSpeed + info->baseSpAttack + info->baseSpDefense)
 #define IS_TYPE(type)(rep->types[0] == type || rep->types[1] == type)
-static void PickRandomEvo(u16 *species, u16 *evos) {
+static s32 PickEvoPool(u16 species, u16 *evos) {
     s32 i, last = 0;
-    const struct SpeciesInfo *src = &gSpeciesInfo[*species], *rep;
+    const struct SpeciesInfo *src = &gSpeciesInfo[species], *rep;
     u8 types[] = {src->types[0], src->types[1]};
     u16 srcBST = (90 * BST(src)) / 100, repBST;
     for (i = 1; i < NUM_SPECIES; i++) {
+        if (species == i || EvoInUse(i)) continue;
         rep = &gSpeciesInfo[i];
         repBST = BST(rep);
         if ((IS_TYPE(types[0]) || IS_TYPE(types[1])) && repBST > srcBST && repBST < 580)
             evos[last++] = i;
     }
-    do {
-        i = Random() % last;
-    } while (!evos[i] || *species == evos[i]);//force change
-    *species = evos[i];
+    return last;
 }
 
 void EvolveMon(void) {
@@ -139,9 +153,7 @@ void EvolveMon(void) {
         default:
             return;
     }
-    PickRandomEvo(&species, evos);
-    free(evos);
-    ChangeMonSpecies(species, 10);
+    ChangeMonSpecies(evos, species, 10);
 }
 
 void UseIceRock(void) {
@@ -149,9 +161,7 @@ void UseIceRock(void) {
 #if GAME_GENERATION>=4
     species = SPECIES_GLACEON;
     evos = calloc(60, sizeof(u16));
-    PickRandomEvo(&species, evos);
-    free(evos);
-    ChangeMonSpecies(species, 0);
+    ChangeMonSpecies(evos, species, 0);
 #endif
 }
 
@@ -160,9 +170,7 @@ void UseMossRock(void) {
 #if GAME_GENERATION>=4
     species = SPECIES_LEAFEON;
     evos = calloc(130, sizeof(u16));
-    PickRandomEvo(&species, evos);
-    free(evos);
-    ChangeMonSpecies(species, 0);
+    ChangeMonSpecies(evos, species, 0);
 #endif
 }
 
