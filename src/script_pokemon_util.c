@@ -12,7 +12,7 @@
 #include "constants/pokemon.h"
 
 extern const struct Evolution gEvolutionTable[NUM_SPECIES][EVOS_PER_MON];
-static s32 PickEvoPool(u16,u16*);
+static s32 PickEvoPool(u16*, const u16);
 static void CB2_ReturnFromChooseHalfParty(void);
 static void CB2_ReturnFromChooseBattleTowerParty(void);
 
@@ -59,13 +59,12 @@ static void ChangeMonSpecies(u16 *evos, u16 species, u8 limit) {
         exp = GetMonData(mon, MON_DATA_EXP);
     u16 moves[MAX_MON_MOVES];
     s32 i;
-    if (lvl < limit) {//evolution failed
+    if (lvl < limit || !evos) {//evolution failed
         gSpecialVar_0x8009 = SPECIES_NONE;
         return;
     }
-    limit = (u8) PickEvoPool(species, evos);
-    if (limit)
-        species = evos[pid % limit];
+    limit = (u8) PickEvoPool(evos, species);
+    if (limit) species = evos[pid % limit];
     free(evos);
     for (i = 0; i < MAX_MON_MOVES; i++)
         moves[i] = (u16) GetMonData(mon, MON_DATA_MOVE1 + i);
@@ -79,7 +78,7 @@ static void ChangeMonSpecies(u16 *evos, u16 species, u8 limit) {
     GetSetPokedexFlag(species, FLAG_SET_CAUGHT);
 }
 
-static bool16 EvoInUse(u16 species) {
+static bool16 EvoInUse(const u16 species) {
     s32 i, j;
     for (i = 1; i < NUM_SPECIES; i++) {
         for (j = 0; j < EVOS_PER_MON; j++) {
@@ -93,13 +92,18 @@ static bool16 EvoInUse(u16 species) {
 #define BST(info)(info->baseHP + info->baseAttack + info->baseDefense\
                 + info->baseSpeed + info->baseSpAttack + info->baseSpDefense)
 #define IS_TYPE(type)(rep->types[0] == type || rep->types[1] == type)
-static s32 PickEvoPool(u16 species, u16 *evos) {
+static s32 PickEvoPool(u16 *evos, const u16 species) {
     s32 i, last = 0;
     const struct SpeciesInfo *src = &gSpeciesInfo[species], *rep;
     u8 types[] = {src->types[0], src->types[1]};
     u16 srcBST = (90 * BST(src)) / 100, repBST;
     for (i = 1; i < NUM_SPECIES; i++) {
         if (species == i || EvoInUse(i)) continue;
+    //force change
+#if GAME_GENERATION>=4
+        //prevent self-evolution
+        if (species == SPECIES_PORYGON_Z && i == SPECIES_PORYGON2) continue;
+#endif
         rep = &gSpeciesInfo[i];
         repBST = BST(rep);
         if ((IS_TYPE(types[0]) || IS_TYPE(types[1])) && repBST > srcBST && repBST < 580)
