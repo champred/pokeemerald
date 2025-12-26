@@ -106,7 +106,7 @@ static s32 PickEvoPool(u16 *evos, const u16 species) {
 #endif
         rep = &gSpeciesInfo[i];
         repBST = BST(rep);
-        if ((IS_TYPE(types[0]) || IS_TYPE(types[1])) && repBST > srcBST && repBST < 580)
+        if ((IS_TYPE(types[0]) || IS_TYPE(types[1])) && repBST > srcBST && repBST < 570)
             evos[last++] = i;
     }
     return last;
